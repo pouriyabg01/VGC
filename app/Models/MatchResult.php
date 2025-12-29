@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class MatchResult extends Model
+{
+    protected $fillable = ['tournament_match_id' , 'user_id' , 'scored_goals' , 'conceded_goals' , 'status'];
+
+    public function tournamentMatch()
+    {
+        return $this->belongsTo(TournamentMatch::class);
+    }
+}
