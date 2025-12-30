@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Tournaments\TournamentMatchEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->integer('player1_goal')->default('0');
             $table->integer('player2_goal')->default('0');
             $table->date('match_date')->nullable();
-            $table->enum('status' ,['completed','pending','disputed'])->default('pending');
+            $table->enum('status' , TournamentMatchEnum::values())->default(TournamentMatchEnum::PENDING->value);
             $table->timestamps();
         });
     }

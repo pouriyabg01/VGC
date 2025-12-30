@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use App\Enums\Tournaments\TournamentMatchEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class TournamentMatch extends Model
 {
     protected $fillable = ['tournament_id','player1','player2','winner_id','player1_goal','player2_goal','round'];
+
+    protected $casts = [
+        'status' => TournamentMatchEnum::class,
+    ];
 
     public function tournament()
     {

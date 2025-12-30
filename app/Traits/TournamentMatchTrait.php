@@ -2,6 +2,9 @@
 
 namespace App\Traits;
 
+use App\Enums\Tournaments\TournamentEnum;
+use App\Enums\Tournaments\TournamentMatchEnum;
+use App\Enums\Tournaments\TournamentMatchResultEnum;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
 
@@ -27,7 +30,7 @@ trait TournamentMatchTrait
             ->get();
 
         // All matches must be completed
-        if (! $matches->every(fn ($match) => $match->status === 'completed')) {
+        if (! $matches->every(fn ($match) => $match->status === TournamentMatchEnum::COMPLETED)) {
             return;
         }
 
@@ -48,7 +51,7 @@ trait TournamentMatchTrait
         if ($winners->count() === 1) {
             $tournament->update([
                 'winner_id' => $winners->first(),
-                'status'    => 'completed',
+                'status'    => TournamentEnum::COMPLETED,
                 'end_at'    => now(),
             ]);
             return;
@@ -81,7 +84,7 @@ trait TournamentMatchTrait
                 $p2->scored_goals
             );
         } else {
-            $match->status = 'disputed';
+            $match->status = TournamentMatchEnum::DISPUTED;
             $match->save();
         }
     }
@@ -100,9 +103,9 @@ trait TournamentMatchTrait
             $match->winner_id = null;
         }
 
-        $match->submissions()->update(['status' => 'confirmed']);
+        $match->submissions()->update(['status' => TournamentMatchResultEnum::CONFIRMED]);
 
-        $match->status = 'completed';
+        $match->status = TournamentMatchEnum::COMPLETED;
         $match->save();
     }
 }

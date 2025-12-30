@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\Tournaments\TournamentMatchResultEnum;
 
 return new class extends Migration
 {
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->integer('scored_goals');
             $table->integer('conceded_goals');
-            $table->enum('status',['pending' , 'confirmed' , 'conflict'])->default('pending');
+            $table->enum('status', TournamentMatchResultEnum::values())->default(TournamentMatchResultEnum::PENDING->value);
             $table->unique(['tournament_match_id' , 'user_id']);
             $table->timestamps();
         });
