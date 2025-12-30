@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Tournaments\TournamentEnum;
 use App\Http\Requests\TournamentRequest;
 use App\Http\Resources\TournamentResource;
 use App\Models\Tournament;
@@ -50,12 +51,12 @@ class TournamentController extends BaseController
         $request->validate([
             'winner_id' => 'required|exists:users,id'
         ]);
-        if ($tournament->status === 'completed'){
+        if ($tournament->status === TournamentEnum::COMPLETED){
             return $this->sendError('tournament already completed' , new TournamentResource($tournament) ,422);
         }
 
         $tournament->update([
-            'status' => 'completed',
+            'status' => TournamentEnum::COMPLETED,
             'winner_id' => $request->winner_id,
             'end_at' => Carbon::now()
         ]);
@@ -83,7 +84,7 @@ class TournamentController extends BaseController
      */
     public function destroy(Tournament $tournament)
     {
-        if ($tournament->status === 'completed'){
+        if ($tournament->status === TournamentEnum::COMPLETED){
             return $this->sendError(new TournamentResource($tournament) , 'Tournament completed and cannot be deleted' , 403);
         }
         $tournament->delete();

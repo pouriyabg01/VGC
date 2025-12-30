@@ -93,7 +93,7 @@ endpoints:
         name: tournament_id
         description: 'The ID of the tournament.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -111,7 +111,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournament_id: 16
+      tournament_id: 1
       id: 16
     queryParameters: []
     cleanQueryParameters: []
@@ -152,14 +152,14 @@ endpoints:
         name: tournament_id
         description: 'The ID of the tournament.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournament_id: 16
+      tournament_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -210,7 +210,7 @@ endpoints:
         name: tournament_id
         description: 'The ID of the tournament.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -228,7 +228,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournament_id: 16
+      tournament_id: 1
       id: 16
     queryParameters: []
     cleanQueryParameters: []
@@ -238,11 +238,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 404
-        content: |-
-          {
-              "message": "No query results for model [App\\Models\\Tournament] 16"
-          }
+        status: 200
+        content: '{"success":true,"message":"specified tournament","data":{"id":1,"game":"FIFA","end_at":"2025-12-29","status":"completed","winner_id":{"id":3,"name":"pouriya","email":"a@a.aaa","email_verified_at":null,"created_at":"2025-12-29T07:29:36.000000Z","updated_at":"2025-12-29T07:29:36.000000Z"}}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
