@@ -16,6 +16,7 @@ class TournamentMatchController extends BaseController
     use TournamentMatchTrait;
     /**
      * show matches of tournament
+     * @urlParam tournament integer required
      * @param Tournament $tournament
      * @return \Illuminate\Http\JsonResponse
      */

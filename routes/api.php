@@ -19,8 +19,9 @@ Route::apiResource('platform' , PlatformController::class)
 
 //Tournament
 Route::post('/tournaments', [TournamentController::class, 'store'])->middleware('auth:sanctum');
+Route::put('/tournaments/{tournament}', [TournamentController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth:sanctum');
-Route::post('/tournaments/{tournament}/complete', [TournamentController::class, 'complete'])->middleware('auth:sanctum');
+//Route::post('/tournaments/{tournament}/complete', [TournamentController::class, 'complete'])->middleware('auth:sanctum');
 Route::get('/tournaments/{tournament}', [TournamentController::class, 'show']);
 
 //Tournament Matches

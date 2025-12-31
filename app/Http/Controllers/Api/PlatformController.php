@@ -68,37 +68,19 @@ class PlatformController extends BaseController
 
         return $this->sendResponse($data , 'platform created successfully!' , 201);
     }
-//    /**
-//     * Display the specified user's platforms.
-//     *
-//     * @param User $user
-//     *
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function show(User $user)
-//    {
 
 
     /**
-     * Remove platform.
-     * @authenticated
+     * Remove platform
+     * @urlParam platformid integer
+     * @param Request $request
+     * @param Platform $platform
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request , $id)
+    public function destroy(Request $request , Platform $platform)
     {
-        try {
-            $user = $request->user();
+        $platform->delete();
 
-            $platform = $user->platforms()->findOrFail($id);
-
-            $platform->delete();
-
-            $user->load('platforms');
-            $data = new PlatformsResource($user);
-            return $this->sendResponse($data, 'all platforms');
-
-        }catch (ModelNotFoundException $e){
-            return $this->sendError('not found' , []);
-        }
-
+        return $this->sendResponse([], 'deleted successfully!');
     }
 }

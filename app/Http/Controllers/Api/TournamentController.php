@@ -8,6 +8,7 @@ use App\Http\Resources\TournamentResource;
 use App\Models\Tournament;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * @group Tournament management
@@ -39,30 +40,49 @@ class TournamentController extends BaseController
     }
 
     /**
-     * complete tournament
-     *
+     * update tournament
+     * @bodyParam game string required
+     * @bodyParam status string required Example 'COMPLETED,PENDING,CANCELED,GAMING'
      * @param Request $request
      * @param Tournament $tournament
      * @return \Illuminate\Http\JsonResponse
-     * @authenticated
      */
-    public function complete(Request $request , Tournament $tournament)
+    public function update(Request $request , Tournament $tournament)
     {
-        $request->validate([
-            'winner_id' => 'required|exists:users,id'
-        ]);
-        if ($tournament->status === TournamentEnum::COMPLETED){
-            return $this->sendError('tournament already completed' , new TournamentResource($tournament) ,422);
-        }
-
-        $tournament->update([
-            'status' => TournamentEnum::COMPLETED,
-            'winner_id' => $request->winner_id,
-            'end_at' => Carbon::now()
+        $data = $request->validate([
+            'game' => 'required|string',
+            'status' => ['required' , new Enum(TournamentEnum::class)]
         ]);
 
-        return $this->sendResponse(new TournamentResource($tournament) , 'tournament completed');
+        $tournament->update($data);
+        return $this->sendResponse($tournament,'successfully updated');
     }
+
+//    /**
+//     * complete tournament
+//     *
+//     * @param Request $request
+//     * @param Tournament $tournament
+//     * @return \Illuminate\Http\JsonResponse
+//     * @authenticated
+//     */
+//    public function complete(Request $request , Tournament $tournament)
+//    {
+//        $request->validate([
+//            'winner_id' => 'required|exists:users,id'
+//        ]);
+//        if ($tournament->status === TournamentEnum::COMPLETED){
+//            return $this->sendError('tournament already completed' , new TournamentResource($tournament) ,422);
+//        }
+//
+//        $tournament->update([
+//            'status' => TournamentEnum::COMPLETED,
+//            'winner_id' => $request->winner_id,
+//            'end_at' => Carbon::now()
+//        ]);
+//
+//        return $this->sendResponse(new TournamentResource($tournament) , 'tournament completed');
+//    }
 
     /**
      * show tournament
