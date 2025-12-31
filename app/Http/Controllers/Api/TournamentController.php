@@ -7,6 +7,7 @@ use App\Http\Requests\TournamentRequest;
 use App\Http\Resources\TournamentResource;
 use App\Models\Tournament;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
@@ -15,25 +16,21 @@ use Illuminate\Validation\Rules\Enum;
  */
 class TournamentController extends BaseController
 {
+    use AuthorizesRequests;
+
     /**
+     *
      * create a tournament
      * @bodyParam game string required
-     * @bodyParam players integer[] required An array of player IDs. Example: [1,2,3,4]
      * @param TournamentRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @authenticated
      */
     public function store(TournamentRequest $request)
     {
-        $request = $request->validated();
+        $this->authorize('create',Tournament::class);
 
-        $count = count($request['players']);
-
-        if ($count < 2 || ($count & ($count - 1)) !== 0) {
-            return $this->sendError(['تعداد بازیکنان باید مضارب ۲ باشد (2, 4, 8, 16 ...)'],[],422);
-        }
-
-        $tournament = Tournament::create(['game'=>$request['game']]);
+        $tournament = Tournament::create($request->validated());
 
         return $this->sendResponse(new TournamentResource($tournament) , 'Tournament created successfully');
 
@@ -49,6 +46,8 @@ class TournamentController extends BaseController
      */
     public function update(Request $request , Tournament $tournament)
     {
+        $this->authorize('update',$tournament);
+
         $data = $request->validate([
             'game' => 'required|string',
             'status' => ['required' , new Enum(TournamentEnum::class)]
@@ -104,6 +103,8 @@ class TournamentController extends BaseController
      */
     public function destroy(Tournament $tournament)
     {
+        $this->authorize('delete',$tournament);
+
         if ($tournament->status === TournamentEnum::COMPLETED){
             return $this->sendError(new TournamentResource($tournament) , 'Tournament completed and cannot be deleted' , 403);
         }

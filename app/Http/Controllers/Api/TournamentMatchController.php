@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Helper\CreateMatches;
+use App\Http\Requests\MatchRequest;
 use App\Http\Resources\MatchResultResource;
 use App\Models\Tournament;
 use App\Traits\TournamentMatchTrait;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Models\TournamentMatch;
 
@@ -13,7 +16,7 @@ use App\Models\TournamentMatch;
  */
 class TournamentMatchController extends BaseController
 {
-    use TournamentMatchTrait;
+    use TournamentMatchTrait,AuthorizesRequests;
     /**
      * show matches of tournament
      * @urlParam tournament integer required
@@ -36,38 +39,10 @@ class TournamentMatchController extends BaseController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(MatchRequest $request , CreateMatches $matches)
     {
-        $data = $request->validate([
-            'tournament_id' => 'required|string|exists:tournaments,id',
-            'players' => 'required|array|min:2',
-            'players.*' => 'exists:users,id',
-        ]);
-
-
-        $players = $data['players'];
-        $count = count($players);
-
-        if (($count & ($count - 1)) !== 0) {
-            return $this->sendError([], 'تعداد بازیکنان باید مضارب ۲ باشد', 422);
-        }
-
-        shuffle($players);
-
-        $tournament = Tournament::findOrFail($data['tournament_id']);
-        if ($tournament->matches()->exists()){
-            return $this->sendError([],'this tournament has own matches');
-        }
-
-        for ($i = 0; $i < $count; $i += 2) {
-            $tournament->matches()->create([
-                'player1' => $players[$i],
-                'player2' => $players[$i + 1],
-            ]);
-        }
-
-
-        return $this->sendResponse($tournament->matches, 'matches created successfully', 201);
+        $this->authorize('create' , TournamentMatch::class);
+        return $this->sendResponse($matches($request->validated()), 'matches created successfully', 201);
     }
 
     /**
@@ -81,6 +56,7 @@ class TournamentMatchController extends BaseController
      */
     public function update(Request $request, TournamentMatch $tournamentMatch)
     {
+        $this->authorize('submit' , TournamentMatch::class);
         $data = $request->validate([
             'player1_goal' => 'required|integer|min:0',
             'player2_goal' => 'required|integer|min:0',
