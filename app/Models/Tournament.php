@@ -22,4 +22,14 @@ class Tournament extends Model
     {
         return $this->hasMany(TournamentMatch::class);
     }
+
+    public function players()
+    {
+        return $this->belongsToMany(
+            User::class ,
+            'tournament_user' ,
+            'tournament_id',
+            'user_id'
+        )->withTimestamps();
+    }
 }

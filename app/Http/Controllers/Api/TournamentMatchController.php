@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Helper\CreateMatches;
-use App\Http\Requests\MatchRequest;
 use App\Http\Resources\MatchResultResource;
 use App\Models\Tournament;
 use App\Traits\TournamentMatchTrait;
@@ -39,10 +38,14 @@ class TournamentMatchController extends BaseController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(MatchRequest $request , CreateMatches $matches)
+    public function store(CreateMatches $matches , Tournament $tournament)
     {
         $this->authorize('create' , TournamentMatch::class);
-        return $this->sendResponse($matches($request->validated()), 'matches created successfully', 201);
+        $result = $matches($tournament);
+        if ($result['error'] !== null){
+            return $this->sendError($result['error']['message'],[],422);
+        }
+        return $this->sendResponse($result['matches'], 'matches created successfully', 201);
     }
 
     /**

@@ -112,4 +112,18 @@ class TournamentController extends BaseController
         return $this->sendResponse([],'deleted was successfully');
     }
 
+
+    public function signUp(Tournament $tournament , Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->tournaments()->where('tournament_id' , $tournament->id)->first()){
+            return $this->sendError([],'you already in this tournament');
+        }
+        $user->tournaments()->attach($tournament);
+
+
+        return $this->sendResponse($tournament->players , 'you are successfully signed up' , 201);
+    }
+
 }

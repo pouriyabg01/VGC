@@ -57,4 +57,14 @@ class User extends Authenticatable
         return $this->hasMany(Platform::class);
     }
 
+    public function tournaments()
+    {
+        return $this->belongsToMany(
+            Tournament::class ,
+            'tournament_user' ,
+            'user_id' ,
+            'tournament_id'
+        )->withTimestamps();
+    }
+
 }
