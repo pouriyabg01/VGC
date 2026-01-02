@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\PlatformController;
 use App\Http\Controllers\Api\TournamentMatchController;
+use App\Http\Controllers\Api\PlanController;
 
 Route::post('register' , [AuthController::class , 'register']);
 Route::post('login' , [AuthController::class , 'login']);
@@ -32,6 +33,11 @@ Route::put('tournaments-matches/{tournamentMatch}' , [TournamentMatchController:
 Route::post('tournament-matches/{tournamentMatch}/submit-result',
     [TournamentMatchController::class, 'submitResult'])->middleware('auth:sanctum');
 
-//
+//subscription
+Route::post('plans/{plan}/subscription' ,[PlanController::class , 'storeSubscription'])->middleware('auth:sanctum');
 
-Route::post('test' ,);
+//plans
+Route::apiResource('plans' , PlanController::class)
+    ->except('show')->middleware('auth:sanctum');
+Route::get('plans/{plan}' , [PlanController::class , 'show']);
+Route::post('test' , [PlanController::class , 'test'])->middleware('auth:sanctum');

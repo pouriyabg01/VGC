@@ -187,12 +187,11 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remove platform.'
+      title: 'Remove platform'
       description: ''
-      authenticated: true
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -207,8 +206,20 @@ endpoints:
         exampleWasSpecified: false
         nullable: false
         deprecated: false
+      platformid:
+        custom: []
+        name: platformid
+        description: ''
+        required: false
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanUrlParameters:
       id: 16
+      platformid: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -216,10 +227,7 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null

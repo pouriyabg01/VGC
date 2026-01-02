@@ -36,28 +36,8 @@ endpoints:
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      players:
-        custom: []
-        name: players
-        description: 'An array of player IDs.'
-        required: true
-        example:
-          - 1
-          - 2
-          - 3
-          - 4
-        type: 'integer[]'
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
     cleanBodyParameters:
       game: architecto
-      players:
-        - 1
-        - 2
-        - 3
-        - 4
     fileParameters: []
     responses: []
     responseFields: []
@@ -65,6 +45,73 @@ endpoints:
       - headers
       - Authorization
       - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/tournaments/{tournament_id}'
+    metadata:
+      custom: []
+      groupName: 'Tournament management'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'update tournament'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      tournament_id:
+        custom: []
+        name: tournament_id
+        description: 'The ID of the tournament.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      tournament_id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      game:
+        custom: []
+        name: game
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      status:
+        custom: []
+        name: status
+        description: "Example 'COMPLETED,PENDING,CANCELED,GAMING'"
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      game: architecto
+      status: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
     controller: null
     method: null
     route: null
@@ -93,7 +140,7 @@ endpoints:
         name: tournament_id
         description: 'The ID of the tournament.'
         required: true
-        example: 1
+        example: 2
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -111,71 +158,12 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournament_id: 1
+      tournament_id: 2
       id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/tournaments/{tournament_id}/complete'
-    metadata:
-      custom: []
-      groupName: 'Tournament management'
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'complete tournament'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tournament_id:
-        custom: []
-        name: tournament_id
-        description: 'The ID of the tournament.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tournament_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      winner_id:
-        custom: []
-        name: winner_id
-        description: 'The <code>id</code> of an existing record in the users table.'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      winner_id: architecto
     fileParameters: []
     responses: []
     responseFields: []
@@ -210,7 +198,7 @@ endpoints:
         name: tournament_id
         description: 'The ID of the tournament.'
         required: true
-        example: 1
+        example: 2
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -228,7 +216,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournament_id: 1
+      tournament_id: 2
       id: 16
     queryParameters: []
     cleanQueryParameters: []
@@ -239,12 +227,55 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success":true,"message":"specified tournament","data":{"id":1,"game":"FIFA","end_at":"2025-12-29","status":"completed","winner_id":{"id":3,"name":"pouriya","email":"a@a.aaa","email_verified_at":null,"created_at":"2025-12-29T07:29:36.000000Z","updated_at":"2025-12-29T07:29:36.000000Z"}}}'
+        content: '{"success":true,"message":"specified tournament","data":{"id":2,"game":"NFS","end_at":null,"status":"PENDING","winner_id":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
         description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/tournaments/{tournament_id}/sign-up'
+    metadata:
+      custom: []
+      groupName: 'Tournament management'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      tournament_id:
+        custom: []
+        name: tournament_id
+        description: 'The ID of the tournament.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      tournament_id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
     responseFields: []
     auth: []
     controller: null

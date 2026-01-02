@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Tournaments\TournamentEnum;
 use App\Http\Controllers\Api\Helper\CreateMatches;
 use App\Http\Resources\MatchResultResource;
 use App\Models\Tournament;
@@ -45,6 +46,8 @@ class TournamentMatchController extends BaseController
         if ($result['error'] !== null){
             return $this->sendError($result['error']['message'],[],422);
         }
+        $tournament->status = TournamentEnum::GAMING;
+        $tournament->save();
         return $this->sendResponse($result['matches'], 'matches created successfully', 201);
     }
 

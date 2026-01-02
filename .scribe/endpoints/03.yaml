@@ -25,14 +25,26 @@ endpoints:
         name: tournament_id
         description: 'The ID of the tournament.'
         required: true
-        example: 1
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      tournament:
+        custom: []
+        name: tournament
+        description: ''
+        required: true
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournament_id: 1
+      tournament_id: 2
+      tournament: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -42,7 +54,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success":true,"message":"match list","data":[{"id":5,"tournament_id":1,"round":2,"player1":1,"player2":2,"winner_id":1,"player1_goal":2,"player2_goal":1,"match_date":"2025-12-29","status":"completed","created_at":"2025-12-29T08:17:43.000000Z","updated_at":"2025-12-29T15:24:32.000000Z"},{"id":6,"tournament_id":1,"round":2,"player1":4,"player2":3,"winner_id":3,"player1_goal":1,"player2_goal":2,"match_date":"2025-12-29","status":"completed","created_at":"2025-12-29T08:17:43.000000Z","updated_at":"2025-12-29T15:33:39.000000Z"}]}'
+        content: '{"success":true,"message":"match list","data":[{"id":6,"tournament_id":2,"round":1,"player1":2,"player2":1,"winner_id":null,"player1_goal":0,"player2_goal":0,"match_date":null,"status":"PENDING","created_at":"2026-01-01T19:01:55.000000Z","updated_at":"2026-01-01T19:01:55.000000Z"},{"id":7,"tournament_id":2,"round":1,"player1":2,"player2":1,"winner_id":null,"player1_goal":0,"player2_goal":0,"match_date":null,"status":"PENDING","created_at":"2026-01-01T19:02:06.000000Z","updated_at":"2026-01-01T19:02:06.000000Z"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -57,7 +69,7 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/tournaments-matches
+    uri: 'api/tournaments-matches/{tournament_id}'
     metadata:
       custom: []
       groupName: 'match management'
@@ -72,8 +84,20 @@ endpoints:
       Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
+    urlParameters:
+      tournament_id:
+        custom: []
+        name: tournament_id
+        description: 'The ID of the tournament.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      tournament_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -139,14 +163,14 @@ endpoints:
         name: tournamentMatch_id
         description: 'The ID of the tournamentMatch.'
         required: true
-        example: 5
+        example: 6
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournamentMatch_id: 5
+      tournamentMatch_id: 6
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:

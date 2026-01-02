@@ -6,7 +6,6 @@ use App\Http\Requests\StorePlatformRequest;
 use App\Http\Requests\UpdatePlatformRequest;
 use App\Http\Resources\PlatformsResource;
 use App\Models\Platform;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 /**

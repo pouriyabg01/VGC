@@ -40,9 +40,9 @@ class CreateMatches extends BaseController
             ]);
         }
 
-            return [
-                'matches' => $tournament->matches,
-                'error' => $error
-                ];
+        return [
+            'matches' => $tournament->matches,
+            'error' => $error
+            ];
     }
 }
