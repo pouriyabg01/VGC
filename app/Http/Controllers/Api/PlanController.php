@@ -7,6 +7,9 @@ use App\Models\Plan;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
+/**
+ * @group Plan Management
+ */
 class PlanController extends BaseController
 {
     use AuthorizesRequests;

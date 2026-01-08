@@ -6,7 +6,9 @@ use App\Http\Resources\SubscriptionResource;
 use App\Models\Plan;
 use Illuminate\Http\Request;
 
-
+/**
+ * @group Subscription Management
+ */
 class SubscriptionController extends BaseController
 {
     /**

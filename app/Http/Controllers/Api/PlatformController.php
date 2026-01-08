@@ -9,7 +9,7 @@ use App\Models\Platform;
 use Illuminate\Http\Request;
 
 /**
- * @group Platform management
+ * @group Platform Management
  */
 class PlatformController extends BaseController
 {

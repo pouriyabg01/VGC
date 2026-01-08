@@ -12,19 +12,19 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
 /**
- * @group Tournament management
+ * @group Tournament Management
  */
 class TournamentController extends BaseController
 {
     use AuthorizesRequests;
 
     /**
-     *
      * create a tournament
+     * @authenticated
      * @bodyParam game string required
      * @param TournamentRequest $request
      * @return \Illuminate\Http\JsonResponse
-     * @authenticated
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(TournamentRequest $request)
     {
@@ -43,6 +43,7 @@ class TournamentController extends BaseController
      * @param Request $request
      * @param Tournament $tournament
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request , Tournament $tournament)
     {
@@ -85,6 +86,7 @@ class TournamentController extends BaseController
 
     /**
      * show tournament
+     *
      * @urlParam id integer required the id of tournament
      * @param Tournament $tournament
      * @return \Illuminate\Http\JsonResponse
@@ -99,6 +101,7 @@ class TournamentController extends BaseController
      * @urlParam id integer required the id of tournament
      * @param Tournament $tournament
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @authenticated
      */
     public function destroy(Tournament $tournament)
@@ -118,6 +121,7 @@ class TournamentController extends BaseController
      * @urlParam id required the id of tournament
      * @param Tournament $tournament
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function players(Tournament $tournament)
     {

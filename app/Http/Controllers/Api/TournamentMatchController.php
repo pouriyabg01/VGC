@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\TournamentMatch;
 
 /**
- * @group match management
+ * @group Match Management
  */
 class TournamentMatchController extends BaseController
 {
