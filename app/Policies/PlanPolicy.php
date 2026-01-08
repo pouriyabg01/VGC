@@ -8,9 +8,6 @@ use Illuminate\Auth\Access\Response;
 
 class PlanPolicy
 {
-
-
-
     /**
      * Determine whether the user can create models.
      */

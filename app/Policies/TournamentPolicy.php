@@ -32,4 +32,13 @@ class TournamentPolicy
     {
         return $user->is_admin;
     }
+
+    public function signUp(User $user): bool
+    {
+        $sub = $user->plan()->first();
+        if($sub !== null){
+            return $sub?->pivot?->status;
+        }
+        return false;
+    }
 }

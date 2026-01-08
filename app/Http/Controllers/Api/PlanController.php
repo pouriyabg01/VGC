@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\SubscriptionResource;
 use App\Models\Plan;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class PlanController extends BaseController
 
     /**
      * show plan
+     * @urlParam id required the id of Plan
      * @param Plan $plan
      * @return Plan
      */
@@ -91,24 +93,5 @@ class PlanController extends BaseController
         $plan->delete();
 
         return $this->sendResponse([],'plan successfully deleted');
-    }
-
-    /**
-     * store subscriptions
-     * @param Request $request
-     * @param Plan $plan
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function storeSubscription(Request $request,Plan $plan)
-    {
-        $user = $request->user();
-        if ($user->subscription()->exists()){
-            return $this->sendError($user->subscripntion,'you are already have subscription!');
-        }
-
-        $user->subscription()->attach($plan , ['status' => true]);
-
-
-        return $this->sendResponse($user->subscription , 'you have successfully get a subscription');
     }
 }

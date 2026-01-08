@@ -107,5 +107,17 @@ trait TournamentMatchTrait
 
         $match->status = TournamentMatchEnum::COMPLETED;
         $match->save();
+
+        $this->deSub($match);
+    }
+
+    private function deSub(TournamentMatch $match)
+    {
+        $players = $match->tournament->players;
+
+        foreach ($players as $player){
+            $planId = $player->plan()->first()->pivot->plan_id;
+            $player->plan()->updateExistingPivot($planId , ['status' => false]);
+        }
     }
 }

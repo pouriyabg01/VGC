@@ -57,9 +57,14 @@ class User extends Authenticatable
         return $this->hasMany(Platform::class);
     }
 
-    public function subscription()
+    public function plan()
     {
-        return $this->belongsToMany(Plan::class , 'subscriptions')->withPivot('status');
+        return $this->belongsToMany(Plan::class ,
+            'subscriptions' ,
+            'user_id' ,
+            'plan_id'
+        )->withTimestamps()
+            ->withPivot('status')->latest();
     }
 
     public function tournaments()

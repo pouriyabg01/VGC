@@ -113,8 +113,28 @@ class TournamentController extends BaseController
     }
 
 
+    /**
+     * show players of tournament
+     * @urlParam id required the id of tournament
+     * @param Tournament $tournament
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function players(Tournament $tournament)
+    {
+        return $this->sendResponse($tournament->players,"tournament's players");
+    }
+
+    /**
+     * sign up for tournament
+     * @urlParam id required the id of tournament
+     * @param Tournament $tournament
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function signUp(Tournament $tournament , Request $request)
     {
+        $this->authorize('signUp' , $tournament);
         $user = $request->user();
 
         if ($user->tournaments()->where('tournament_id' , $tournament->id)->first()){
