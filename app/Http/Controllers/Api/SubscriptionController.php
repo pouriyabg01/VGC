@@ -21,7 +21,9 @@ class SubscriptionController extends BaseController
     public function store(Request $request,Plan $plan)
     {
         $user = $request->user();
-        if ($user->plan()->orderByPivot('created_at' , 'desc')->first()->pivot->status === 1){
+        $latest = $user->plan()->orderByPivot('created_at' , 'desc')->first();
+
+        if ($latest && $latest->pivot->status === 1){
             return $this->sendError('you already have subscription!');
         }
 
