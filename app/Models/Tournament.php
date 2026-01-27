@@ -13,6 +13,10 @@ class Tournament extends Model
         'status' => TournamentEnum::class,
     ];
 
+    protected $attributes = [
+        'status' => TournamentEnum::PENDING->value
+    ];
+
     public function winner()
     {
         return $this->belongsTo(User::class);
