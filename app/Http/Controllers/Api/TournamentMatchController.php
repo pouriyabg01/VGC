@@ -10,6 +10,9 @@ use App\Traits\TournamentMatchTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Models\TournamentMatch;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * @group Match Management
@@ -25,9 +28,15 @@ class TournamentMatchController extends BaseController
      */
     public function index(Tournament $tournament)
     {
+        $matches = $tournament->matches;
+
+        if ($matches->isEmpty()) {
+            return $this->sendError('There are no matches for this tournament');
+        }
+
         return $this->sendResponse(
-            $tournament->matches,
-            'match list'
+            $matches,
+            'Match list'
         );
     }
 
@@ -80,6 +89,7 @@ class TournamentMatchController extends BaseController
 
     /**
      * Player submitted result
+     * @bodyParam screenshot file required
      * @bodyParam scored_goals integer required
      * @bodyParam conceded_goals integer required
      * @authenticated
@@ -104,7 +114,7 @@ class TournamentMatchController extends BaseController
         }
 
         $data = $request->validate([
-//TODO            'image' => 'required|file',
+            'screenshot' => 'required|file|image',
             'scored_goals' => 'required|integer|min:0',
             'conceded_goals' => 'required|integer|min:0',
         ]);
@@ -115,11 +125,12 @@ class TournamentMatchController extends BaseController
         }
 
         $match = $tournamentMatch->submissions()->create([
-//TODO            'image' => $data['image'],
-            'user_id' => $user->id,
+            //store user id in MatchResult model
+            'screenshot' => $this->saveScreenshot($data['screenshot'] , $tournamentMatch),
             'scored_goals' => $data['scored_goals'],
             'conceded_goals' => $data['conceded_goals'],
         ]);
+
 
         if ($tournamentMatch->submissions()->count() === 2) {
             $this->resolveBySubmissions($tournamentMatch);
@@ -128,5 +139,12 @@ class TournamentMatchController extends BaseController
         $this->generateNextRound($tournamentMatch->tournament);
 
         return $this->sendResponse(new MatchResultResource($match), 'Result submitted');
+    }
+
+    private function saveScreenshot($image , TournamentMatch $tournamentMatch)
+    {
+        if (isEmpty($tournamentMatch->screenshot)) {
+            return $image->store('conclusion-screenshot/' . $tournamentMatch->id . '/' . Auth::id(), 'public');
+        }
     }
 }

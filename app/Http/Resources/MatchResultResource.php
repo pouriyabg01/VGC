@@ -18,6 +18,8 @@ class MatchResultResource extends JsonResource
             'tournament_id' => $this->tournamentMatch->tournament->id,
             'match_id' => $this->tournamentMatch->id,
             'user_id' => $request->user()->id,
+            'screenshot' => $this->screenshot,
+            'screenshot_url' => asset('storage/'.$this->screenshot),
             'scored_goals' => $this->scored_goals,
             'conceded_goals' => $this->conceded_goals,
         ];

@@ -64,7 +64,7 @@ class User extends Authenticatable
             'user_id' ,
             'plan_id'
         )->withTimestamps()
-            ->withPivot('status')->latest();
+            ->withPivot('status');
     }
 
     public function tournaments()

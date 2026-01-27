@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class MatchResult extends Model
 {
-    protected $fillable = ['tournament_match_id' , 'user_id' , 'scored_goals' , 'conceded_goals' , 'status'];
+    protected $fillable = ['tournament_match_id' , 'user_id' , 'screenshot' ,'scored_goals' , 'conceded_goals' , 'status'];
+
+    protected static function booted()
+    {
+        static::creating(function ($model){
+            if (auth()->check()){
+                $model->user_id = auth()->id();
+            }
+        });
+    }
 
     protected $casts = [
         'status' => TournamentMatchResultEnum::class,
@@ -16,5 +25,10 @@ class MatchResult extends Model
     public function tournamentMatch()
     {
         return $this->belongsTo(TournamentMatch::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
