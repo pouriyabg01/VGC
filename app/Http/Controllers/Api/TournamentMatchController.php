@@ -121,7 +121,7 @@ class TournamentMatchController extends BaseController
 
         //check for player submit result
         if ($tournamentMatch->submissions()->where('user_id', $user->id)->exists()) {
-            return $this->sendError([], 'You already submitted result', 422);
+            return $this->sendError('You already submitted result');
         }
 
         $match = $tournamentMatch->submissions()->create([
