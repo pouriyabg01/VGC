@@ -20,9 +20,8 @@ trait TournamentMatchTrait
         // Get current round number for THIS tournament
         $currentRound = $tournament->matches()->max('round');
 
-        if ($currentRound === null) {
-            return;
-        }
+        if (is_null($currentRound)) return;
+
 
         // Get all matches of this round
         $matches = $tournament->matches()

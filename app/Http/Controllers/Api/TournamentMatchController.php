@@ -61,7 +61,7 @@ class TournamentMatchController extends BaseController
     }
 
     /**
-     * Admin/manual result
+     * Admin/manual submit result
      * @bodyParam player1_goal integer required
      * @bodyParam player2_goal integer required
      * @authenticated
@@ -69,7 +69,7 @@ class TournamentMatchController extends BaseController
      * @param TournamentMatch $tournamentMatch
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, TournamentMatch $tournamentMatch)
+    public function submitByAdmin(Request $request, TournamentMatch $tournamentMatch)
     {
         $this->authorize('submit' , TournamentMatch::class);
         $data = $request->validate([
@@ -83,12 +83,13 @@ class TournamentMatchController extends BaseController
             $data['player2_goal']
         );
 
+        $this->generateNextRound($tournamentMatch->tournament);
 
-        return $this->sendResponse($tournamentMatch, 'نتیجه مسابقه ثبت شد');
+        return $this->sendResponse($tournamentMatch, 'Match result submitted successfully');
     }
 
     /**
-     * Player submitted result
+     * Player submit result
      * @bodyParam screenshot file required
      * @bodyParam scored_goals integer required
      * @bodyParam conceded_goals integer required
@@ -97,9 +98,8 @@ class TournamentMatchController extends BaseController
      * @param TournamentMatch $tournamentMatch
      * @return \Illuminate\Http\JsonResponse
      */
-    public function submitResult(Request $request, TournamentMatch $tournamentMatch)
+    public function submitByPlayer(Request $request, TournamentMatch $tournamentMatch)
     {
-        //TODO add screenshot photo input
         $user = $request->user();
 
         //get players of this match

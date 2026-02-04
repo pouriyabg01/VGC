@@ -186,7 +186,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 27, 2026</li>
+        <li>Last updated: January 29, 2026</li>
     </ul>
 </div>
 
@@ -224,14 +224,14 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/tournaments/16/matches" \
+    --get "http://localhost:8000/api/tournaments/1/matches" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments/16/matches"
+    "http://localhost:8000/api/tournaments/1/matches"
 );
 
 const headers = {
@@ -248,7 +248,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-tournaments--tournament_id--matches">
             <blockquote>
-            <p>Example response (404):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -260,7 +260,24 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;No query results for model [App\\Models\\Tournament] 16&quot;
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Match list&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;tournament_id&quot;: 1,
+            &quot;round&quot;: 1,
+            &quot;player1&quot;: 1,
+            &quot;player2&quot;: 2,
+            &quot;winner_id&quot;: 2,
+            &quot;player1_goal&quot;: 1,
+            &quot;player2_goal&quot;: 2,
+            &quot;match_date&quot;: &quot;2026-01-27&quot;,
+            &quot;status&quot;: &quot;COMPLETED&quot;,
+            &quot;created_at&quot;: &quot;2026-01-27T17:07:06.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-01-27T17:43:05.000000Z&quot;
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -343,10 +360,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="GETapi-tournaments--tournament_id--matches"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournament. Example: <code>16</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>tournament</code></b>&nbsp;&nbsp;
@@ -376,7 +393,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/tournaments-matches/16" \
+    "http://localhost:8000/api/tournaments-matches/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -391,7 +408,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments-matches/16"
+    "http://localhost:8000/api/tournaments-matches/1"
 );
 
 const headers = {
@@ -508,10 +525,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="POSTapi-tournaments-matches--tournament_id-"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournament. Example: <code>16</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -556,18 +573,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/tournament-matches/16/submit-result" \
+    "http://localhost:8000/api/tournament-matches/1/submit-result" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "scored_goals=16"\
     --form "conceded_goals=16"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpu50dmsos29nt7IZ6Q2s" </code></pre></div>
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phprk7otu0112t8e4xIUWN" </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournament-matches/16/submit-result"
+    "http://localhost:8000/api/tournament-matches/1/submit-result"
 );
 
 const headers = {
@@ -682,10 +699,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournamentMatch_id"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournamentMatch. Example: <code>16</code></p>
+<p>The ID of the tournamentMatch. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -698,7 +715,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpu50dmsos29nt7IZ6Q2s</code></p>
+<p>Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phprk7otu0112t8e4xIUWN</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored_goals</code></b>&nbsp;&nbsp;
@@ -1329,14 +1346,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/plans/16" \
+    --get "http://localhost:8000/api/plans/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/plans/16"
+    "http://localhost:8000/api/plans/1"
 );
 
 const headers = {
@@ -1353,7 +1370,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-plans--plan_id-">
             <blockquote>
-            <p>Example response (404):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -1365,7 +1382,12 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;No query results for model [App\\Models\\Plan] 16&quot;
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Bronze&quot;,
+    &quot;description&quot;: &quot;normal future&quot;,
+    &quot;price&quot;: 120000,
+    &quot;created_at&quot;: &quot;2026-01-27T16:51:53.000000Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-01-27T16:51:53.000000Z&quot;
 }</code>
  </pre>
     </span>
@@ -1448,10 +1470,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="plan_id"                data-endpoint="GETapi-plans--plan_id-"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the plan. Example: <code>16</code></p>
+<p>The ID of the plan. Example: <code>1</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
@@ -2103,14 +2125,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/subscription/plans/16" \
+    "http://localhost:8000/api/subscription/plans/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/subscription/plans/16"
+    "http://localhost:8000/api/subscription/plans/1"
 );
 
 const headers = {
@@ -2206,10 +2228,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="plan_id"                data-endpoint="POSTapi-subscription-plans--plan_id-"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the plan. Example: <code>16</code></p>
+<p>The ID of the plan. Example: <code>1</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
@@ -2515,7 +2537,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/tournaments/16" \
+    "http://localhost:8000/api/tournaments/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -2527,7 +2549,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments/16"
+    "http://localhost:8000/api/tournaments/1"
 );
 
 const headers = {
@@ -2629,10 +2651,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="PUTapi-tournaments--tournament_id-"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournament. Example: <code>16</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2675,7 +2697,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/tournaments/16" \
+    "http://localhost:8000/api/tournaments/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2683,7 +2705,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments/16"
+    "http://localhost:8000/api/tournaments/1"
 );
 
 const headers = {
@@ -2792,10 +2814,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="DELETEapi-tournaments--tournament_id-"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournament. Example: <code>16</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
@@ -2824,14 +2846,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/tournaments/16" \
+    --get "http://localhost:8000/api/tournaments/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments/16"
+    "http://localhost:8000/api/tournaments/1"
 );
 
 const headers = {
@@ -2848,7 +2870,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-tournaments--tournament_id-">
             <blockquote>
-            <p>Example response (404):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -2860,7 +2882,23 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;No query results for model [App\\Models\\Tournament] 16&quot;
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;specified tournament&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;game&quot;: &quot;NFS&quot;,
+        &quot;end_at&quot;: &quot;2026-01-27&quot;,
+        &quot;status&quot;: &quot;COMPLETED&quot;,
+        &quot;winner_id&quot;: {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;pouriya&quot;,
+            &quot;email&quot;: &quot;a@a.aa&quot;,
+            &quot;is_admin&quot;: 0,
+            &quot;email_verified_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;
+        }
+    }
 }</code>
  </pre>
     </span>
@@ -2943,10 +2981,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="GETapi-tournaments--tournament_id-"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournament. Example: <code>16</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
@@ -2975,14 +3013,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/tournaments/16/players" \
+    --get "http://localhost:8000/api/tournaments/1/players" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments/16/players"
+    "http://localhost:8000/api/tournaments/1/players"
 );
 
 const headers = {
@@ -2999,7 +3037,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-tournaments--tournament_id--players">
             <blockquote>
-            <p>Example response (404):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -3011,7 +3049,40 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;No query results for model [App\\Models\\Tournament] 16&quot;
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;tournament&#039;s players&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;pouriya&quot;,
+            &quot;email&quot;: &quot;a@a.a&quot;,
+            &quot;is_admin&quot;: 1,
+            &quot;email_verified_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-01-27T16:35:49.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-01-27T16:35:49.000000Z&quot;,
+            &quot;pivot&quot;: {
+                &quot;tournament_id&quot;: 1,
+                &quot;user_id&quot;: 1,
+                &quot;created_at&quot;: &quot;2026-01-27T17:01:51.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2026-01-27T17:01:51.000000Z&quot;
+            }
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;pouriya&quot;,
+            &quot;email&quot;: &quot;a@a.aa&quot;,
+            &quot;is_admin&quot;: 0,
+            &quot;email_verified_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;,
+            &quot;pivot&quot;: {
+                &quot;tournament_id&quot;: 1,
+                &quot;user_id&quot;: 2,
+                &quot;created_at&quot;: &quot;2026-01-27T17:02:51.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2026-01-27T17:02:51.000000Z&quot;
+            }
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -3094,10 +3165,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="GETapi-tournaments--tournament_id--players"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournament. Example: <code>16</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
@@ -3126,14 +3197,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/tournaments/16/sign-up" \
+    "http://localhost:8000/api/tournaments/1/sign-up" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments/16/sign-up"
+    "http://localhost:8000/api/tournaments/1/sign-up"
 );
 
 const headers = {
@@ -3229,10 +3300,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="POSTapi-tournaments--tournament_id--sign-up"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournament. Example: <code>16</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;

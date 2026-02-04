@@ -29,10 +29,10 @@ Route::post('/tournaments/{tournament}/sign-up' , [TournamentController::class ,
 
 //Tournament Matches
 Route::get('tournaments/{tournament}/matches' , [TournamentMatchController::class , 'index']);
-Route::post('tournaments-matches/{tournament}' , [TournamentMatchController::class , 'store'])->middleware('auth:sanctum');
+Route::post('tournaments/{tournament}/matches' , [TournamentMatchController::class , 'store'])->middleware('auth:sanctum');
 Route::put('tournaments-matches/{tournamentMatch}' , [TournamentMatchController::class , 'submitByAdmin'])->middleware('auth:sanctum');
 Route::post('tournament-matches/{tournamentMatch}/submit-result',
-    [TournamentMatchController::class, 'submitResult'])->middleware('auth:sanctum');
+    [TournamentMatchController::class, 'submitByPlayer'])->middleware('auth:sanctum');
 
 //subscription
 Route::post('subscription/plans/{plan}' ,[SubscriptionController::class , 'store'])->middleware('auth:sanctum');

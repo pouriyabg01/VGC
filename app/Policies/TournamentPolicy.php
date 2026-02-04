@@ -33,12 +33,13 @@ class TournamentPolicy
         return $user->is_admin;
     }
 
-    public function signUp(User $user): bool
+    public function signUp(User $user)
     {
-        $sub = $user->plan()->first();
+        $sub = $user->plan()->orderBy('subscriptions.created_at' , 'desc')->first()->pivot->status;
         if($sub !== null){
-            return $sub?->pivot?->status;
+            return Response::allow();
         }
-        return false;
+        return Response::deny('you dont have sub');
     }
+
 }

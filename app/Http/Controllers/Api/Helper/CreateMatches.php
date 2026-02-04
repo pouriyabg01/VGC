@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Helper;
 
 use App\Http\Controllers\Api\BaseController;
 use App\Models\Tournament;
+use function PHPUnit\Framework\isNull;
 
 class CreateMatches extends BaseController
 {
@@ -30,16 +31,20 @@ class CreateMatches extends BaseController
             ];
         }
 
+        //TODO make error message for completed tournament
+
         shuffle($players);
 
 
-        for ($i = 0; $i+1 < $count; $i += 2) {
-            $tournament->matches()->create([
-                'player1' => $players[$i],
-                'player2' => $players[$i + 1],
-            ]);
+        if (isNull($error)){
+            for ($i = 0; $i+1 < $count; $i += 2) {
+                $tournament->matches()->create([
+                    'player1' => $players[$i],
+                    'player2' => $players[$i + 1],
+                ]);
+            }
         }
-
+        
         return [
             'matches' => $tournament->matches,
             'error' => $error
