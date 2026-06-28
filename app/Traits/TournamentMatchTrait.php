@@ -66,28 +66,10 @@ trait TournamentMatchTrait
         }
     }
 
-    private function resolveBySubmissions(TournamentMatch $match)
-    {
-        $subs = $match->submissions;
 
-        $p1 = $subs->where('user_id', $match->player1)->first();
-        $p2 = $subs->where('user_id', $match->player2)->first();
-
-        if (
-            $p1->scored_goals === $p2->conceded_goals &&
-            $p2->scored_goals === $p1->conceded_goals
-        ) {
-            $this->finalizeMatch(
-                $match,
-                $p1->scored_goals,
-                $p2->scored_goals
-            );
-        } else {
-            $match->status = TournamentMatchEnum::DISPUTED;
-            $match->save();
-        }
-    }
-
+    /*
+     * store the match result
+     */
     private function finalizeMatch(TournamentMatch $match, int $p1Goals, int $p2Goals)
     {
         $match->player1_goal = $p1Goals;
@@ -110,6 +92,34 @@ trait TournamentMatchTrait
         $this->deSub($match);
     }
 
+    /*
+     * resolve the match result
+     */
+    private function resolveBySubmissions(TournamentMatch $match)
+    {
+        $subs = $match->submissions;
+
+        $p1 = $subs->where('user_id', $match->player1)->first();
+        $p2 = $subs->where('user_id', $match->player2)->first();
+
+        if (
+            $p1->scored_goals === $p2->conceded_goals &&
+            $p2->scored_goals === $p1->conceded_goals
+        ) {
+            $this->finalizeMatch(
+                $match,
+                $p1->scored_goals,
+                $p2->scored_goals
+            );
+        } else {
+            $match->status = TournamentMatchEnum::DISPUTED;
+            $match->save();
+        }
+    }
+
+    /*
+     * expired the subscription
+     */
     private function deSub(TournamentMatch $match)
     {
         $players = $match->tournament->players;
