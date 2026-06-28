@@ -141,8 +141,15 @@ class TournamentController extends BaseController
         $this->authorize('signUp' , $tournament);
         $user = $request->user();
 
-        if ($user->tournaments()->where('tournament_id' , $tournament->id)->first()){
-            return $this->sendError([],'you already in this tournament');
+        if ($tour = $user->tournaments()->where('tournament_id' , $tournament->id)->first()){
+            switch ($tour->status){
+                case (TournamentEnum::COMPLETED) : $err = 'tournament already finished';
+                break;
+                case (TournamentEnum::GAMING) : $err = 'tournament just playing';
+                break;
+                default : $err = 'you already in this tournament';
+            }
+            return $this->sendError([],$err);
         }
         $user->tournaments()->attach($tournament);
 
