@@ -6,7 +6,6 @@ use App\Enums\Tournaments\TournamentEnum;
 use App\Http\Requests\TournamentRequest;
 use App\Http\Resources\TournamentResource;
 use App\Models\Tournament;
-use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
