@@ -40,6 +40,9 @@ Route::get('subscription' ,[SubscriptionController::class , 'show'])->middleware
 
 //plans
 Route::apiResource('plans' , PlanController::class)
-    ->except('show')->middleware('auth:sanctum');
+    ->except(['show','index'])->middleware('auth:sanctum');
 Route::get('plans/{plan}' , [PlanController::class , 'show']);
+Route::get('plans' , [PlanController::class , 'index']);
+
+
 Route::post('test' , [PlanController::class , 'test'])->middleware('auth:sanctum');

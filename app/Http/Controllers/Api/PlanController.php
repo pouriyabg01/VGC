@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\SubscriptionResource;
+use App\Http\Requests\PlanRequest;
+use App\Http\Resources\PlanResource;
+use App\Http\Controllers\Actions\PlanController as PlanAction;
 use App\Models\Plan;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -14,24 +16,19 @@ class PlanController extends BaseController
 {
     use AuthorizesRequests;
 
-    /**
-     * all plans
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
     public function index()
     {
-        return Plan::all();
+        return $this->sendResponse(PlanResource::collection(Plan::all()),'all plans');
     }
 
     /**
      * show plan
      * @urlParam id required the id of Plan
      * @param Plan $plan
-     * @return Plan
      */
     public function show(Plan $plan)
     {
-        return $plan;
+        return $this->sendResponse(new PlanResource($plan) , 'plan');
     }
 
     /**
@@ -44,18 +41,11 @@ class PlanController extends BaseController
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(PlanRequest $request , PlanAction $action)
     {
-        $this->authorize('create' , Plan::class);
-        $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'price' => 'required|integer'
-        ]);
+        $plan = $action->store($request->validated());
 
-        $plan = Plan::create($data);
-
-        return $this->sendResponse($plan , 'plan successfully created' , 201);
+        return $this->sendResponse(new PlanResource($plan) , 'plan successfully created' , 201);
     }
 
     /**
@@ -69,18 +59,11 @@ class PlanController extends BaseController
      * @param Plan $plan
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request , Plan $plan)
+    public function update(PlanRequest $request , Plan $plan , PlanAction $action)
     {
-        $this->authorize('update' , Plan::class);
-        $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'price' => 'required|integer'
-        ]);
+        $plan = $action->update($request->validated() , $plan);
 
-        $plan->update($data);
-
-        return $this->sendResponse($plan,'plan successfully updated');
+        return $this->sendResponse(new PlanResource($plan),'plan successfully updated');
     }
 
     /**
@@ -89,12 +72,9 @@ class PlanController extends BaseController
      * @param Plan $plan
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Plan $plan)
+    public function destroy(Plan $plan , PlanAction $action)
     {
-        $this->authorize('delete' , Plan::class);
-
-        $plan->delete();
-
+        $action->destroy($plan);
         return $this->sendResponse([],'plan successfully deleted');
     }
 }

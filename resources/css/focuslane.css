@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Focuslane design tokens — Tailwind v4 CSS-first config.
+   These become usable as classes automatically, e.g. bg-ink, text-brass, font-display. */
+@theme {
+    --color-ink: #1C2430;
+    --color-cream: #F6F3EC;
+    --color-brass: #C9A15A;
+    --color-slate: #59677A;
+    --color-ember: #C1553B;
+
+    --font-display: "Fraunces", serif;
+    --font-sans: "Inter", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+}

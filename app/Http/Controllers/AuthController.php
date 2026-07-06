@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Actions\LoginController;
+use App\Http\Controllers\Actions\RegisterController;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
@@ -29,13 +31,10 @@ class AuthController extends BaseController
      * @param AuthRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(AuthRequest $request)
+    public function register(AuthRequest $request , RegisterController $action)
     {
-        $data = $request->validated();
 
-        $data['password'] = Hash::make($data['password']);
-
-        $user = User::create($data);
+        $user = $action->execute($request->validated());
 
         $token = $user->createToken('api')->plainTextToken;
 
@@ -53,14 +52,10 @@ class AuthController extends BaseController
      * @param AuthRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request , LoginController $action)
     {
+        $user = $action->execute($request->validated() , );
 
-        if (!Auth::attempt($request->validated())) {
-            return $this->sendError('' , 'Invalid credentials',401);
-        }
-
-        $user = $request->user();
         $user->tokens()->delete();
         $user->token = $user->createToken('api')->plainTextToken;
         $user->token_type = 'Bearer';
