@@ -18,18 +18,4 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-//        $exceptions->render(function (ModelNotFoundException $e, $request) {
-//            return (new class
-//                {
-//                    use \App\Traits\apiResponse;
-//                    })->sendError('',class_basename($e->getModel()) . ' not found');
-//                });
-//
-//        // Invalid route (URL not found)
-//        $exceptions->render(function (NotFoundHttpException $e, $request) {
-//            return (new class
-//            {
-//                use \App\Traits\apiResponse;
-//                })->sendError('','Resource not found');
-//            });
     })->create();

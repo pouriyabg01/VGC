@@ -22,6 +22,7 @@ class TournamentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'platform' => 'required|string|in:PC,Playstation,Xbox,Mobile',
             'game' => 'required|string|max:40',
         ];
     }

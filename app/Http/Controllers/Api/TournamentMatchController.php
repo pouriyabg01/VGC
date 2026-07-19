@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Tournaments\TournamentEnum;
-use App\Http\Controllers\Api\Helper\CreateMatches;
+use App\Services\CreateMatches;
 use App\Http\Resources\MatchResultResource;
 use App\Models\Tournament;
 use App\Traits\TournamentMatchTrait;
@@ -16,15 +16,39 @@ use function PHPUnit\Framework\isEmpty;
 
 /**
  * @group Match Management
+ *
+ * APIs for listing, creating, and submitting tournament match results.
  */
 class TournamentMatchController extends BaseController
 {
     use TournamentMatchTrait,AuthorizesRequests;
+
     /**
-     * show matches of tournament
-     * @urlParam tournament integer required
-     * @param Tournament $tournament
-     * @return \Illuminate\Http\JsonResponse
+     * List tournament matches
+     *
+     * Returns all matches for the given tournament.
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "Match list",
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "tournament_id": 1,
+     *       "player1_id": 1,
+     *       "player2_id": 2,
+     *       "winner_id": null,
+     *       "player1_goal": null,
+     *       "player2_goal": null,
+     *       "round": 1
+     *     }
+     *   ]
+     * }
+     * @response 404 scenario="No matches" {
+     *   "success": false,
+     *   "message": "There are no matches for this tournament"
+     * }
      */
     public function index(Tournament $tournament)
     {
@@ -41,33 +65,69 @@ class TournamentMatchController extends BaseController
     }
 
     /**
-     * create matches for tournament
+     * Create tournament matches
+     *
+     * Generates bracket matches from signed-up players. The number of players must be a power of 2 (minimum 2). Sets the tournament status to GAMING on success.
+     *
      * @authenticated
-     * @bodyParam tournament_id integer required
-     * @bodyParam players array required min:2
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "matches created successfully",
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "tournament_id": 1,
+     *       "player1_id": 1,
+     *       "player2_id": 2,
+     *       "round": 1
+     *     }
+     *   ]
+     * }
+     * @response 422 scenario="Invalid player count" {
+     *   "success": false,
+     *   "message": "number of players should be power of 2",
+     *   "data": []
+     * }
      */
     public function store(CreateMatches $matches , Tournament $tournament)
     {
         $this->authorize('create' , TournamentMatch::class);
-        $result = $matches($tournament);
+        $result = $matches->execute($tournament);
         if ($result['error'] !== null){
             return $this->sendError($result['error']['message'],[],422);
         }
-        $tournament->status = TournamentEnum::GAMING;
-        $tournament->save();
+        $tournament->update([
+            'status' => TournamentEnum::GAMING
+        ]);
         return $this->sendResponse($result['matches'], 'matches created successfully', 201);
     }
 
     /**
-     * Admin/manual submit result
-     * @bodyParam player1_goal integer required
-     * @bodyParam player2_goal integer required
+     * Submit match result (admin)
+     *
+     * Allows an admin to manually set the final score for a match.
+     *
      * @authenticated
-     * @param Request $request
-     * @param TournamentMatch $tournamentMatch
-     * @return \Illuminate\Http\JsonResponse
+     *
+     *
+     * @bodyParam player1_goal integer required Goals scored by player 1. Example: 2
+     * @bodyParam player2_goal integer required Goals scored by player 2. Example: 1
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "Match result submitted successfully",
+     *   "data": {
+     *     "id": 1,
+     *     "tournament_id": 1,
+     *     "player1_id": 1,
+     *     "player2_id": 2,
+     *     "player1_goal": 2,
+     *     "player2_goal": 1,
+     *     "winner_id": 1
+     *   }
+     * }
      */
     public function submitByAdmin(Request $request, TournamentMatch $tournamentMatch)
     {
@@ -89,14 +149,34 @@ class TournamentMatchController extends BaseController
     }
 
     /**
-     * Player submit result
-     * @bodyParam screenshot file required
-     * @bodyParam scored_goals integer required
-     * @bodyParam conceded_goals integer required
+     * Submit match result (player)
+     *
+     * Allows a match participant to submit their reported score. When both players submit, the result is resolved automatically.
+     *
      * @authenticated
-     * @param Request $request
-     * @param TournamentMatch $tournamentMatch
-     * @return \Illuminate\Http\JsonResponse
+     *
+     *
+     * @bodyParam scored_goals integer required Goals scored by the submitting player. Example: 3
+     * @bodyParam conceded_goals integer required Goals conceded by the submitting player. Example: 1
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "Result submitted",
+     *   "data": {
+     *     "tournament_id": 1,
+     *     "match_id": 1,
+     *     "user_id": 1,
+     *     "screenshot": "adw",
+     *     "screenshot_url": "http://localhost/storage/adw",
+     *     "scored_goals": 3,
+     *     "conceded_goals": 1
+     *   }
+     * }
+     * @response 422 scenario="Not a participant" {
+     *   "success": false,
+     *   "message": [],
+     *   "data": "you not in this match"
+     * }
      */
     public function submitByPlayer(Request $request, TournamentMatch $tournamentMatch)
     {
@@ -104,17 +184,16 @@ class TournamentMatchController extends BaseController
 
         //get players of this match
         $matchUsers = [
-            $tournamentMatch->player1,
-            $tournamentMatch->player2
+            $tournamentMatch->player1->id,
+            $tournamentMatch->player2->id
         ];
-
         //check if loggedin user is one of player of match
         if (!in_array($user->id , $matchUsers , true)){
             return $this->sendError([],'you not in this match',422);
         }
 
         $data = $request->validate([
-            'screenshot' => 'required|file|image',
+//            'screenshot' => 'required|file|image',
             'scored_goals' => 'required|integer|min:0',
             'conceded_goals' => 'required|integer|min:0',
         ]);
@@ -126,11 +205,11 @@ class TournamentMatchController extends BaseController
 
         $match = $tournamentMatch->submissions()->create([
             //store user id in MatchResult model
-            'screenshot' => $this->saveScreenshot($data['screenshot'] , $tournamentMatch),
+//            'screenshot' => $this->saveScreenshot($data['screenshot'] , $tournamentMatch),
+            'screenshot' => 'adw',
             'scored_goals' => $data['scored_goals'],
             'conceded_goals' => $data['conceded_goals'],
         ]);
-
 
         if ($tournamentMatch->submissions()->count() === 2) {
             $this->resolveBySubmissions($tournamentMatch);

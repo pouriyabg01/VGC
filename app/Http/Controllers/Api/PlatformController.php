@@ -10,15 +10,32 @@ use Illuminate\Http\Request;
 
 /**
  * @group Platform Management
+ *
+ * APIs for managing the authenticated user's gaming platform accounts.
  */
 class PlatformController extends BaseController
 {
     /**
-     * logged-in user's platforms.
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * List user's platforms
+     *
+     * Returns all gaming platforms linked to the authenticated user.
+     *
      * @authenticated
      *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "all platforms",
+     *   "data": {
+     *     "user_id": 1,
+     *     "platforms": [
+     *       {
+     *         "id": 1,
+     *         "nickname": "GamerX",
+     *         "platform": "xbox"
+     *       }
+     *     ]
+     *   }
+     * }
      */
     public function index(Request $request)
     {
@@ -30,17 +47,30 @@ class PlatformController extends BaseController
     }
 
     /**
-     * Update platform.
-     * @bodyParam platform enum:xbox,pc,ps,mobile required example:xbox
-     * @bodyParam nickname string required
+     * Update a platform
      *
-     * @urlParam id integer required the specified platform id
+     * Updates an existing platform entry for the authenticated user.
      *
-     * @param UpdatePlatformRequest $request
-     * @param Platform $platform
      * @authenticated
-     * @return \Illuminate\Http\JsonResponse
      *
+     *
+     * @bodyParam platform string required The platform type. Must be one of: xbox, pc, ps, mobile. Example: xbox
+     * @bodyParam nickname string required The in-game nickname (3–50 characters). Example: GamerX
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "Platform updated successfully",
+     *   "data": {
+     *     "user_id": 1,
+     *     "platforms": [
+     *       {
+     *         "id": 1,
+     *         "nickname": "GamerX",
+     *         "platform": "xbox"
+     *       }
+     *     ]
+     *   }
+     * }
      */
     public function update(UpdatePlatformRequest $request, Platform $platform)
     {
@@ -51,11 +81,29 @@ class PlatformController extends BaseController
     }
 
     /**
-     * store platform
-     * @bodyParam platform enum:xbox,pc,ps,mobile required Example:xbox
-     * @bodyParam nickname string required
+     * Create a platform
+     *
+     * Adds a new gaming platform entry for the authenticated user.
+     *
      * @authenticated
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @bodyParam platform string required The platform type. Must be one of: xbox, pc, ps, mobile. Example: xbox
+     * @bodyParam nickname string required The in-game nickname (max 50 characters). Example: GamerX
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "platform created successfully!",
+     *   "data": {
+     *     "user_id": 1,
+     *     "platforms": [
+     *       {
+     *         "id": 1,
+     *         "nickname": "GamerX",
+     *         "platform": "xbox"
+     *       }
+     *     ]
+     *   }
+     * }
      */
     public function store(StorePlatformRequest $request)
     {
@@ -70,11 +118,18 @@ class PlatformController extends BaseController
 
 
     /**
-     * Remove platform
-     * @urlParam platformid integer
-     * @param Request $request
-     * @param Platform $platform
-     * @return \Illuminate\Http\JsonResponse
+     * Delete a platform
+     *
+     * Removes a gaming platform entry for the authenticated user.
+     *
+     * @authenticated
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "deleted successfully!",
+     *   "data": []
+     * }
      */
     public function destroy(Request $request , Platform $platform)
     {

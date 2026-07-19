@@ -14,7 +14,10 @@ return new class extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
+            $table->enum('platform' , ['PC' , 'Playstation' , 'Xbox' , 'Mobile']);
             $table->string('game');
+            $table->integer('capacity');
+            $table->integer('current_player_count')->default('0');
             $table->date('end_at')->nullable();
             $table->enum('status',TournamentEnum::values())->default(TournamentEnum::PENDING->value);
             $table->foreignId('winner_id')->nullable()->constrained('users');

@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Tournament extends Model
 {
     use HasFactory;
-    protected $fillable = ['game' , 'end_at' , 'winner_id' , 'status'];
+    protected $fillable = ['platform' , 'current_player_count' , 'capacity' , 'game' , 'end_at' , 'winner_id' , 'status'];
 
     protected $casts = [
         'status' => TournamentEnum::class,
+        'end_at' => 'date',
     ];
 
     protected $attributes = [
@@ -37,5 +38,18 @@ class Tournament extends Model
             'tournament_id',
             'user_id'
         )->withTimestamps();
+    }
+
+    public function syncStatus(): void
+    {
+        //change status READY if count is full and status not READY
+        if ($this->current_player_count >= $this->capacity && $this->status !== TournamentEnum::READY){
+            $this->update(['status' => TournamentEnum::READY]);
+            //TODO fire start tournament event
+        }
+        //change status PENDING status READY and still has capacity
+        elseif ($this->current_player_count < $this->capacity && $this->status === TournamentEnum::READY){
+            $this->update(['status' => TournamentEnum::PENDING]);
+        }
     }
 }

@@ -35,8 +35,8 @@ class TournamentPolicy
 
     public function signUp(User $user)
     {
-        $sub = $user->plan()->orderBy('subscriptions.created_at' , 'desc')->first()->pivot->status;
-        if($sub !== null){
+        $sub = $user->latestActiveSub;
+        if(!is_null($sub)){
             return Response::allow();
         }
         return Response::deny('you dont have sub');

@@ -4,27 +4,58 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\PlanRequest;
 use App\Http\Resources\PlanResource;
-use App\Http\Controllers\Actions\PlanController as PlanAction;
 use App\Models\Plan;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 /**
  * @group Plan Management
+ *
+ * APIs for listing and managing subscription plans.
  */
 class PlanController extends BaseController
 {
     use AuthorizesRequests;
 
+    /**
+     * List all plans
+     *
+     * Returns every available subscription plan.
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "all plans",
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "title": "Basic",
+     *       "description": "Monthly basic plan",
+     *       "price": 1000
+     *     }
+     *   ]
+     * }
+     */
     public function index()
     {
         return $this->sendResponse(PlanResource::collection(Plan::all()),'all plans');
     }
 
     /**
-     * show plan
-     * @urlParam id required the id of Plan
-     * @param Plan $plan
+     * Show a plan
+     *
+     * Returns details of a specific subscription plan.
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "plan",
+     *   "data": {
+     *     "id": 1,
+     *     "title": "Basic",
+     *     "description": "Monthly basic plan",
+     *     "price": 1000
+     *   }
+     * }
      */
     public function show(Plan $plan)
     {
@@ -32,49 +63,86 @@ class PlanController extends BaseController
     }
 
     /**
-     * store plan
+     * Create a plan
      *
-     * @bodyParam title string required
-     * @bodyParam description string required
-     * @bodyParam price integer required
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * Creates a new subscription plan. Admin only.
+     *
+     * @authenticated
+     *
+     * @bodyParam title string required The plan title. Example: Pro
+     * @bodyParam description string required The plan description. Example: Full access plan
+     * @bodyParam price integer required The plan price in the smallest currency unit. Example: 2500
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "plan successfully created",
+     *   "data": {
+     *     "id": 2,
+     *     "title": "Pro",
+     *     "description": "Full access plan",
+     *     "price": 2500
+     *   }
+     * }
      */
-    public function store(PlanRequest $request , PlanAction $action)
+    public function store(PlanRequest $request)
     {
-        $plan = $action->store($request->validated());
+        $this->authorize('create' , Plan::class);
+
+        $plan = Plan::create($request->validated());
 
         return $this->sendResponse(new PlanResource($plan) , 'plan successfully created' , 201);
     }
 
     /**
-     * update plan
-     * @urlParam id required the id of plan
-     * @bodyParam title string required
-     * @bodyParam description string required
-     * @bodyParam price integer required
+     * Update a plan
      *
-     * @param Request $request
-     * @param Plan $plan
-     * @return \Illuminate\Http\JsonResponse
+     * Updates an existing subscription plan. Admin only.
+     *
+     * @authenticated
+     *
+     *
+     * @bodyParam title string required The plan title. Example: Pro Plus
+     * @bodyParam description string required The plan description. Example: Updated full access plan
+     * @bodyParam price integer required The plan price. Example: 3000
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "plan successfully updated",
+     *   "data": {
+     *     "id": 1,
+     *     "title": "Pro Plus",
+     *     "description": "Updated full access plan",
+     *     "price": 3000
+     *   }
+     * }
      */
-    public function update(PlanRequest $request , Plan $plan , PlanAction $action)
+    public function update(PlanRequest $request , Plan $plan)
     {
-        $plan = $action->update($request->validated() , $plan);
+        $this->authorize('update' , Plan::class);
+
+        $plan = $plan->update($request->validated());
 
         return $this->sendResponse(new PlanResource($plan),'plan successfully updated');
     }
 
     /**
-     * delete plan
-     * @urlParam id required the id of plan
-     * @param Plan $plan
-     * @return \Illuminate\Http\JsonResponse
+     * Delete a plan
+     *
+     * Permanently removes a subscription plan. Admin only.
+     *
+     * @authenticated
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "plan successfully deleted",
+     *   "data": []
+     * }
      */
-    public function destroy(Plan $plan , PlanAction $action)
+    public function destroy(Plan $plan)
     {
-        $action->destroy($plan);
+        $this->authorize('delete' , Plan::class);
+        $plan->delete();
         return $this->sendResponse([],'plan successfully deleted');
     }
 }

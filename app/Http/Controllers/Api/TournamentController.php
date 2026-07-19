@@ -6,24 +6,45 @@ use App\Enums\Tournaments\TournamentEnum;
 use App\Http\Requests\TournamentRequest;
 use App\Http\Resources\TournamentResource;
 use App\Models\Tournament;
+use App\Services\TournamentService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
 /**
  * @group Tournament Management
+ *
+ * APIs for creating, updating, viewing, and signing up for tournaments.
  */
 class TournamentController extends BaseController
 {
     use AuthorizesRequests;
 
     /**
-     * create a tournament
+     * Create a tournament
+     *
+     * Creates a new tournament.
+     *
      * @authenticated
-     * @bodyParam game string required
-     * @param TournamentRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @bodyParam platform string required The gaming platform. Must be one of: PC, Playstation, Xbox, Mobile. Example: PC
+     * @bodyParam game string required The game title (max 40 characters). Example: FIFA 24
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "Tournament created successfully",
+     *   "data": {
+     *     "id": 1,
+     *     "platform": "PC",
+     *     "game": "FIFA 24",
+     *     "end_at": null,
+     *     "status": "PENDING",
+     *     "winner_id": null
+     *   }
+     * }
+     * @response 403 scenario="Unauthorized" {
+     *   "message": "This action is unauthorized."
+     * }
      */
     public function store(TournamentRequest $request)
     {
@@ -36,19 +57,34 @@ class TournamentController extends BaseController
     }
 
     /**
-     * update tournament
-     * @bodyParam game string required
-     * @bodyParam status string required Example 'COMPLETED,PENDING,CANCELED,GAMING'
-     * @param Request $request
-     * @param Tournament $tournament
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * Update a tournament
+     *
+     * Updates tournament details. Only the tournament owner can perform this action.
+     *
+     * @authenticated
+     *
+     *
+     * @bodyParam platform string required The gaming platform. Must be one of: PC, Playstation, Xbox, Mobile. Example: Xbox
+     * @bodyParam game string required The game title. Example: FIFA 24
+     * @bodyParam status string required Tournament status. Must be one of: PENDING, CANCELED, COMPLETED, GAMING. Example: GAMING
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "successfully updated",
+     *   "data": {
+     *     "id": 1,
+     *     "platform": "Xbox",
+     *     "game": "FIFA 24",
+     *     "status": "GAMING"
+     *   }
+     * }
      */
     public function update(Request $request , Tournament $tournament)
     {
         $this->authorize('update',$tournament);
 
         $data = $request->validate([
+            'platform' => 'required|string|in:PC,Playstation,Xbox,Mobile',
             'game' => 'required|string',
             'status' => ['required' , new Enum(TournamentEnum::class)]
         ]);
@@ -84,11 +120,23 @@ class TournamentController extends BaseController
 //    }
 
     /**
-     * show tournament
+     * Show a tournament
      *
-     * @urlParam id integer required the id of tournament
-     * @param Tournament $tournament
-     * @return \Illuminate\Http\JsonResponse
+     * Returns details of a specific tournament.
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "specified tournament",
+     *   "data": {
+     *     "id": 1,
+     *     "platform": "PC",
+     *     "game": "FIFA 24",
+     *     "end_at": null,
+     *     "status": "PENDING",
+     *     "winner_id": null
+     *   }
+     * }
      */
     public function show(Tournament $tournament)
     {
@@ -96,12 +144,28 @@ class TournamentController extends BaseController
     }
 
     /**
-     * delete tournament
-     * @urlParam id integer required the id of tournament
-     * @param Tournament $tournament
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * Delete a tournament
+     *
+     * Deletes a tournament. Completed tournaments cannot be deleted.
+     *
      * @authenticated
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "deleted was successfully",
+     *   "data": []
+     * }
+     * @response 403 scenario="Tournament completed" {
+     *   "success": false,
+     *   "message": {
+     *     "id": 1,
+     *     "platform": "PC",
+     *     "game": "FIFA 24",
+     *     "status": "COMPLETED"
+     *   },
+     *   "data": "Tournament completed and cannot be deleted"
+     * }
      */
     public function destroy(Tournament $tournament)
     {
@@ -111,16 +175,28 @@ class TournamentController extends BaseController
             return $this->sendError(new TournamentResource($tournament) , 'Tournament completed and cannot be deleted' , 403);
         }
         $tournament->delete();
+        //TODO gaming tournament should not be deleted or if its deleted subscription haye user ha deactivate nashe or add option to tournament status :CANCELED
         return $this->sendResponse([],'deleted was successfully');
     }
 
 
     /**
-     * show players of tournament
-     * @urlParam id required the id of tournament
-     * @param Tournament $tournament
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * List tournament players
+     *
+     * Returns all users signed up for the given tournament.
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "tournament's players",
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "name": "John Doe",
+     *       "email": "john@example.com"
+     *     }
+     *   ]
+     * }
      */
     public function players(Tournament $tournament)
     {
@@ -128,32 +204,73 @@ class TournamentController extends BaseController
     }
 
     /**
-     * sign up for tournament
-     * @urlParam id required the id of tournament
-     * @param Tournament $tournament
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * Sign up for a tournament
+     *
+     * Registers the authenticated user as a player in the tournament.
+     *
+     * @authenticated
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "you are successfully signed up",
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "name": "John Doe",
+     *       "email": "john@example.com"
+     *     }
+     *   ]
+     * }
+     * @response 404 scenario="Already signed up" {
+     *   "success": false,
+     *   "message": [],
+     *   "data": "you already in this tournament"
+     * }
      */
-    public function signUp(Tournament $tournament , Request $request)
+    public function signUp(Tournament $tournament , Request $request , TournamentService $tournamentService)
     {
-        $this->authorize('signUp' , $tournament);
-        $user = $request->user();
-
-        if ($tour = $user->tournaments()->where('tournament_id' , $tournament->id)->first()){
-            switch ($tour->status){
-                case (TournamentEnum::COMPLETED) : $err = 'tournament already finished';
-                break;
-                case (TournamentEnum::GAMING) : $err = 'tournament just playing';
-                break;
-                default : $err = 'you already in this tournament';
-            }
-            return $this->sendError([],$err);
+        try {
+            $tournamentService->signUp($request->user() , $tournament);
+            return $this->sendResponse($tournament->players , 'you are successfully signed up' , 201);
+        }catch (\Exception $e){
+            return $this->sendError([] , $e->getMessage());
         }
-        $user->tournaments()->attach($tournament);
+    }
 
-
-        return $this->sendResponse($tournament->players , 'you are successfully signed up' , 201);
+    /**
+     * Signed out tournament
+     *
+     * signed out the authenticated user as a player of the tournament.
+     *
+     * @authenticated
+     *
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "you are successfully signed out",
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "name": "John Doe",
+     *       "email": "john@example.com"
+     *     }
+     *   ]
+     * }
+     * @response 404 scenario="Already signed out" {
+     *   "success": false,
+     *   "message": [],
+     *   "data": "You are not registered in this tournament"
+     * }
+     */
+    public function signOut(Tournament $tournament,TournamentService $tournamentService)
+    {
+        try {
+            $tournamentService->signOut($tournament);
+            return $this->sendResponse([],'you are successfully signed out');
+        }catch (\Exception $e){
+            return $this->sendError([] , $e->getMessage());
+        }
     }
 
 }

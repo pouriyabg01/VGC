@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -66,6 +67,22 @@ class User extends Authenticatable
         )->withTimestamps()
             ->withPivot('status');
     }
+    public function latestActiveSub()
+    {
+        return $this->hasOne(Subscription::class)
+            ->where('status' ,'1')
+            ->latestOfMany();
+    }
+    public function activeSub()
+    {
+        return $this->hasOne(Subscription::class)
+            ->where('status' , '1');
+    }
+
+//    public function getLatestActiveSubAttribute()
+//    {
+//        return $this->activeSub()->latest('id')->first();
+//    }
 
     public function tournaments()
     {

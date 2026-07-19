@@ -23,7 +23,12 @@
 
             <nav class="flex items-center gap-6 text-sm">
                 @auth
-                    <span class="text-slate hidden sm:inline">{{ auth()->user()->name }}</span>
+                    <a href="{{ route('profile') }}" wire:navigate class="flex items-center gap-2 text-ink/70 hover:text-ink transition-colors">
+                        @if (auth()->user()->latest_active_sub)
+                            <img src="{{ asset('storage/images/subscription-icon.png') }}" alt="icon" class="w-5 h-5">
+                        @endif
+                        <span>{{ auth()->user()->name }}</span>
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="text-ink/70 hover:text-ink transition-colors">Log out</button>
@@ -36,6 +41,7 @@
                     </a>
                 @endauth
             </nav>
+
         </div>
     </header>
 

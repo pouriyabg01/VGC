@@ -1,48 +1,61 @@
 <?php
 
 use App\Http\Controllers\Api\TournamentController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Api\PlatformController;
 use App\Http\Controllers\Api\TournamentMatchController;
+use App\Http\Controllers\Api\PlatformController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
 
-Route::post('register' , [AuthController::class , 'register']);
-Route::post('login' , [AuthController::class , 'login']);
-Route::middleware('auth:sanctum')->group(function (){
-   Route::post('logout' , [AuthController::class , 'logout']);
-});
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
-//user's platforms
-Route::apiResource('platform' , PlatformController::class)
-    ->middleware('auth:sanctum')
-    ->except('show');
-
-//Tournament
-Route::post('/tournaments', [TournamentController::class, 'store'])->middleware('auth:sanctum');
-Route::put('/tournaments/{tournament}', [TournamentController::class, 'update'])->middleware('auth:sanctum');
-Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth:sanctum');
+// Public Tournament Access
 Route::get('/tournaments/{tournament}', [TournamentController::class, 'show']);
 Route::get('/tournaments/{tournament}/players', [TournamentController::class, 'players']);
-Route::post('/tournaments/{tournament}/sign-up' , [TournamentController::class , 'signUp'])->middleware('auth:sanctum');
+Route::get('tournaments/{tournament}/matches', [TournamentMatchController::class, 'index']);
+Route::get('plans', [PlanController::class, 'index']);
+Route::get('plans/{plan}', [PlanController::class, 'show']);
 
-//Tournament Matches
-Route::get('tournaments/{tournament}/matches' , [TournamentMatchController::class , 'index']);
-Route::post('tournaments/{tournament}/matches' , [TournamentMatchController::class , 'store'])->middleware('auth:sanctum');
-Route::put('tournaments-matches/{tournamentMatch}' , [TournamentMatchController::class , 'submitByAdmin'])->middleware('auth:sanctum');
-Route::post('tournament-matches/{tournamentMatch}/submit-result',
-    [TournamentMatchController::class, 'submitByPlayer'])->middleware('auth:sanctum');
+/*
+|--------------------------------------------------------------------------
+| Protected Routes (Authenticated via Sanctum)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth:sanctum')->group(function () {
 
-//subscription
-Route::post('subscription/plans/{plan}' ,[SubscriptionController::class , 'store'])->middleware('auth:sanctum');
-Route::get('subscription' ,[SubscriptionController::class , 'show'])->middleware('auth:sanctum');
+    // Auth Management
+    Route::post('logout', [AuthController::class, 'logout']);
 
-//plans
-Route::apiResource('plans' , PlanController::class)
-    ->except(['show','index'])->middleware('auth:sanctum');
-Route::get('plans/{plan}' , [PlanController::class , 'show']);
-Route::get('plans' , [PlanController::class , 'index']);
+    // Platform Management
+    Route::apiResource('platform', PlatformController::class)->except('show');
 
+    // Tournament Management
+    Route::prefix('tournaments/{tournament}')->group(function () {
+        Route::post('sign-up', [TournamentController::class, 'signUp']);
+        Route::post('sign-out', [TournamentController::class, 'signOut']);
+    });
 
-Route::post('test' , [PlanController::class , 'test'])->middleware('auth:sanctum');
+    // Tournament CRUD & Matches
+    Route::apiResource('tournaments', TournamentController::class)->except(['index', 'show']);
+    Route::post('tournaments/{tournament}/matches', [TournamentMatchController::class, 'store']);
+
+    // Match Results & Submissions
+    Route::prefix('tournament-matches')->group(function () {
+        Route::put('{tournamentMatch}/submit-by-admin', [TournamentMatchController::class, 'submitByAdmin']); // Cleaned up URL
+        Route::post('{tournamentMatch}/submit-result', [TournamentMatchController::class, 'submitByPlayer']);
+    });
+
+    // Subscription & Plans
+    Route::get('subscription', [SubscriptionController::class, 'show']);
+    Route::post('subscription/plans/{plan}', [SubscriptionController::class, 'store']);
+
+    Route::apiResource('plans', PlanController::class)->except(['show', 'index']);
+    Route::post('test', [PlanController::class, 'test']);
+});

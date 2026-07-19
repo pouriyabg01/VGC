@@ -7,6 +7,8 @@ use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Enums\Tournaments\TournamentMatchResultEnum;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
+use App\Services\Subscription;
+use App\Services\TournamentService;
 
 trait TournamentMatchTrait
 {
@@ -15,7 +17,7 @@ trait TournamentMatchTrait
      *      Shared Logic
      * ======================
      */
-    private function generateNextRound(Tournament $tournament)
+    private function generateNextRound(Tournament $tournament , TournamentService $tournamentService)
     {
         // Get current round number for THIS tournament
         $currentRound = $tournament->matches()->max('round');
@@ -36,31 +38,26 @@ trait TournamentMatchTrait
         // Prevent duplicate generation
         $nextRound = $currentRound + 1;
 
-        if (
-            $tournament->matches()
+        if ($tournament->matches()
                 ->where('round', $nextRound)
-                ->exists()
-        ) {
+                ->exists()) {
             return;
         }
 
         $winners = $matches->pluck('winner_id')->filter()->values();
+        //TODO winner should be type of user object
 
         // Tournament finished
         if ($winners->count() === 1) {
-            $tournament->update([
-                'winner_id' => $winners->first(),
-                'status'    => TournamentEnum::COMPLETED,
-                'end_at'    => now(),
-            ]);
-            return;
+            $tournamentService->finalizeTournament($tournament,$winners->first());
+            app(Subscription::class)->deactive($tournament->players);
         }
 
         // Create next round matches
         for ($i = 0; $i < $winners->count(); $i += 2) {
             $tournament->matches()->create([
-                'player1' => $winners[$i],
-                'player2' => $winners[$i + 1],
+                'player1_id' => $winners[$i],
+                'player2_id' => $winners[$i + 1],
                 'round'   => $nextRound,
             ]);
         }
@@ -77,9 +74,9 @@ trait TournamentMatchTrait
         $match->match_date = now();
 
         if ($p1Goals > $p2Goals) {
-            $match->winner_id = $match->player1;
+            $match->winner_id = $match->player1->id;
         } elseif ($p2Goals > $p1Goals) {
-            $match->winner_id = $match->player2;
+            $match->winner_id = $match->player2->id;
         } else {
             $match->winner_id = null;
         }
@@ -88,8 +85,6 @@ trait TournamentMatchTrait
 
         $match->status = TournamentMatchEnum::COMPLETED;
         $match->save();
-
-        $this->deSub($match);
     }
 
     /*
@@ -99,8 +94,8 @@ trait TournamentMatchTrait
     {
         $subs = $match->submissions;
 
-        $p1 = $subs->where('user_id', $match->player1)->first();
-        $p2 = $subs->where('user_id', $match->player2)->first();
+        $p1 = $subs->where('user_id', $match->player1->id)->first();
+        $p2 = $subs->where('user_id', $match->player2->id)->first();
 
         if (
             $p1->scored_goals === $p2->conceded_goals &&
@@ -114,19 +109,6 @@ trait TournamentMatchTrait
         } else {
             $match->status = TournamentMatchEnum::DISPUTED;
             $match->save();
-        }
-    }
-
-    /*
-     * expired the subscription
-     */
-    private function deSub(TournamentMatch $match)
-    {
-        $players = $match->tournament->players;
-
-        foreach ($players as $player){
-            $planId = $player->plan()->first()->pivot->plan_id;
-            $player->plan()->updateExistingPivot($planId , ['status' => false]);
         }
     }
 }

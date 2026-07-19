@@ -16,8 +16,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tournament_id')->constrained();
             $table->unsignedInteger('round')->default('1');
-            $table->foreignId('player1')->constrained('users');
-            $table->foreignId('player2')->constrained('users');
+            $table->index('round');
+            $table->foreignId('player1_id')->constrained('users');
+            $table->foreignId('player2_id')->constrained('users');
             $table->foreignId('winner_id')->nullable()->constrained('users');
             $table->integer('player1_goal')->default('0');
             $table->integer('player2_goal')->default('0');

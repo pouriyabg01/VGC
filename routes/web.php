@@ -2,7 +2,10 @@
 use App\Livewire\Landing;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Profile\Index;
 use Illuminate\Support\Facades\Route;
+
+Route::get('test' , [\App\Http\Controllers\testController::class , 'index']);
 
 Route::get('/', Landing::class)->name('home');
 
@@ -17,3 +20,7 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect('/');
 })->middleware('auth')->name('logout');
+
+Route::get('profile' , Index::class)->middleware('auth')->name('profile');
+
+Route::get('tournament/{tournament}', \App\Livewire\Tournament::class)->name('tournament');

@@ -72,16 +72,16 @@
                 </li>
                                     <ul id="tocify-subheader-match-management" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="match-management-GETapi-tournaments--tournament_id--matches">
-                                <a href="#match-management-GETapi-tournaments--tournament_id--matches">show matches of tournament</a>
+                                <a href="#match-management-GETapi-tournaments--tournament_id--matches">List tournament matches</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="match-management-POSTapi-tournaments--tournament_id--matches">
-                                <a href="#match-management-POSTapi-tournaments--tournament_id--matches">create matches for tournament</a>
+                                <a href="#match-management-POSTapi-tournaments--tournament_id--matches">Create tournament matches</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="match-management-PUTapi-tournaments-matches--tournamentMatch_id-">
-                                <a href="#match-management-PUTapi-tournaments-matches--tournamentMatch_id-">Admin/manual submit result</a>
+                                <a href="#match-management-PUTapi-tournaments-matches--tournamentMatch_id-">Submit match result (admin)</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="match-management-POSTapi-tournament-matches--tournamentMatch_id--submit-result">
-                                <a href="#match-management-POSTapi-tournament-matches--tournamentMatch_id--submit-result">Player submit result</a>
+                                <a href="#match-management-POSTapi-tournament-matches--tournamentMatch_id--submit-result">Submit match result (player)</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -90,20 +90,20 @@
                     <a href="#plan-management">Plan Management</a>
                 </li>
                                     <ul id="tocify-subheader-plan-management" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="plan-management-GETapi-plans">
-                                <a href="#plan-management-GETapi-plans">all plans</a>
-                            </li>
-                                                                                <li class="tocify-item level-2" data-unique="plan-management-POSTapi-plans">
-                                <a href="#plan-management-POSTapi-plans">store plan</a>
+                                                    <li class="tocify-item level-2" data-unique="plan-management-POSTapi-plans">
+                                <a href="#plan-management-POSTapi-plans">Create a plan</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="plan-management-PUTapi-plans--id-">
-                                <a href="#plan-management-PUTapi-plans--id-">update plan</a>
+                                <a href="#plan-management-PUTapi-plans--id-">Update a plan</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="plan-management-DELETEapi-plans--id-">
-                                <a href="#plan-management-DELETEapi-plans--id-">delete plan</a>
+                                <a href="#plan-management-DELETEapi-plans--id-">Delete a plan</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="plan-management-GETapi-plans--plan_id-">
-                                <a href="#plan-management-GETapi-plans--plan_id-">show plan</a>
+                                <a href="#plan-management-GETapi-plans--plan_id-">Show a plan</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="plan-management-GETapi-plans">
+                                <a href="#plan-management-GETapi-plans">List all plans</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -113,16 +113,16 @@
                 </li>
                                     <ul id="tocify-subheader-platform-management" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="platform-management-GETapi-platform">
-                                <a href="#platform-management-GETapi-platform">logged-in user's platforms.</a>
+                                <a href="#platform-management-GETapi-platform">List user's platforms</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="platform-management-POSTapi-platform">
-                                <a href="#platform-management-POSTapi-platform">store platform</a>
+                                <a href="#platform-management-POSTapi-platform">Create a platform</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="platform-management-PUTapi-platform--id-">
-                                <a href="#platform-management-PUTapi-platform--id-">Update platform.</a>
+                                <a href="#platform-management-PUTapi-platform--id-">Update a platform</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="platform-management-DELETEapi-platform--id-">
-                                <a href="#platform-management-DELETEapi-platform--id-">Remove platform</a>
+                                <a href="#platform-management-DELETEapi-platform--id-">Delete a platform</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -132,10 +132,10 @@
                 </li>
                                     <ul id="tocify-subheader-subscription-management" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="subscription-management-POSTapi-subscription-plans--plan_id-">
-                                <a href="#subscription-management-POSTapi-subscription-plans--plan_id-">get a subscription</a>
+                                <a href="#subscription-management-POSTapi-subscription-plans--plan_id-">Subscribe to a plan</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="subscription-management-GETapi-subscription">
-                                <a href="#subscription-management-GETapi-subscription">show user's subscription</a>
+                                <a href="#subscription-management-GETapi-subscription">Show current subscription</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -145,22 +145,25 @@
                 </li>
                                     <ul id="tocify-subheader-tournament-management" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="tournament-management-POSTapi-tournaments">
-                                <a href="#tournament-management-POSTapi-tournaments">create a tournament</a>
+                                <a href="#tournament-management-POSTapi-tournaments">Create a tournament</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-PUTapi-tournaments--tournament_id-">
-                                <a href="#tournament-management-PUTapi-tournaments--tournament_id-">update tournament</a>
+                                <a href="#tournament-management-PUTapi-tournaments--tournament_id-">Update a tournament</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-DELETEapi-tournaments--tournament_id-">
-                                <a href="#tournament-management-DELETEapi-tournaments--tournament_id-">delete tournament</a>
+                                <a href="#tournament-management-DELETEapi-tournaments--tournament_id-">Delete a tournament</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-GETapi-tournaments--tournament_id-">
-                                <a href="#tournament-management-GETapi-tournaments--tournament_id-">show tournament</a>
+                                <a href="#tournament-management-GETapi-tournaments--tournament_id-">Show a tournament</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-GETapi-tournaments--tournament_id--players">
-                                <a href="#tournament-management-GETapi-tournaments--tournament_id--players">show players of tournament</a>
+                                <a href="#tournament-management-GETapi-tournaments--tournament_id--players">List tournament players</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-POSTapi-tournaments--tournament_id--sign-up">
-                                <a href="#tournament-management-POSTapi-tournaments--tournament_id--sign-up">sign up for tournament</a>
+                                <a href="#tournament-management-POSTapi-tournaments--tournament_id--sign-up">Sign up for a tournament</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="tournament-management-POSTapi-tournaments--tournament_id--sign-out">
+                                <a href="#tournament-management-POSTapi-tournaments--tournament_id--sign-out">Signed out tournament</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -170,10 +173,10 @@
                 </li>
                                     <ul id="tocify-subheader-user-management" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="user-management-POSTapi-register">
-                                <a href="#user-management-POSTapi-register">Create User</a>
+                                <a href="#user-management-POSTapi-register">Register a new user</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="user-management-POSTapi-login">
-                                <a href="#user-management-POSTapi-login">User Login</a>
+                                <a href="#user-management-POSTapi-login">Log in</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="user-management-POSTapi-logout">
                                 <a href="#user-management-POSTapi-logout">Log out</a>
@@ -189,7 +192,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 27, 2026</li>
+        <li>Last updated: July 19, 2026</li>
     </ul>
 </div>
 
@@ -212,14 +215,14 @@ You can switch the language used with the tabs at the top right (or from the nav
 
         <h1 id="match-management">Match Management</h1>
 
-    
+    <p>APIs for listing, creating, and submitting tournament match results.</p>
 
-                                <h2 id="match-management-GETapi-tournaments--tournament_id--matches">show matches of tournament</h2>
+                                <h2 id="match-management-GETapi-tournaments--tournament_id--matches">List tournament matches</h2>
 
 <p>
 </p>
 
-
+<p>Returns all matches for the given tournament.</p>
 
 <span id="example-requests-GETapi-tournaments--tournament_id--matches">
 <blockquote>Example request:</blockquote>
@@ -251,16 +254,9 @@ fetch(url, {
 
 <span id="example-responses-GETapi-tournaments--tournament_id--matches">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (200, Success):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: true,
@@ -269,18 +265,24 @@ access-control-allow-origin: *
         {
             &quot;id&quot;: 1,
             &quot;tournament_id&quot;: 1,
-            &quot;round&quot;: 1,
-            &quot;player1&quot;: 1,
-            &quot;player2&quot;: 2,
-            &quot;winner_id&quot;: 2,
-            &quot;player1_goal&quot;: 1,
-            &quot;player2_goal&quot;: 2,
-            &quot;match_date&quot;: &quot;2026-01-29&quot;,
-            &quot;status&quot;: &quot;COMPLETED&quot;,
-            &quot;created_at&quot;: &quot;2026-01-27T17:07:06.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-01-29T22:08:41.000000Z&quot;
+            &quot;player1_id&quot;: 1,
+            &quot;player2_id&quot;: 2,
+            &quot;winner_id&quot;: null,
+            &quot;player1_goal&quot;: null,
+            &quot;player2_goal&quot;: null,
+            &quot;round&quot;: 1
         }
     ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, No matches):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;There are no matches for this tournament&quot;
 }</code>
  </pre>
     </span>
@@ -368,27 +370,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the tournament. Example: <code>1</code></p>
             </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>tournament</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="tournament"                data-endpoint="GETapi-tournaments--tournament_id--matches"
-               value="16"
-               data-component="url">
-    <br>
-<p>Example: <code>16</code></p>
-            </div>
                     </form>
 
-                    <h2 id="match-management-POSTapi-tournaments--tournament_id--matches">create matches for tournament</h2>
+                    <h2 id="match-management-POSTapi-tournaments--tournament_id--matches">Create tournament matches</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Generates bracket matches from signed-up players. The number of players must be a power of 2 (minimum 2). Sets the tournament status to GAMING on success.</p>
 
 <span id="example-requests-POSTapi-tournaments--tournament_id--matches">
 <blockquote>Example request:</blockquote>
@@ -399,14 +389,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     "http://localhost:8000/api/tournaments/1/matches" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"tournament_id\": 16,
-    \"players\": [
-        \"architecto\"
-    ]
-}"
-</code></pre></div>
+    --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
@@ -420,23 +403,45 @@ const headers = {
     "Accept": "application/json",
 };
 
-let body = {
-    "tournament_id": 16,
-    "players": [
-        "architecto"
-    ]
-};
-
 fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
 
 <span id="example-responses-POSTapi-tournaments--tournament_id--matches">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;matches created successfully&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;tournament_id&quot;: 1,
+            &quot;player1_id&quot;: 1,
+            &quot;player2_id&quot;: 2,
+            &quot;round&quot;: 1
+        }
+    ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Invalid player count):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;number of players should be power of 2&quot;,
+    &quot;data&quot;: []
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-tournaments--tournament_id--matches" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-tournaments--tournament_id--matches"></span>:
@@ -533,42 +538,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the tournament. Example: <code>1</code></p>
             </div>
-                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>tournament_id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="tournament_id"                data-endpoint="POSTapi-tournaments--tournament_id--matches"
-               value="16"
-               data-component="body">
-    <br>
-<p>Example: <code>16</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>players</code></b>&nbsp;&nbsp;
-<small>string[]</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="players[0]"                data-endpoint="POSTapi-tournaments--tournament_id--matches"
-               data-component="body">
-        <input type="text" style="display: none"
-               name="players[1]"                data-endpoint="POSTapi-tournaments--tournament_id--matches"
-               data-component="body">
-    <br>
-<p>min:2</p>
-        </div>
-        </form>
+                    </form>
 
-                    <h2 id="match-management-PUTapi-tournaments-matches--tournamentMatch_id-">Admin/manual submit result</h2>
+                    <h2 id="match-management-PUTapi-tournaments-matches--tournamentMatch_id-">Submit match result (admin)</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Allows an admin to manually set the final score for a match.</p>
 
 <span id="example-requests-PUTapi-tournaments-matches--tournamentMatch_id-">
 <blockquote>Example request:</blockquote>
@@ -581,8 +559,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"player1_goal\": 16,
-    \"player2_goal\": 16
+    \"player1_goal\": 2,
+    \"player2_goal\": 1
 }"
 </code></pre></div>
 
@@ -599,8 +577,8 @@ const headers = {
 };
 
 let body = {
-    "player1_goal": 16,
-    "player2_goal": 16
+    "player1_goal": 2,
+    "player2_goal": 1
 };
 
 fetch(url, {
@@ -612,7 +590,26 @@ fetch(url, {
 </span>
 
 <span id="example-responses-PUTapi-tournaments-matches--tournamentMatch_id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Match result submitted successfully&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;tournament_id&quot;: 1,
+        &quot;player1_id&quot;: 1,
+        &quot;player2_id&quot;: 2,
+        &quot;player1_goal&quot;: 2,
+        &quot;player2_goal&quot;: 1,
+        &quot;winner_id&quot;: 1
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-PUTapi-tournaments-matches--tournamentMatch_id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-PUTapi-tournaments-matches--tournamentMatch_id-"></span>:
@@ -717,10 +714,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="player1_goal"                data-endpoint="PUTapi-tournaments-matches--tournamentMatch_id-"
-               value="16"
+               value="2"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>Goals scored by player 1. Example: <code>2</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>player2_goal</code></b>&nbsp;&nbsp;
@@ -729,20 +726,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="player2_goal"                data-endpoint="PUTapi-tournaments-matches--tournamentMatch_id-"
-               value="16"
+               value="1"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>Goals scored by player 2. Example: <code>1</code></p>
         </div>
         </form>
 
-                    <h2 id="match-management-POSTapi-tournament-matches--tournamentMatch_id--submit-result">Player submit result</h2>
+                    <h2 id="match-management-POSTapi-tournament-matches--tournamentMatch_id--submit-result">Submit match result (player)</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Allows a match participant to submit their reported score. When both players submit, the result is resolved automatically.</p>
 
 <span id="example-requests-POSTapi-tournament-matches--tournamentMatch_id--submit-result">
 <blockquote>Example request:</blockquote>
@@ -752,11 +749,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/tournament-matches/1/submit-result" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: multipart/form-data" \
+    --header "Content-Type: application/json" \
     --header "Accept: application/json" \
-    --form "scored_goals=16"\
-    --form "conceded_goals=16"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpu1aieejadke63nyut09" </code></pre></div>
+    --data "{
+    \"scored_goals\": 3,
+    \"conceded_goals\": 1
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -766,25 +765,55 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 const headers = {
     "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
     "Accept": "application/json",
 };
 
-const body = new FormData();
-body.append('scored_goals', '16');
-body.append('conceded_goals', '16');
-body.append('screenshot', document.querySelector('input[name="screenshot"]').files[0]);
+let body = {
+    "scored_goals": 3,
+    "conceded_goals": 1
+};
 
 fetch(url, {
     method: "POST",
     headers,
-    body,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
 
 <span id="example-responses-POSTapi-tournament-matches--tournamentMatch_id--submit-result">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Result submitted&quot;,
+    &quot;data&quot;: {
+        &quot;tournament_id&quot;: 1,
+        &quot;match_id&quot;: 1,
+        &quot;user_id&quot;: 1,
+        &quot;screenshot&quot;: &quot;adw&quot;,
+        &quot;screenshot_url&quot;: &quot;http://localhost/storage/adw&quot;,
+        &quot;scored_goals&quot;: 3,
+        &quot;conceded_goals&quot;: 1
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Not a participant):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: [],
+    &quot;data&quot;: &quot;you not in this match&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-tournament-matches--tournamentMatch_id--submit-result" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-tournament-matches--tournamentMatch_id--submit-result"></span>:
@@ -803,7 +832,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-tournament-matches--tournamentMatch_id--submit-result" data-method="POST"
       data-path="api/tournament-matches/{tournamentMatch_id}/submit-result"
       data-authed="1"
-      data-hasfiles="1"
+      data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-tournament-matches--tournamentMatch_id--submit-result', this);">
@@ -851,10 +880,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Content-Type"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value="multipart/form-data"
+               value="application/json"
                data-component="header">
     <br>
-<p>Example: <code>multipart/form-data</code></p>
+<p>Example: <code>application/json</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
@@ -883,28 +912,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>screenshot</code></b>&nbsp;&nbsp;
-<small>file</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="file" style="display: none"
-                              name="screenshot"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value=""
-               data-component="body">
-    <br>
-<p>Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpu1aieejadke63nyut09</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored_goals</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="scored_goals"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value="16"
+               value="3"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>Goals scored by the submitting player. Example: <code>3</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>conceded_goals</code></b>&nbsp;&nbsp;
@@ -913,149 +930,24 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="conceded_goals"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value="16"
+               value="1"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>Goals conceded by the submitting player. Example: <code>1</code></p>
         </div>
         </form>
 
                 <h1 id="plan-management">Plan Management</h1>
 
-    
+    <p>APIs for listing and managing subscription plans.</p>
 
-                                <h2 id="plan-management-GETapi-plans">all plans</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-plans">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/plans" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/plans"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-plans">
-            <blockquote>
-            <p>Example response (401):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-plans" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-plans"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-plans"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-plans" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-plans">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-plans" data-method="GET"
-      data-path="api/plans"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-plans', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-plans"
-                    onclick="tryItOut('GETapi-plans');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-plans"
-                    onclick="cancelTryOut('GETapi-plans');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-plans"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/plans</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-plans"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-plans"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        </form>
-
-                    <h2 id="plan-management-POSTapi-plans">store plan</h2>
+                                <h2 id="plan-management-POSTapi-plans">Create a plan</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Creates a new subscription plan. Admin only.</p>
 
 <span id="example-requests-POSTapi-plans">
 <blockquote>Example request:</blockquote>
@@ -1064,12 +956,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/plans" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"title\": \"architecto\",
-    \"description\": \"Eius et animi quos velit et.\",
-    \"price\": 16
+    \"title\": \"Pro\",
+    \"description\": \"Full access plan\",
+    \"price\": 2500
 }"
 </code></pre></div>
 
@@ -1080,14 +973,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
 
 let body = {
-    "title": "architecto",
-    "description": "Eius et animi quos velit et.",
-    "price": 16
+    "title": "Pro",
+    "description": "Full access plan",
+    "price": 2500
 };
 
 fetch(url, {
@@ -1099,7 +993,23 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-plans">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;plan successfully created&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 2,
+        &quot;title&quot;: &quot;Pro&quot;,
+        &quot;description&quot;: &quot;Full access plan&quot;,
+        &quot;price&quot;: 2500
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-plans" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-plans"></span>:
@@ -1117,7 +1027,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-POSTapi-plans" data-method="POST"
       data-path="api/plans"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -1147,6 +1057,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <b><code>api/plans</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-plans"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
@@ -1179,10 +1101,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="title"                data-endpoint="POSTapi-plans"
-               value="architecto"
+               value="Pro"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>The plan title. Example: <code>Pro</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -1191,10 +1113,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="POSTapi-plans"
-               value="Eius et animi quos velit et."
+               value="Full access plan"
                data-component="body">
     <br>
-<p>Example: <code>Eius et animi quos velit et.</code></p>
+<p>The plan description. Example: <code>Full access plan</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>price</code></b>&nbsp;&nbsp;
@@ -1203,19 +1125,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="price"                data-endpoint="POSTapi-plans"
-               value="16"
+               value="2500"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>The plan price in the smallest currency unit. Example: <code>2500</code></p>
         </div>
         </form>
 
-                    <h2 id="plan-management-PUTapi-plans--id-">update plan</h2>
+                    <h2 id="plan-management-PUTapi-plans--id-">Update a plan</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Updates an existing subscription plan. Admin only.</p>
 
 <span id="example-requests-PUTapi-plans--id-">
 <blockquote>Example request:</blockquote>
@@ -1223,31 +1146,33 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/plans/architecto" \
+    "http://localhost:8000/api/plans/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"title\": \"architecto\",
-    \"description\": \"Eius et animi quos velit et.\",
-    \"price\": 16
+    \"title\": \"Pro Plus\",
+    \"description\": \"Updated full access plan\",
+    \"price\": 3000
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/plans/architecto"
+    "http://localhost:8000/api/plans/1"
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
 
 let body = {
-    "title": "architecto",
-    "description": "Eius et animi quos velit et.",
-    "price": 16
+    "title": "Pro Plus",
+    "description": "Updated full access plan",
+    "price": 3000
 };
 
 fetch(url, {
@@ -1259,7 +1184,23 @@ fetch(url, {
 </span>
 
 <span id="example-responses-PUTapi-plans--id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;plan successfully updated&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;title&quot;: &quot;Pro Plus&quot;,
+        &quot;description&quot;: &quot;Updated full access plan&quot;,
+        &quot;price&quot;: 3000
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-PUTapi-plans--id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-PUTapi-plans--id-"></span>:
@@ -1277,7 +1218,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-PUTapi-plans--id-" data-method="PUT"
       data-path="api/plans/{id}"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -1312,6 +1253,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
                                 <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PUTapi-plans--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
  &nbsp;
@@ -1338,15 +1291,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="PUTapi-plans--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="PUTapi-plans--id-"
+               value="1"
                data-component="url">
     <br>
-<p>the id of plan Example: <code>architecto</code></p>
+<p>The ID of the plan. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1356,10 +1309,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="title"                data-endpoint="PUTapi-plans--id-"
-               value="architecto"
+               value="Pro Plus"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>The plan title. Example: <code>Pro Plus</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -1368,10 +1321,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="PUTapi-plans--id-"
-               value="Eius et animi quos velit et."
+               value="Updated full access plan"
                data-component="body">
     <br>
-<p>Example: <code>Eius et animi quos velit et.</code></p>
+<p>The plan description. Example: <code>Updated full access plan</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>price</code></b>&nbsp;&nbsp;
@@ -1380,19 +1333,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="price"                data-endpoint="PUTapi-plans--id-"
-               value="16"
+               value="3000"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>The plan price. Example: <code>3000</code></p>
         </div>
         </form>
 
-                    <h2 id="plan-management-DELETEapi-plans--id-">delete plan</h2>
+                    <h2 id="plan-management-DELETEapi-plans--id-">Delete a plan</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Permanently removes a subscription plan. Admin only.</p>
 
 <span id="example-requests-DELETEapi-plans--id-">
 <blockquote>Example request:</blockquote>
@@ -1400,17 +1354,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/plans/architecto" \
+    "http://localhost:8000/api/plans/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/plans/architecto"
+    "http://localhost:8000/api/plans/1"
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -1423,7 +1379,18 @@ fetch(url, {
 </span>
 
 <span id="example-responses-DELETEapi-plans--id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;plan successfully deleted&quot;,
+    &quot;data&quot;: []
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-DELETEapi-plans--id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-DELETEapi-plans--id-"></span>:
@@ -1441,7 +1408,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-DELETEapi-plans--id-" data-method="DELETE"
       data-path="api/plans/{id}"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -1472,6 +1439,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
                                 <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-plans--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
  &nbsp;
@@ -1498,24 +1477,24 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="DELETEapi-plans--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEapi-plans--id-"
+               value="1"
                data-component="url">
     <br>
-<p>the id of plan Example: <code>architecto</code></p>
+<p>The ID of the plan. Example: <code>1</code></p>
             </div>
                     </form>
 
-                    <h2 id="plan-management-GETapi-plans--plan_id-">show plan</h2>
+                    <h2 id="plan-management-GETapi-plans--plan_id-">Show a plan</h2>
 
 <p>
 </p>
 
-
+<p>Returns details of a specific subscription plan.</p>
 
 <span id="example-requests-GETapi-plans--plan_id-">
 <blockquote>Example request:</blockquote>
@@ -1547,24 +1526,19 @@ fetch(url, {
 
 <span id="example-responses-GETapi-plans--plan_id-">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (200, Success):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;id&quot;: 1,
-    &quot;title&quot;: &quot;Bronze&quot;,
-    &quot;description&quot;: &quot;normal future&quot;,
-    &quot;price&quot;: 120000,
-    &quot;created_at&quot;: &quot;2026-01-27T16:51:53.000000Z&quot;,
-    &quot;updated_at&quot;: &quot;2026-01-27T16:51:53.000000Z&quot;
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;plan&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;title&quot;: &quot;Basic&quot;,
+        &quot;description&quot;: &quot;Monthly basic plan&quot;,
+        &quot;price&quot;: 1000
+    }
 }</code>
  </pre>
     </span>
@@ -1652,31 +1626,147 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the plan. Example: <code>1</code></p>
             </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+                    </form>
+
+                    <h2 id="plan-management-GETapi-plans">List all plans</h2>
+
+<p>
+</p>
+
+<p>Returns every available subscription plan.</p>
+
+<span id="example-requests-GETapi-plans">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/plans" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/plans"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-plans">
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;all plans&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Basic&quot;,
+            &quot;description&quot;: &quot;Monthly basic plan&quot;,
+            &quot;price&quot;: 1000
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-plans" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-plans"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-plans"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-plans" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-plans">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-plans" data-method="GET"
+      data-path="api/plans"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-plans', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-plans"
+                    onclick="tryItOut('GETapi-plans');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-plans"
+                    onclick="cancelTryOut('GETapi-plans');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-plans"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/plans</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
  &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="id"                data-endpoint="GETapi-plans--plan_id-"
-               value="architecto"
-               data-component="url">
+                              name="Content-Type"                data-endpoint="GETapi-plans"
+               value="application/json"
+               data-component="header">
     <br>
-<p>the id of Plan Example: <code>architecto</code></p>
+<p>Example: <code>application/json</code></p>
             </div>
-                    </form>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-plans"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
 
                 <h1 id="platform-management">Platform Management</h1>
 
-    
+    <p>APIs for managing the authenticated user's gaming platform accounts.</p>
 
-                                <h2 id="platform-management-GETapi-platform">logged-in user&#039;s platforms.</h2>
+                                <h2 id="platform-management-GETapi-platform">List user&#039;s platforms</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Returns all gaming platforms linked to the authenticated user.</p>
 
 <span id="example-requests-GETapi-platform">
 <blockquote>Example request:</blockquote>
@@ -1710,19 +1800,23 @@ fetch(url, {
 
 <span id="example-responses-GETapi-platform">
             <blockquote>
-            <p>Example response (401):</p>
+            <p>Example response (200, Success):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;all platforms&quot;,
+    &quot;data&quot;: {
+        &quot;user_id&quot;: 1,
+        &quot;platforms&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;nickname&quot;: &quot;GamerX&quot;,
+                &quot;platform&quot;: &quot;xbox&quot;
+            }
+        ]
+    }
 }</code>
  </pre>
     </span>
@@ -1811,13 +1905,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="platform-management-POSTapi-platform">store platform</h2>
+                    <h2 id="platform-management-POSTapi-platform">Create a platform</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Adds a new gaming platform entry for the authenticated user.</p>
 
 <span id="example-requests-POSTapi-platform">
 <blockquote>Example request:</blockquote>
@@ -1830,7 +1924,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"nickname\": \"architecto\",
+    \"nickname\": \"GamerX\",
     \"platform\": \"xbox\"
 }"
 </code></pre></div>
@@ -1848,7 +1942,7 @@ const headers = {
 };
 
 let body = {
-    "nickname": "architecto",
+    "nickname": "GamerX",
     "platform": "xbox"
 };
 
@@ -1861,7 +1955,27 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-platform">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;platform created successfully!&quot;,
+    &quot;data&quot;: {
+        &quot;user_id&quot;: 1,
+        &quot;platforms&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;nickname&quot;: &quot;GamerX&quot;,
+                &quot;platform&quot;: &quot;xbox&quot;
+            }
+        ]
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-platform" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-platform"></span>:
@@ -1953,14 +2067,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="nickname"                data-endpoint="POSTapi-platform"
-               value="architecto"
+               value="GamerX"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>The in-game nickname (max 50 characters). Example: <code>GamerX</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>platform</code></b>&nbsp;&nbsp;
-<small>enum:xbox,pc,ps,mobile</small>&nbsp;
+<small>string</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
@@ -1968,17 +2082,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="xbox"
                data-component="body">
     <br>
-<p>Example: <code>xbox</code></p>
+<p>The platform type. Must be one of: xbox, pc, ps, mobile. Example: <code>xbox</code></p>
         </div>
         </form>
 
-                    <h2 id="platform-management-PUTapi-platform--id-">Update platform.</h2>
+                    <h2 id="platform-management-PUTapi-platform--id-">Update a platform</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Updates an existing platform entry for the authenticated user.</p>
 
 <span id="example-requests-PUTapi-platform--id-">
 <blockquote>Example request:</blockquote>
@@ -1986,20 +2100,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/platform/16" \
+    "http://localhost:8000/api/platform/2" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"platform\": \"architecto\",
-    \"nickname\": \"architecto\"
+    \"platform\": \"xbox\",
+    \"nickname\": \"GamerX\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/platform/16"
+    "http://localhost:8000/api/platform/2"
 );
 
 const headers = {
@@ -2009,8 +2123,8 @@ const headers = {
 };
 
 let body = {
-    "platform": "architecto",
-    "nickname": "architecto"
+    "platform": "xbox",
+    "nickname": "GamerX"
 };
 
 fetch(url, {
@@ -2022,7 +2136,27 @@ fetch(url, {
 </span>
 
 <span id="example-responses-PUTapi-platform--id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Platform updated successfully&quot;,
+    &quot;data&quot;: {
+        &quot;user_id&quot;: 1,
+        &quot;platforms&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;nickname&quot;: &quot;GamerX&quot;,
+                &quot;platform&quot;: &quot;xbox&quot;
+            }
+        ]
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-PUTapi-platform--id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-PUTapi-platform--id-"></span>:
@@ -2118,23 +2252,23 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-platform--id-"
-               value="16"
+               value="2"
                data-component="url">
     <br>
-<p>the specified platform id Example: <code>16</code></p>
+<p>The ID of the platform. Example: <code>2</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>platform</code></b>&nbsp;&nbsp;
-<small>enum:xbox,pc,ps,mobile</small>&nbsp;
+<small>string</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="platform"                data-endpoint="PUTapi-platform--id-"
-               value="architecto"
+               value="xbox"
                data-component="body">
     <br>
-<p>example:xbox Example: <code>architecto</code></p>
+<p>The platform type. Must be one of: xbox, pc, ps, mobile. Example: <code>xbox</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>nickname</code></b>&nbsp;&nbsp;
@@ -2143,19 +2277,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="nickname"                data-endpoint="PUTapi-platform--id-"
-               value="architecto"
+               value="GamerX"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>The in-game nickname (3–50 characters). Example: <code>GamerX</code></p>
         </div>
         </form>
 
-                    <h2 id="platform-management-DELETEapi-platform--id-">Remove platform</h2>
+                    <h2 id="platform-management-DELETEapi-platform--id-">Delete a platform</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Removes a gaming platform entry for the authenticated user.</p>
 
 <span id="example-requests-DELETEapi-platform--id-">
 <blockquote>Example request:</blockquote>
@@ -2163,17 +2298,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/platform/16" \
+    "http://localhost:8000/api/platform/2" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/platform/16"
+    "http://localhost:8000/api/platform/2"
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -2186,7 +2323,18 @@ fetch(url, {
 </span>
 
 <span id="example-responses-DELETEapi-platform--id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;deleted successfully!&quot;,
+    &quot;data&quot;: []
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-DELETEapi-platform--id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-DELETEapi-platform--id-"></span>:
@@ -2204,7 +2352,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-DELETEapi-platform--id-" data-method="DELETE"
       data-path="api/platform/{id}"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -2234,6 +2382,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <b><code>api/platform/{id}</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-platform--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
@@ -2266,35 +2426,24 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-platform--id-"
-               value="16"
+               value="2"
                data-component="url">
     <br>
-<p>The ID of the platform. Example: <code>16</code></p>
-            </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>platformid</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
-<i>optional</i> &nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="platformid"                data-endpoint="DELETEapi-platform--id-"
-               value="16"
-               data-component="url">
-    <br>
-<p>Example: <code>16</code></p>
+<p>The ID of the platform. Example: <code>2</code></p>
             </div>
                     </form>
 
                 <h1 id="subscription-management">Subscription Management</h1>
 
-    
+    <p>APIs for subscribing to plans and viewing the current subscription.</p>
 
-                                <h2 id="subscription-management-POSTapi-subscription-plans--plan_id-">get a subscription</h2>
+                                <h2 id="subscription-management-POSTapi-subscription-plans--plan_id-">Subscribe to a plan</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Activates a subscription for the authenticated user. Only one active subscription is allowed at a time.</p>
 
 <span id="example-requests-POSTapi-subscription-plans--plan_id-">
 <blockquote>Example request:</blockquote>
@@ -2303,6 +2452,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/subscription/plans/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -2313,6 +2463,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -2325,7 +2476,35 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-subscription-plans--plan_id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;you successfully get a subscription&quot;,
+    &quot;data&quot;: {
+        &quot;sub_id&quot;: 1,
+        &quot;user_id&quot;: 1,
+        &quot;plan_id&quot;: 1,
+        &quot;plan_title&quot;: &quot;Basic&quot;,
+        &quot;status&quot;: true,
+        &quot;started_at&quot;: &quot;2026-07-14T00:00:00.000000Z&quot;
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, Already subscribed):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;you already have subscription!&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-subscription-plans--plan_id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-subscription-plans--plan_id-"></span>:
@@ -2343,7 +2522,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-POSTapi-subscription-plans--plan_id-" data-method="POST"
       data-path="api/subscription/plans/{plan_id}"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -2373,6 +2552,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <b><code>api/subscription/plans/{plan_id}</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-subscription-plans--plan_id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
@@ -2410,26 +2601,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the plan. Example: <code>1</code></p>
             </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="POSTapi-subscription-plans--plan_id-"
-               value="architecto"
-               data-component="url">
-    <br>
-<p>the id of Plan Example: <code>architecto</code></p>
-            </div>
                     </form>
 
-                    <h2 id="subscription-management-GETapi-subscription">show user&#039;s subscription</h2>
+                    <h2 id="subscription-management-GETapi-subscription">Show current subscription</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Returns the authenticated user's active subscription, or an empty response if none exists.</p>
 
 <span id="example-requests-GETapi-subscription">
 <blockquote>Example request:</blockquote>
@@ -2438,6 +2618,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/subscription" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -2448,6 +2629,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -2461,19 +2643,32 @@ fetch(url, {
 
 <span id="example-responses-GETapi-subscription">
             <blockquote>
-            <p>Example response (401):</p>
+            <p>Example response (200, Active subscription):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;user&#039;s subscription&quot;,
+    &quot;data&quot;: {
+        &quot;sub_id&quot;: 1,
+        &quot;user_id&quot;: 1,
+        &quot;plan_id&quot;: 1,
+        &quot;plan_title&quot;: &quot;Basic&quot;,
+        &quot;status&quot;: true,
+        &quot;started_at&quot;: &quot;2026-07-14T00:00:00.000000Z&quot;
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (200, No subscription):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;have not any subscription&quot;,
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -2494,7 +2689,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-GETapi-subscription" data-method="GET"
       data-path="api/subscription"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -2525,6 +2720,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
                                 <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-subscription"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
  &nbsp;
@@ -2552,15 +2759,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="tournament-management">Tournament Management</h1>
 
-    
+    <p>APIs for creating, updating, viewing, and signing up for tournaments.</p>
 
-                                <h2 id="tournament-management-POSTapi-tournaments">create a tournament</h2>
+                                <h2 id="tournament-management-POSTapi-tournaments">Create a tournament</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Creates a new tournament.</p>
 
 <span id="example-requests-POSTapi-tournaments">
 <blockquote>Example request:</blockquote>
@@ -2573,7 +2780,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"game\": \"architecto\"
+    \"platform\": \"PC\",
+    \"game\": \"FIFA 24\"
 }"
 </code></pre></div>
 
@@ -2590,7 +2798,8 @@ const headers = {
 };
 
 let body = {
-    "game": "architecto"
+    "platform": "PC",
+    "game": "FIFA 24"
 };
 
 fetch(url, {
@@ -2602,7 +2811,34 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-tournaments">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Tournament created successfully&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;platform&quot;: &quot;PC&quot;,
+        &quot;game&quot;: &quot;FIFA 24&quot;,
+        &quot;end_at&quot;: null,
+        &quot;status&quot;: &quot;PENDING&quot;,
+        &quot;winner_id&quot;: null
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (403, Unauthorized):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;This action is unauthorized.&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-tournaments" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-tournaments"></span>:
@@ -2688,25 +2924,38 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>platform</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="platform"                data-endpoint="POSTapi-tournaments"
+               value="PC"
+               data-component="body">
+    <br>
+<p>The gaming platform. Must be one of: PC, Playstation, Xbox, Mobile. Example: <code>PC</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>game</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="game"                data-endpoint="POSTapi-tournaments"
-               value="architecto"
+               value="FIFA 24"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>The game title (max 40 characters). Example: <code>FIFA 24</code></p>
         </div>
         </form>
 
-                    <h2 id="tournament-management-PUTapi-tournaments--tournament_id-">update tournament</h2>
+                    <h2 id="tournament-management-PUTapi-tournaments--tournament_id-">Update a tournament</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Updates tournament details. Only the tournament owner can perform this action.</p>
 
 <span id="example-requests-PUTapi-tournaments--tournament_id-">
 <blockquote>Example request:</blockquote>
@@ -2715,11 +2964,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
     "http://localhost:8000/api/tournaments/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"game\": \"architecto\",
-    \"status\": \"architecto\"
+    \"platform\": \"Xbox\",
+    \"game\": \"FIFA 24\",
+    \"status\": \"GAMING\"
 }"
 </code></pre></div>
 
@@ -2730,13 +2981,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
 
 let body = {
-    "game": "architecto",
-    "status": "architecto"
+    "platform": "Xbox",
+    "game": "FIFA 24",
+    "status": "GAMING"
 };
 
 fetch(url, {
@@ -2748,7 +3001,23 @@ fetch(url, {
 </span>
 
 <span id="example-responses-PUTapi-tournaments--tournament_id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;successfully updated&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;platform&quot;: &quot;Xbox&quot;,
+        &quot;game&quot;: &quot;FIFA 24&quot;,
+        &quot;status&quot;: &quot;GAMING&quot;
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-PUTapi-tournaments--tournament_id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-PUTapi-tournaments--tournament_id-"></span>:
@@ -2766,7 +3035,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-PUTapi-tournaments--tournament_id-" data-method="PUT"
       data-path="api/tournaments/{tournament_id}"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -2796,6 +3065,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <b><code>api/tournaments/{tournament_id}</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PUTapi-tournaments--tournament_id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
@@ -2835,16 +3116,28 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>platform</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="platform"                data-endpoint="PUTapi-tournaments--tournament_id-"
+               value="Xbox"
+               data-component="body">
+    <br>
+<p>The gaming platform. Must be one of: PC, Playstation, Xbox, Mobile. Example: <code>Xbox</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>game</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="game"                data-endpoint="PUTapi-tournaments--tournament_id-"
-               value="architecto"
+               value="FIFA 24"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>The game title. Example: <code>FIFA 24</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
@@ -2853,20 +3146,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="PUTapi-tournaments--tournament_id-"
-               value="architecto"
+               value="GAMING"
                data-component="body">
     <br>
-<p>Example 'COMPLETED,PENDING,CANCELED,GAMING' Example: <code>architecto</code></p>
+<p>Tournament status. Must be one of: PENDING, CANCELED, COMPLETED, GAMING. Example: <code>GAMING</code></p>
         </div>
         </form>
 
-                    <h2 id="tournament-management-DELETEapi-tournaments--tournament_id-">delete tournament</h2>
+                    <h2 id="tournament-management-DELETEapi-tournaments--tournament_id-">Delete a tournament</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Deletes a tournament. Completed tournaments cannot be deleted.</p>
 
 <span id="example-requests-DELETEapi-tournaments--tournament_id-">
 <blockquote>Example request:</blockquote>
@@ -2899,7 +3192,34 @@ fetch(url, {
 </span>
 
 <span id="example-responses-DELETEapi-tournaments--tournament_id-">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;deleted was successfully&quot;,
+    &quot;data&quot;: []
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (403, Tournament completed):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: {
+        &quot;id&quot;: 1,
+        &quot;platform&quot;: &quot;PC&quot;,
+        &quot;game&quot;: &quot;FIFA 24&quot;,
+        &quot;status&quot;: &quot;COMPLETED&quot;
+    },
+    &quot;data&quot;: &quot;Tournament completed and cannot be deleted&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-DELETEapi-tournaments--tournament_id-" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-DELETEapi-tournaments--tournament_id-"></span>:
@@ -2996,26 +3316,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the tournament. Example: <code>1</code></p>
             </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="id"                data-endpoint="DELETEapi-tournaments--tournament_id-"
-               value="16"
-               data-component="url">
-    <br>
-<p>the id of tournament Example: <code>16</code></p>
-            </div>
                     </form>
 
-                    <h2 id="tournament-management-GETapi-tournaments--tournament_id-">show tournament</h2>
+                    <h2 id="tournament-management-GETapi-tournaments--tournament_id-">Show a tournament</h2>
 
 <p>
 </p>
 
-
+<p>Returns details of a specific tournament.</p>
 
 <span id="example-requests-GETapi-tournaments--tournament_id-">
 <blockquote>Example request:</blockquote>
@@ -3047,34 +3355,20 @@ fetch(url, {
 
 <span id="example-responses-GETapi-tournaments--tournament_id-">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (200, Success):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: true,
     &quot;message&quot;: &quot;specified tournament&quot;,
     &quot;data&quot;: {
         &quot;id&quot;: 1,
-        &quot;game&quot;: &quot;NFS&quot;,
-        &quot;end_at&quot;: &quot;2026-01-29&quot;,
-        &quot;status&quot;: &quot;COMPLETED&quot;,
-        &quot;winner_id&quot;: {
-            &quot;id&quot;: 2,
-            &quot;name&quot;: &quot;pouriya&quot;,
-            &quot;email&quot;: &quot;a@a.aa&quot;,
-            &quot;is_admin&quot;: 0,
-            &quot;email_verified_at&quot;: null,
-            &quot;created_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;
-        }
+        &quot;platform&quot;: &quot;PC&quot;,
+        &quot;game&quot;: &quot;FIFA 24&quot;,
+        &quot;end_at&quot;: null,
+        &quot;status&quot;: &quot;PENDING&quot;,
+        &quot;winner_id&quot;: null
     }
 }</code>
  </pre>
@@ -3163,26 +3457,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the tournament. Example: <code>1</code></p>
             </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="id"                data-endpoint="GETapi-tournaments--tournament_id-"
-               value="16"
-               data-component="url">
-    <br>
-<p>the id of tournament Example: <code>16</code></p>
-            </div>
                     </form>
 
-                    <h2 id="tournament-management-GETapi-tournaments--tournament_id--players">show players of tournament</h2>
+                    <h2 id="tournament-management-GETapi-tournaments--tournament_id--players">List tournament players</h2>
 
 <p>
 </p>
 
-
+<p>Returns all users signed up for the given tournament.</p>
 
 <span id="example-requests-GETapi-tournaments--tournament_id--players">
 <blockquote>Example request:</blockquote>
@@ -3214,16 +3496,9 @@ fetch(url, {
 
 <span id="example-responses-GETapi-tournaments--tournament_id--players">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (200, Success):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: true,
@@ -3231,33 +3506,8 @@ access-control-allow-origin: *
     &quot;data&quot;: [
         {
             &quot;id&quot;: 1,
-            &quot;name&quot;: &quot;pouriya&quot;,
-            &quot;email&quot;: &quot;a@a.a&quot;,
-            &quot;is_admin&quot;: 1,
-            &quot;email_verified_at&quot;: null,
-            &quot;created_at&quot;: &quot;2026-01-27T16:35:49.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-01-27T16:35:49.000000Z&quot;,
-            &quot;pivot&quot;: {
-                &quot;tournament_id&quot;: 1,
-                &quot;user_id&quot;: 1,
-                &quot;created_at&quot;: &quot;2026-01-27T17:01:51.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2026-01-27T17:01:51.000000Z&quot;
-            }
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;name&quot;: &quot;pouriya&quot;,
-            &quot;email&quot;: &quot;a@a.aa&quot;,
-            &quot;is_admin&quot;: 0,
-            &quot;email_verified_at&quot;: null,
-            &quot;created_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-01-27T16:35:51.000000Z&quot;,
-            &quot;pivot&quot;: {
-                &quot;tournament_id&quot;: 1,
-                &quot;user_id&quot;: 2,
-                &quot;created_at&quot;: &quot;2026-01-27T17:02:51.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2026-01-27T17:02:51.000000Z&quot;
-            }
+            &quot;name&quot;: &quot;John Doe&quot;,
+            &quot;email&quot;: &quot;john@example.com&quot;
         }
     ]
 }</code>
@@ -3347,26 +3597,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the tournament. Example: <code>1</code></p>
             </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="GETapi-tournaments--tournament_id--players"
-               value="architecto"
-               data-component="url">
-    <br>
-<p>the id of tournament Example: <code>architecto</code></p>
-            </div>
                     </form>
 
-                    <h2 id="tournament-management-POSTapi-tournaments--tournament_id--sign-up">sign up for tournament</h2>
+                    <h2 id="tournament-management-POSTapi-tournaments--tournament_id--sign-up">Sign up for a tournament</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Registers the authenticated user as a player in the tournament.</p>
 
 <span id="example-requests-POSTapi-tournaments--tournament_id--sign-up">
 <blockquote>Example request:</blockquote>
@@ -3375,6 +3614,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/tournaments/1/sign-up" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -3385,6 +3625,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -3397,7 +3638,35 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-tournaments--tournament_id--sign-up">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;you are successfully signed up&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;John Doe&quot;,
+            &quot;email&quot;: &quot;john@example.com&quot;
+        }
+    ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, Already signed up):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: [],
+    &quot;data&quot;: &quot;you already in this tournament&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-tournaments--tournament_id--sign-up" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-tournaments--tournament_id--sign-up"></span>:
@@ -3415,7 +3684,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-POSTapi-tournaments--tournament_id--sign-up" data-method="POST"
       data-path="api/tournaments/{tournament_id}/sign-up"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -3445,6 +3714,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <b><code>api/tournaments/{tournament_id}/sign-up</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-tournaments--tournament_id--sign-up"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
 &nbsp;
@@ -3482,30 +3763,184 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The ID of the tournament. Example: <code>1</code></p>
             </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+                    </form>
+
+                    <h2 id="tournament-management-POSTapi-tournaments--tournament_id--sign-out">Signed out tournament</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>signed out the authenticated user as a player of the tournament.</p>
+
+<span id="example-requests-POSTapi-tournaments--tournament_id--sign-out">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/tournaments/1/sign-out" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tournaments/1/sign-out"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-tournaments--tournament_id--sign-out">
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;you are successfully signed out&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;John Doe&quot;,
+            &quot;email&quot;: &quot;john@example.com&quot;
+        }
+    ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, Already signed out):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: [],
+    &quot;data&quot;: &quot;You are not registered in this tournament&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-tournaments--tournament_id--sign-out" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-tournaments--tournament_id--sign-out"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-tournaments--tournament_id--sign-out"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-tournaments--tournament_id--sign-out" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-tournaments--tournament_id--sign-out">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-tournaments--tournament_id--sign-out" data-method="POST"
+      data-path="api/tournaments/{tournament_id}/sign-out"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-tournaments--tournament_id--sign-out', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-tournaments--tournament_id--sign-out"
+                    onclick="tryItOut('POSTapi-tournaments--tournament_id--sign-out');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-tournaments--tournament_id--sign-out"
+                    onclick="cancelTryOut('POSTapi-tournaments--tournament_id--sign-out');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-tournaments--tournament_id--sign-out"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/tournaments/{tournament_id}/sign-out</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
  &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="id"                data-endpoint="POSTapi-tournaments--tournament_id--sign-up"
-               value="architecto"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>tournament_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="tournament_id"                data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
+               value="1"
                data-component="url">
     <br>
-<p>the id of tournament Example: <code>architecto</code></p>
+<p>The ID of the tournament. Example: <code>1</code></p>
             </div>
                     </form>
 
                 <h1 id="user-management">User Management</h1>
 
-    
+    <p>APIs for registering, logging in, and logging out users.</p>
 
-                                <h2 id="user-management-POSTapi-register">Create User</h2>
+                                <h2 id="user-management-POSTapi-register">Register a new user</h2>
 
 <p>
 </p>
 
-
+<p>Creates a new user account and returns an API token.</p>
 
 <span id="example-requests-POSTapi-register">
 <blockquote>Example request:</blockquote>
@@ -3517,10 +3952,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"architecto\",
-    \"email\": \"gbailey@example.net\",
-    \"password\": \"|]|{+-\",
-    \"password_confirmation\": \"architecto\"
+    \"name\": \"John Doe\",
+    \"email\": \"john@example.com\",
+    \"password\": \"secret123\",
+    \"password_confirmation\": \"secret123\"
 }"
 </code></pre></div>
 
@@ -3536,10 +3971,10 @@ const headers = {
 };
 
 let body = {
-    "name": "architecto",
-    "email": "gbailey@example.net",
-    "password": "|]|{+-",
-    "password_confirmation": "architecto"
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "secret123",
+    "password_confirmation": "secret123"
 };
 
 fetch(url, {
@@ -3551,7 +3986,40 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-register">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;user registered successfully&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;token_type&quot;: &quot;Bearer&quot;,
+        &quot;token&quot;: &quot;1|abcdef123456&quot;,
+        &quot;name&quot;: &quot;John Doe&quot;,
+        &quot;email&quot;: &quot;john@example.com&quot;,
+        &quot;created_at&quot;: &quot;2026-07-14T00:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-07-14T00:00:00.000000Z&quot;
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Validation error):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The email has already been taken.&quot;,
+    &quot;errors&quot;: {
+        &quot;email&quot;: [
+            &quot;The email has already been taken.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-register" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-register"></span>:
@@ -3626,60 +4094,60 @@ You can check the Dev Tools console for debugging information.</code></pre>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
-<small>required</small>&nbsp;
-<i>optional</i> &nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-register"
-               value="architecto"
+               value="John Doe"
                data-component="body">
     <br>
-<p>string the user's name Example: <code>architecto</code></p>
+<p>The user's display name. Example: <code>John Doe</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
-<small>required</small>&nbsp;
-<i>optional</i> &nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-register"
-               value="gbailey@example.net"
+               value="john@example.com"
                data-component="body">
     <br>
-<p>string the user's email Example: <code>gbailey@example.net</code></p>
+<p>The user's email address. Example: <code>john@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
-<small>required</small>&nbsp;
-<i>optional</i> &nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-register"
-               value="|]|{+-"
+               value="secret123"
                data-component="body">
     <br>
-<p>string password Example: <code>|]|{+-</code></p>
+<p>The user's password (minimum 8 characters). Example: <code>secret123</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
-<small>required</small>&nbsp;
-<i>optional</i> &nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="password_confirmation"                data-endpoint="POSTapi-register"
-               value="architecto"
+               value="secret123"
                data-component="body">
     <br>
-<p>string password confirmation Example: <code>architecto</code></p>
+<p>Must match the password field. Example: <code>secret123</code></p>
         </div>
         </form>
 
-                    <h2 id="user-management-POSTapi-login">User Login</h2>
+                    <h2 id="user-management-POSTapi-login">Log in</h2>
 
 <p>
 </p>
 
-
+<p>Authenticates a user and returns a new API token. Previous tokens are revoked.</p>
 
 <span id="example-requests-POSTapi-login">
 <blockquote>Example request:</blockquote>
@@ -3691,8 +4159,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"password\": \"|]|{+-\",
-    \"email\": \"gbailey@example.net\"
+    \"password\": \"secret123\",
+    \"email\": \"john@example.com\"
 }"
 </code></pre></div>
 
@@ -3708,8 +4176,8 @@ const headers = {
 };
 
 let body = {
-    "password": "|]|{+-",
-    "email": "gbailey@example.net"
+    "password": "secret123",
+    "email": "john@example.com"
 };
 
 fetch(url, {
@@ -3721,7 +4189,40 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-login">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Logged in successfully&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;token_type&quot;: &quot;Bearer&quot;,
+        &quot;token&quot;: &quot;2|abcdef123456&quot;,
+        &quot;name&quot;: &quot;John Doe&quot;,
+        &quot;email&quot;: &quot;john@example.com&quot;,
+        &quot;created_at&quot;: &quot;2026-07-14T00:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-07-14T00:00:00.000000Z&quot;
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Invalid credentials):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;These credentials do not match our records.&quot;,
+    &quot;errors&quot;: {
+        &quot;email&quot;: [
+            &quot;These credentials do not match our records.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-login" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-login"></span>:
@@ -3796,27 +4297,27 @@ You can check the Dev Tools console for debugging information.</code></pre>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
-<small>required</small>&nbsp;
-<i>optional</i> &nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-login"
-               value="|]|{+-"
+               value="secret123"
                data-component="body">
     <br>
-<p>string password Example: <code>|]|{+-</code></p>
+<p>The user's password. Example: <code>secret123</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
-<small>required</small>&nbsp;
-<i>optional</i> &nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-login"
-               value="gbailey@example.net"
+               value="john@example.com"
                data-component="body">
     <br>
-<p>string the user's email Example: <code>gbailey@example.net</code></p>
+<p>The user's email address. Example: <code>john@example.com</code></p>
         </div>
         </form>
 
@@ -3826,7 +4327,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Revokes the current user's API token.</p>
 
 <span id="example-requests-POSTapi-logout">
 <blockquote>Example request:</blockquote>
@@ -3859,7 +4360,18 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-logout">
-</span>
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Logged out&quot;,
+    &quot;data&quot;: &quot;&quot;
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-logout" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-logout"></span>:

@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class TournamentMatch extends Model
 {
-    protected $fillable = ['tournament_id','player1','player2','winner_id','player1_goal','player2_goal','round'];
+    protected $fillable = ['tournament_id','player1_id','player2_id','winner_id','player1_goal','player2_goal','round'];
 
     protected $casts = [
         'status' => TournamentMatchEnum::class,
     ];
 
+    public function scopeLatestRound($query)
+    {
+        $max = $this->newQuery()->max('round');
+        return $query->where('round' , $max)->get();
+    }
     public function tournament()
     {
         return $this->belongsTo(Tournament::class);
