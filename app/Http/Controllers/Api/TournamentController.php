@@ -238,39 +238,39 @@ class TournamentController extends BaseController
         }
     }
 
-    /**
-     * Signed out tournament
-     *
-     * signed out the authenticated user as a player of the tournament.
-     *
-     * @authenticated
-     *
-     *
-     * @response 200 scenario="Success" {
-     *   "success": true,
-     *   "message": "you are successfully signed out",
-     *   "data": [
-     *     {
-     *       "id": 1,
-     *       "name": "John Doe",
-     *       "email": "john@example.com"
-     *     }
-     *   ]
-     * }
-     * @response 404 scenario="Already signed out" {
-     *   "success": false,
-     *   "message": [],
-     *   "data": "You are not registered in this tournament"
-     * }
-     */
-    public function signOut(Tournament $tournament,TournamentService $tournamentService)
-    {
-        try {
-            $tournamentService->signOut($tournament);
-            return $this->sendResponse([],'you are successfully signed out');
-        }catch (\Exception $e){
-            return $this->sendError([] , $e->getMessage());
-        }
-    }
+//    /**
+//     * Signed out tournament
+//     *
+//     * signed out the authenticated user as a player of the tournament.
+//     *
+//     * @authenticated
+//     *
+//     *
+//     * @response 200 scenario="Success" {
+//     *   "success": true,
+//     *   "message": "you are successfully signed out",
+//     *   "data": [
+//     *     {
+//     *       "id": 1,
+//     *       "name": "John Doe",
+//     *       "email": "john@example.com"
+//     *     }
+//     *   ]
+//     * }
+//     * @response 404 scenario="Already signed out" {
+//     *   "success": false,
+//     *   "message": [],
+//     *   "data": "You are not registered in this tournament"
+//     * }
+//     */
+//    public function signOut(Tournament $tournament,TournamentService $tournamentService)
+//    {
+//        try {
+//            $tournamentService->signOut($tournament);
+//            return $this->sendResponse([],'you are successfully signed out');
+//        }catch (\Exception $e){
+//            return $this->sendError([] , $e->getMessage());
+//        }
+//    }
 
 }

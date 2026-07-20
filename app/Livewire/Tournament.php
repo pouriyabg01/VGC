@@ -40,19 +40,19 @@ class Tournament extends Component
         }
     }
 
-    public function signOut(): void
-    {
-        $user = Auth::user();
-        if (!$user) return;
-
-        try {
-            app(TournamentService::class)->signOut($this->tournament);
-            $this->loadTournament($this->tournament);
-            session()->flash('message', 'You have successfully signed out!');
-        } catch (\Exception $e) {
-            $this->addError('signOut', $e->getMessage());
-        }
-    }
+//    public function signOut(): void
+//    {
+//        $user = Auth::user();
+//        if (!$user) return;
+//
+//        try {
+//            app(TournamentService::class)->signOut($this->tournament);
+//            $this->loadTournament($this->tournament);
+//            session()->flash('message', 'You have successfully signed out!');
+//        } catch (\Exception $e) {
+//            $this->addError('signOut', $e->getMessage());
+//        }
+//    }
 
     public function isSignedUp(): bool
     {
