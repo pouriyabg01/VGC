@@ -171,11 +171,8 @@ class TournamentController extends BaseController
     {
         $this->authorize('delete',$tournament);
 
-        if ($tournament->status === TournamentEnum::COMPLETED){
-            return $this->sendError(new TournamentResource($tournament) , 'Tournament completed and cannot be deleted' , 403);
-        }
         $tournament->delete();
-        //TODO gaming tournament should not be deleted or if its deleted subscription haye user ha deactivate nashe or add option to tournament status :CANCELED
+
         return $this->sendResponse([],'deleted was successfully');
     }
 
