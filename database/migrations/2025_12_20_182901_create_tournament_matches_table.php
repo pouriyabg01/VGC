@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('tournament_matches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tournament_id')->constrained();
+            $table->foreignId('tournament_id')->constrained()->cascadeOnDelete();
             $table->unsignedInteger('round')->default('1');
             $table->index('round');
             $table->foreignId('player1_id')->constrained('users');

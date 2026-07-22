@@ -20,6 +20,8 @@ class TournamentInfolist
                 TextEntry::make('winner_id')
                     ->numeric()
                     ->placeholder('-'),
+                TextEntry::make('capacity'),
+                TextEntry::make('current_player_count'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

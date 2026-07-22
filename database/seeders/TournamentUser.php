@@ -28,5 +28,10 @@ class TournamentUser extends Seeder
             ]);
         }
 
+        $tournament->each(function ($tour) {
+            $tour->update([
+                'current_player_count' => $tour->players()->count()
+            ]);
+        });
     }
 }
