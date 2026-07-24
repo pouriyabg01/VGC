@@ -31,7 +31,8 @@ class TournamentForm
                     ->options(TournamentEnum::class)
                     ->hint('default value is pending')
                     ->default('PENDING')
-                    ->required(),
+                    ->required()
+                    ->disabled(),
             ]);
     }
 }
