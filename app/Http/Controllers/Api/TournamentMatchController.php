@@ -211,19 +211,25 @@ class TournamentMatchController extends BaseController
             'conceded_goals' => $data['conceded_goals'],
         ]);
 
+        $isTourFinished = false;
+
         if ($tournamentMatch->submissions()->count() === 2) {
             $this->resolveBySubmissions($tournamentMatch);
+            $isTourFinished = $this->generateNextRound($tournamentMatch->tournament);
+        }
+        if ($isTourFinished) {
+            return $this->sendResponse(
+                new MatchResultResource($match),
+                'Result submitted. The tournament is finito!'
+            );
         }
 
-        $this->generateNextRound($tournamentMatch->tournament);
 
         return $this->sendResponse(new MatchResultResource($match), 'Result submitted');
     }
 
     private function saveScreenshot($image , TournamentMatch $tournamentMatch)
     {
-        if (isEmpty($tournamentMatch->screenshot)) {
-            return $image->store('conclusion-screenshot/' . $tournamentMatch->id . '/' . Auth::id(), 'public');
-        }
+        $image->store('conclusion-screenshot/' . $tournamentMatch->id . '/' . Auth::id(), 'public');
     }
 }

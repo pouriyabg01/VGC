@@ -5,6 +5,8 @@ namespace App\Traits;
 use App\Enums\Tournaments\TournamentEnum;
 use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Enums\Tournaments\TournamentMatchResultEnum;
+use App\Http\Controllers\Api\BaseController;
+use App\Http\Resources\TournamentResource;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
 use App\Models\User;
@@ -23,7 +25,7 @@ trait TournamentMatchTrait
         // Get current round number for THIS tournament
         $currentRound = $tournament->matches()->max('round');
 
-        if (is_null($currentRound)) return;
+        if (is_null($currentRound)) return null;
 
 
         // Get all matches of this round
@@ -33,7 +35,7 @@ trait TournamentMatchTrait
 
         // All matches must be completed
         if (! $matches->every(fn ($match) => $match->status === TournamentMatchEnum::COMPLETED)) {
-            return;
+            return null;
         }
 
         // Prevent duplicate generation
@@ -42,7 +44,7 @@ trait TournamentMatchTrait
         if ($tournament->matches()
                 ->where('round', $nextRound)
                 ->exists()) {
-            return;
+            return null;
         }
 
         $winnersId = $matches->pluck('winner_id')->filter()->values();
@@ -52,6 +54,7 @@ trait TournamentMatchTrait
         if ($winners->count() === 1) {
             app(TournamentService::class)->finalizeTournament($tournament,$winners->first());
             app(Subscription::class)->deactive($tournament->players);
+            return true;
         }
 
         // Create next round matches
@@ -64,6 +67,7 @@ trait TournamentMatchTrait
                 ]);
             }
         });
+        return false;
     }
 
 
