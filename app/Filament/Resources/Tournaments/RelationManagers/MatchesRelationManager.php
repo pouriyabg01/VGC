@@ -32,11 +32,11 @@ class MatchesRelationManager extends RelationManager
                 TextColumn::make('player1.name')
                     ->label('player 1')
                     ->limit('10')
-                    ->description(fn(TournamentMatch $record): string => 'goal: '.$record->winner()->exists() ? $record->player1_goal :'-'),
+                    ->description(fn(TournamentMatch $record): string => 'goal: '.($record->winner_id !== null ? $record->player1_goal :'-')),
                 TextColumn::make('player2.name')
                     ->label('player 2')
                     ->limit('10')
-                    ->description(fn(TournamentMatch $record): string => 'goal: '.$record->winner()->exists() ? $record->player2_goal :'-'),
+                    ->description(fn(TournamentMatch $record): string => 'goal: '.($record->winner_id !== null ? $record->player2_goal :'-')),
                 TextColumn::make('winner.name')
                     ->limit('10'),
                 TextColumn::make('status')
