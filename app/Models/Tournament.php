@@ -45,9 +45,9 @@ class Tournament extends Model
         //change status READY if count is full and status not READY
         if ($this->current_player_count >= $this->capacity && $this->status !== TournamentEnum::READY){
             $this->update(['status' => TournamentEnum::READY]);
-            //TODO fire start tournament event
+            //TODO fire startTournament event
         }
-        //change status PENDING status READY and still has capacity
+        //change status to PENDING if status READY and still has capacity
         elseif ($this->current_player_count < $this->capacity && $this->status === TournamentEnum::READY){
             $this->update(['status' => TournamentEnum::PENDING]);
         }

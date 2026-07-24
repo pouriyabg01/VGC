@@ -16,14 +16,17 @@ class TournamentForm
             ->components([
                 Select::make('platform')
                     ->required()
-                    ->options(['PC','Playstation','Xbox','Mobile']),
+                    ->options([
+                        'PC' => 'PC',
+                        'Playstation' => 'Playstation',
+                        'Xbox' => 'Xbox',
+                        'Mobile' => 'Mobile',
+                    ]),
                 TextInput::make('game')
                     ->required(),
                 TextInput::make('capacity')
                     ->numeric()
                     ->required(),
-                TextInput::make('current_player_count')
-                    ->numeric(),
                 Select::make('status')
                     ->options(TournamentEnum::class)
                     ->hint('default value is pending')

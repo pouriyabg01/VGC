@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Admin;
 use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -12,25 +13,25 @@ class TournamentPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(Admin $user): bool
     {
-        return $user->is_admin;
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Tournament $tournament): bool
+    public function update(Admin $user): bool
     {
-        return $user->is_admin;
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Tournament $tournament): bool
+    public function delete(Admin $user, Tournament $tournament): bool
     {
-        return $user->is_admin;
+        return true;
     }
 
     public function signUp(User $user)

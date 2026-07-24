@@ -3,13 +3,15 @@
 namespace App\Services;
 
 use App\Enums\Tournaments\TournamentEnum;
+use App\Http\Controllers\Api\BaseController;
+use App\Http\Resources\TournamentResource;
 use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class TournamentService
+class TournamentService extends BaseController
 {
     use AuthorizesRequests;
     /**
@@ -73,15 +75,13 @@ class TournamentService
            }
         });
     }
-    public function finalizeTournament(Tournament $tournament , $winnerID)
+    public function finalizeTournament(Tournament $tournament , User $winner)
     {
-        //TODO winner argument should be type of user object
         //Complete the Tournament
         $tournament->update([
-            'winner_id' => $winnerID,
+            'winner_id' => $winner->id,
             'status'    => TournamentEnum::COMPLETED,
             'end_at'    => now(),
         ]);
-        //TODO send response and message
     }
 }

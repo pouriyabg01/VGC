@@ -14,8 +14,5 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory(50)->create();
-
-        $user = User::first();
-        $user->update(['is_admin' => 1]);
     }
 }

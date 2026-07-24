@@ -50,7 +50,7 @@ class MatchesRelationManager extends RelationManager
             ->headerActions([
                 Action::make('generateMatches')
                     ->label('Start Tournament Matches')
-                    ->disabled(fn (): bool => $this->ownerRecord->status !== TournamentEnum::PENDING)
+                    ->disabled(fn (): bool => $this->ownerRecord->status !== TournamentEnum::READY)
                     ->icon('heroicon-o-play')
                     ->color('success')
                     ->requiresConfirmation()

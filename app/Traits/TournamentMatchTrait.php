@@ -7,6 +7,7 @@ use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Enums\Tournaments\TournamentMatchResultEnum;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
+use App\Models\User;
 use App\Services\Subscription;
 use App\Services\TournamentService;
 
@@ -17,7 +18,7 @@ trait TournamentMatchTrait
      *      Shared Logic
      * ======================
      */
-    private function generateNextRound(Tournament $tournament , TournamentService $tournamentService)
+    private function generateNextRound(Tournament $tournament)
     {
         // Get current round number for THIS tournament
         $currentRound = $tournament->matches()->max('round');
@@ -44,23 +45,25 @@ trait TournamentMatchTrait
             return;
         }
 
-        $winners = $matches->pluck('winner_id')->filter()->values();
-        //TODO winner should be type of user object
+        $winnersId = $matches->pluck('winner_id')->filter()->values();
+        $winners = User::whereIn('id' , $winnersId)->get();
 
         // Tournament finished
         if ($winners->count() === 1) {
-            $tournamentService->finalizeTournament($tournament,$winners->first());
+            app(TournamentService::class)->finalizeTournament($tournament,$winners->first());
             app(Subscription::class)->deactive($tournament->players);
         }
 
         // Create next round matches
-        for ($i = 0; $i < $winners->count(); $i += 2) {
-            $tournament->matches()->create([
-                'player1_id' => $winners[$i],
-                'player2_id' => $winners[$i + 1],
-                'round'   => $nextRound,
-            ]);
-        }
+        $winners->chunk(2)->each(function ($pair) use ($tournament, $nextRound) {
+            if ($pair->count() === 2) {
+                $tournament->matches()->create([
+                    'player1_id' => $pair[0]->id,
+                    'player2_id' => $pair[1]->id,
+                    'round'      => $nextRound,
+                ]);
+            }
+        });
     }
 
 

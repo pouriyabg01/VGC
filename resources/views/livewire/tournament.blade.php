@@ -16,14 +16,6 @@
                     @auth
                         @if ($this->isSignedUp())
                             <span>signed in</span>
-{{--                            TODO tournament should not be leaveable--}}
-{{--                            <button--}}
-{{--                                type="button"--}}
-{{--                                wire:click="signOut"--}}
-{{--                                wire:target="signOut"--}}
-{{--                                class="font-mono text-xs text-slate border border-ink/10 px-3 py-2"--}}
-{{--                            >Sign Out--}}
-{{--                            </button>--}}
                         @elseif ($this->canSignUp())
                             <button
                                 type="button"
