@@ -54,7 +54,11 @@
             </div>
             <div>
                 <dt class="font-mono text-xs uppercase tracking-widest text-slate">Matches</dt>
-                <dd class="mt-1 text-ink">{{ $tournament->matches->count() }}</dd>
+                @if($tournament->matches->count() === 1)
+                    <dd class="mt-1 text-green-500 font-bold">DONE!</dd>
+                @else
+                    <dd class="mt-1 text-ink">{{ $tournament->matches->count() }}</dd>
+                @endif
             </div>
             <div>
                 <dt class="font-mono text-xs uppercase tracking-widest text-slate">Winner</dt>
