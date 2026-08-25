@@ -61,7 +61,7 @@ class TournamentMatchController extends BaseController
         return $this->sendResponse(
             $matches,
             'Match list'
-        );
+         , 200);
     }
 
     /**
@@ -145,7 +145,7 @@ class TournamentMatchController extends BaseController
 
         $this->generateNextRound($tournamentMatch->tournament);
 
-        return $this->sendResponse($tournamentMatch, 'Match result submitted successfully');
+        return $this->sendResponse($tournamentMatch, 'Match result submitted successfully' , 201);
     }
 
     /**
@@ -221,11 +221,11 @@ class TournamentMatchController extends BaseController
             return $this->sendResponse(
                 new MatchResultResource($match),
                 'Result submitted. The tournament is finito!'
-            );
+            , 200);
         }
 
 
-        return $this->sendResponse(new MatchResultResource($match), 'Result submitted');
+        return $this->sendResponse(new MatchResultResource($match), 'Result submitted' , 200);
     }
 
     private function saveScreenshot($image , TournamentMatch $tournamentMatch)

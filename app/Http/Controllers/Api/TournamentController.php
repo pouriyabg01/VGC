@@ -52,7 +52,7 @@ class TournamentController extends BaseController
 
         $tournament = Tournament::create($request->validated());
 
-        return $this->sendResponse(new TournamentResource($tournament) , 'Tournament created successfully');
+        return $this->sendResponse(new TournamentResource($tournament) , 'Tournament created successfully' ,201);
 
     }
 
@@ -90,7 +90,7 @@ class TournamentController extends BaseController
         ]);
 
         $tournament->update($data);
-        return $this->sendResponse($tournament,'successfully updated');
+        return $this->sendResponse($tournament,'successfully updated' ,200);
     }
 
 //    /**
@@ -173,7 +173,7 @@ class TournamentController extends BaseController
 
         $tournament->delete();
 
-        return $this->sendResponse([],'deleted was successfully');
+        return $this->sendResponse([],'deleted was successfully' , 204);
     }
 
 
@@ -197,7 +197,7 @@ class TournamentController extends BaseController
      */
     public function players(Tournament $tournament)
     {
-        return $this->sendResponse($tournament->players,"tournament's players");
+        return $this->sendResponse($tournament->players,"tournament's players" , 200);
     }
 
     /**
@@ -229,7 +229,7 @@ class TournamentController extends BaseController
     {
         try {
             $tournamentService->signUp($request->user() , $tournament);
-            return $this->sendResponse($tournament->players , 'you are successfully signed up' , 201);
+            return $this->sendResponse($tournament->players , 'you are successfully signed up' , 200);
         }catch (\Exception $e){
             return $this->sendError([] , $e->getMessage());
         }

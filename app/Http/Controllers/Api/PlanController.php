@@ -6,7 +6,6 @@ use App\Http\Requests\PlanRequest;
 use App\Http\Resources\PlanResource;
 use App\Models\Plan;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
 
 /**
  * @group Plan Management
@@ -37,7 +36,7 @@ class PlanController extends BaseController
      */
     public function index()
     {
-        return $this->sendResponse(PlanResource::collection(Plan::all()),'all plans');
+        return $this->sendResponse(PlanResource::collection(Plan::all()),'all plans' , 200);
     }
 
     /**
@@ -59,7 +58,7 @@ class PlanController extends BaseController
      */
     public function show(Plan $plan)
     {
-        return $this->sendResponse(new PlanResource($plan) , 'plan');
+        return $this->sendResponse(new PlanResource($plan) , 'plan' , 200);
     }
 
     /**
@@ -73,7 +72,7 @@ class PlanController extends BaseController
      * @bodyParam description string required The plan description. Example: Full access plan
      * @bodyParam price integer required The plan price in the smallest currency unit. Example: 2500
      *
-     * @response 200 scenario="Success" {
+     * @response 201 scenario="Success" {
      *   "success": true,
      *   "message": "plan successfully created",
      *   "data": {
@@ -118,11 +117,11 @@ class PlanController extends BaseController
      */
     public function update(PlanRequest $request , Plan $plan)
     {
-        $this->authorize('update' , Plan::class);
+        $this->authorize('update' , $plan);
 
-        $plan = $plan->update($request->validated());
+        $plan->update($request->validated());
 
-        return $this->sendResponse(new PlanResource($plan),'plan successfully updated');
+        return $this->sendResponse(new PlanResource($plan),'plan successfully updated' , 200);
     }
 
     /**
@@ -141,8 +140,8 @@ class PlanController extends BaseController
      */
     public function destroy(Plan $plan)
     {
-        $this->authorize('delete' , Plan::class);
+        $this->authorize('delete' , $plan);
         $plan->delete();
-        return $this->sendResponse([],'plan successfully deleted');
+        return response()->noContent();
     }
 }

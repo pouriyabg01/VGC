@@ -43,7 +43,7 @@ class PlatformController extends BaseController
 
         $data = new PlatformsResource($user);
 
-        return $this->sendResponse($data ,'all platforms');
+        return $this->sendResponse($data ,'all platforms' , 200);
     }
 
     /**
@@ -77,7 +77,7 @@ class PlatformController extends BaseController
         $platform->update($request->validated());
         $user = $request->user()->load('platforms');
         $data = new PlatformsResource($user);
-        return $this->sendResponse($data, 'Platform updated successfully');
+        return $this->sendResponse($data, 'Platform updated successfully' ,200);
     }
 
     /**
@@ -135,6 +135,6 @@ class PlatformController extends BaseController
     {
         $platform->delete();
 
-        return $this->sendResponse([], 'deleted successfully!');
+        return $this->sendResponse([], 'deleted successfully!' ,204);
     }
 }

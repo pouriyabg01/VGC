@@ -67,7 +67,7 @@ class AuthController extends BaseController
         $user->token_type = 'Bearer';
         $user->token = $token;
 
-        return $this->sendResponse(new UserResource($user) , 'user registered successfully');
+        return $this->sendResponse(new UserResource($user) , 'user registered successfully' ,201);
     }
 
     /**
@@ -114,7 +114,7 @@ class AuthController extends BaseController
         $user->token = $user->createToken('api')->plainTextToken;
         $user->token_type = 'Bearer';
 
-        return $this->sendResponse(new UserResource($user) , 'Logged in successfully');
+        return $this->sendResponse(new UserResource($user) , 'Logged in successfully' ,200);
     }
 
     /**
@@ -134,7 +134,7 @@ class AuthController extends BaseController
     {
         $request->user()->currentAccessToken()->delete();
 
-        return $this->sendResponse('' , 'Logged out');
+        return $this->sendResponse('' , 'Logged out' ,204);
     }
 
 

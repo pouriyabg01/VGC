@@ -11,14 +11,14 @@ trait apiResponse
      * @param $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendResponse($result , $message = null)
+    public function sendResponse($result , $message = null , $status = 200)
     {
         $response = [
             'success' => true,
             'message' => $message,
             'data' => $result,
         ];
-        return response()->json($response , 200);
+        return response()->json($response , $status);
     }
 
     /**

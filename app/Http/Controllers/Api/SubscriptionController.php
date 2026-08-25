@@ -53,7 +53,7 @@ class SubscriptionController extends BaseController
 
         return $this->sendResponse(new SubscriptionResource(
             $user->latest_active_sub
-        ) , 'you successfully get a subscription');
+        ) , 'you successfully get a subscription' ,200);
     }
 
     /**
@@ -83,14 +83,16 @@ class SubscriptionController extends BaseController
      */
     public function show(Request $request)
     {
-        if ($request->user()->plan()->orderByPivot('created_at' , 'desc')->first()->pivot->status) {
-            return $this->sendResponse(new SubscriptionResource(
-                $request->user()->plan()->orderByPivot('created_at', 'desc')->first()
-            ),
-                "user's subscription");
+        $subscription = $request->user()
+            ->latestActiveSub();
+
+        if (! $subscription || ! $subscription->pivot->status) {
+            return $this->sendError([],'No active subscription found.', 401);
         }
-        return $this->sendResponse([],'have not any subscription');
+        return $this->sendResponse('adw', 'user sub' , 200);
+
     }
+
 
     public function deactive(User $players)
     {
