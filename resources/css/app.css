@@ -5,7 +5,26 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/* VGC design tokens — Tailwind v4 CSS-first config.
+   These become utilities automatically, e.g. bg-void, text-plasma, font-display. */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Surfaces, darkest to lightest. */
+    --color-void: #08090F;      /* page background */
+    --color-carbon: #10131D;    /* cards and raised panels */
+    --color-steel: #1E2434;     /* borders, dividers, inputs */
+
+    /* Text. */
+    --color-frost: #E7ECF8;     /* primary */
+    --color-mist: #8F9BB5;      /* secondary and labels */
+
+    /* Accents. */
+    --color-neon: #7C5CFF;      /* primary action — electric violet */
+    --color-plasma: #2DE2E6;    /* highlights, stats, live state — cyan */
+    --color-ember: #FF4D6D;     /* errors and destructive actions */
+
+    /* Two families only. Chakra Petch carries every display and label role,
+       including font-mono, so no third font is ever requested. */
+    --font-display: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'Chakra Petch', ui-monospace, monospace;
 }
