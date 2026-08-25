@@ -85,7 +85,6 @@ class MatchesRelationManager extends RelationManager
                             ->success()
                             ->send();
                     }),
-                CreateAction::make(),
             ]);
     }
 }
