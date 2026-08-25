@@ -15,7 +15,9 @@
                 @if ($tournament->status === \App\Enums\Tournaments\TournamentEnum::PENDING)
                     @auth
                         @if ($this->isSignedUp())
-                            <span>signed in</span>
+                            <span class="font-mono text-xs uppercase text-plasma border border-plasma/40 bg-plasma/10 px-3 py-2">
+                                Signed up
+                            </span>
                         @elseif ($this->canSignUp())
                             <button
                                 type="button"
