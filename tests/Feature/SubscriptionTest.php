@@ -10,10 +10,10 @@ uses(RefreshDatabase::class);
 test('guest cannot subscribe to a plan but authenticated user with sanctum token can', function () {
     $user = User::factory()->create();
 
-    $plan = Plan::create([
+    $plan = Plan::factory()->create([
         'title' => 'adw',
         'description' => 'xbox',
-        'price' => '200',
+        'price' => 200,
     ]);
 
     $response = $this->postJson("/api/subscription/plans/{$plan->id}");
@@ -24,7 +24,7 @@ test('guest cannot subscribe to a plan but authenticated user with sanctum token
     $response = $this->postJson("/api/subscription/plans/{$plan->id}");
     $response->assertStatus(200);
 
-    $this->assertDatabaseHas('plan_user', [
+    $this->assertDatabaseHas('subscriptions', [
         'user_id' => $user->id,
         'plan_id' => $plan->id,
         'status' => 1,
@@ -34,9 +34,7 @@ test('guest cannot subscribe to a plan but authenticated user with sanctum token
 test('authenticated user cannot subscribe again when already has an active subscription', function () {
     $user = User::factory()->create();
 
-    $plan = new Plan();
-    $plan->title = 'Basic';
-    $plan->save();
+    $plan = Plan::factory()->create(['title' => 'Basic']);
 
     Sanctum::actingAs($user);
 
@@ -44,7 +42,7 @@ test('authenticated user cannot subscribe again when already has an active subsc
         'status' => true,
     ]);
 
-    $response = $this->postJson("/api/subscriptions/{$plan->id}");
+    $response = $this->postJson("/api/subscription/plans/{$plan->id}");
 
     $response->assertStatus(404)
         ->assertJsonPath('success', false)
@@ -54,23 +52,22 @@ test('authenticated user cannot subscribe again when already has an active subsc
 test('guest cannot view subscription but authenticated user with sanctum token can view active subscription', function () {
     $user = User::factory()->create();
 
-    $plan = new Plan();
-    $plan->title = 'Basic';
-    $plan->save();
+    $plan = Plan::factory()->create(['title' => 'Basic']);
 
     $user->plan()->attach($plan->id, [
         'status' => true,
     ]);
 
-    $response = $this->getJson('/api/subscriptions');
+    $response = $this->getJson('/api/subscription');
     $response->assertStatus(401);
 
     Sanctum::actingAs($user);
 
-    $response = $this->getJson('/api/subscriptions');
+    $response = $this->getJson('/api/subscription');
     $response->assertStatus(200)
         ->assertJsonPath('success', true)
         ->assertJsonPath('message', "user's subscription")
+        ->assertJsonPath('data.plan_title', 'Basic')
         ->assertJsonStructure([
             'success',
             'message',
@@ -88,9 +85,7 @@ test('guest cannot view subscription but authenticated user with sanctum token c
 test('authenticated user gets no subscription response when latest subscription is inactive', function () {
     $user = User::factory()->create();
 
-    $plan = new Plan();
-    $plan->title = 'Basic';
-    $plan->save();
+    $plan = Plan::factory()->create(['title' => 'Basic']);
 
     $user->plan()->attach($plan->id, [
         'status' => false,
@@ -98,7 +93,7 @@ test('authenticated user gets no subscription response when latest subscription 
 
     Sanctum::actingAs($user);
 
-    $response = $this->getJson('/api/subscriptions');
+    $response = $this->getJson('/api/subscription');
 
     $response->assertStatus(401)
         ->assertJsonPath('success', true)
