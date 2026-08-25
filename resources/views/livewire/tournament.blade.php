@@ -82,7 +82,7 @@
                     @foreach ($tournament->players as $player)
                         <li class="bg-carbon border border-steel rounded-sm px-6 py-5" wire:key="player-{{ $player->id }}">
                             <p class="font-display text-lg text-frost">{{ $player->name }}</p>
-                            <p class="mt-1 font-mono text-xs text-mist">{{ $player->platform?->plaform }}</p>
+                            <p class="mt-1 font-mono text-xs text-mist">{{ $player->platform?->platform }}</p>
                             <p class="mt-1 font-mono text-xs text-mist">{{ $player->platform?->nickname }}</p>
                         </li>
                     @endforeach

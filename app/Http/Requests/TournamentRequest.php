@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Platforms\PlatformEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TournamentRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class TournamentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'platform' => 'required|string|in:PC,Playstation,Xbox,Mobile',
+            'platform' => ['required', 'string', Rule::enum(PlatformEnum::class)],
             'game' => 'required|string|max:40',
         ];
     }

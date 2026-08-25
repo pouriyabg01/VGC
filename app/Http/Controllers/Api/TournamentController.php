@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Platforms\PlatformEnum;
 use App\Enums\Tournaments\TournamentEnum;
 use App\Http\Requests\TournamentRequest;
 use App\Http\Resources\TournamentResource;
@@ -27,7 +28,7 @@ class TournamentController extends BaseController
      *
      * @authenticated
      *
-     * @bodyParam platform string required The gaming platform. Must be one of: PC, Playstation, Xbox, Mobile. Example: PC
+     * @bodyParam platform string required The gaming platform. Must be one of: PC, PLAYSTATION, XBOX, MOBILE. Example: PC
      * @bodyParam game string required The game title (max 40 characters). Example: FIFA 24
      *
      * @response 200 scenario="Success" {
@@ -64,7 +65,7 @@ class TournamentController extends BaseController
      * @authenticated
      *
      *
-     * @bodyParam platform string required The gaming platform. Must be one of: PC, Playstation, Xbox, Mobile. Example: Xbox
+     * @bodyParam platform string required The gaming platform. Must be one of: PC, PLAYSTATION, XBOX, MOBILE. Example: XBOX
      * @bodyParam game string required The game title. Example: FIFA 24
      * @bodyParam status string required Tournament status. Must be one of: PENDING, CANCELED, COMPLETED, GAMING. Example: GAMING
      *
@@ -84,7 +85,7 @@ class TournamentController extends BaseController
         $this->authorize('update',$tournament);
 
         $data = $request->validate([
-            'platform' => 'required|string|in:PC,Playstation,Xbox,Mobile',
+            'platform' => ['required', 'string', new Enum(PlatformEnum::class)],
             'game' => 'required|string',
             'status' => ['required' , new Enum(TournamentEnum::class)]
         ]);
