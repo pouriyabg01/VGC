@@ -193,6 +193,7 @@ class TournamentMatchController extends BaseController
         }
 
         $data = $request->validate([
+            //TODO screenshot upload feature: restore this rule once saveScreenshot() works
 //            'screenshot' => 'required|file|image',
             'scored_goals' => 'required|integer|min:0',
             'conceded_goals' => 'required|integer|min:0',
@@ -205,6 +206,9 @@ class TournamentMatchController extends BaseController
 
         $match = $tournamentMatch->submissions()->create([
             //store user id in MatchResult model
+            //TODO screenshot upload feature: every submission currently stores the
+            //     placeholder 'adw'. Swap it for the real path once saveScreenshot()
+            //     returns one, and restore the validation rule above.
 //            'screenshot' => $this->saveScreenshot($data['screenshot'] , $tournamentMatch),
             'screenshot' => 'adw',
             'scored_goals' => $data['scored_goals'],
@@ -228,6 +232,11 @@ class TournamentMatchController extends BaseController
         return $this->sendResponse(new MatchResultResource($match), 'Result submitted' , 200);
     }
 
+    /**
+     * TODO screenshot upload feature: unused while submissions store a placeholder.
+     *      store() returns the stored path, but this method discards it, so callers
+     *      would persist null. Return the value before wiring this back up.
+     */
     private function saveScreenshot($image , TournamentMatch $tournamentMatch)
     {
         $image->store('conclusion-screenshot/' . $tournamentMatch->id . '/' . Auth::id(), 'public');
