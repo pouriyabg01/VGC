@@ -63,6 +63,26 @@ class Tournament extends Component
         return $user->tournaments()->where('tournament_id', $this->tournament->id)->exists();
     }
 
+    public function hasActiveSubscription(): bool
+    {
+        $user = Auth::user();
+
+        return $user !== null && $user->latestActiveSub()->exists();
+    }
+
+    /**
+     * TournamentService refuses a sign-up without an account on the
+     * tournament's platform. Mirrored here so the page can say so up front
+     * instead of failing after the click.
+     */
+    public function hasMatchingPlatform(): bool
+    {
+        $user = Auth::user();
+
+        return $user !== null
+            && $user->platforms()->where('platform', $this->tournament->platform)->exists();
+    }
+
     public function canSignUp(): bool
     {
         if (! Auth::check() || $this->isSignedUp()) {
@@ -73,7 +93,7 @@ class Tournament extends Component
             return false;
         }
 
-        return Auth::user()->latestActiveSub()->exists();
+        return $this->hasActiveSubscription() && $this->hasMatchingPlatform();
     }
 
     private function loadTournament(TournamentModel $tournament): void

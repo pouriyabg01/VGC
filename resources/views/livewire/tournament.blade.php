@@ -29,8 +29,25 @@
                                 <span wire:loading.remove wire:target="signUp">Sign up</span>
                                 <span wire:loading wire:target="signUp">Signing up&hellip;</span>
                             </button>
+                        @elseif (! $this->hasActiveSubscription())
+                            <p class="max-w-xs text-right text-sm text-mist">
+                                You need an active subscription to sign up.
+                            </p>
                         @else
-                            <p class="text-sm text-mist">You need an active subscription to sign up.</p>
+                            {{-- Subscribed, but has no account on this tournament's platform. --}}
+                            <div class="max-w-xs text-right">
+                                <p class="font-mono text-xs uppercase tracking-widest text-ember">
+                                    {{ $tournament->platform->label() }} account required
+                                </p>
+                                <p class="mt-2 text-sm text-mist">
+                                    This tournament is played on {{ $tournament->platform->label() }}.
+                                    Add that account to your profile to sign up.
+                                </p>
+                                <a href="{{ route('profile') }}" wire:navigate
+                                   class="mt-3 inline-block font-mono text-xs uppercase text-plasma border border-plasma/40 px-3 py-2 hover:bg-plasma/10 transition-colors">
+                                    Add {{ $tournament->platform->label() }} account
+                                </a>
+                            </div>
                         @endif
                     @else
                         <a href="{{ route('login') }}" wire:navigate
