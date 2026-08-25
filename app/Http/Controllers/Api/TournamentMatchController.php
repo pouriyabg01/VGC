@@ -189,7 +189,7 @@ class TournamentMatchController extends BaseController
         ];
         //check if loggedin user is one of player of match
         if (!in_array($user->id , $matchUsers , true)){
-            return $this->sendError([],'you not in this match',422);
+            return $this->sendError('you not in this match', [], 422);
         }
 
         $data = $request->validate([

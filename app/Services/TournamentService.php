@@ -37,6 +37,13 @@ class TournamentService extends BaseController
                 throw  new \Exception("You are already in this tournament");
             }
 
+            //player must own an account on the platform the tournament is played on
+            if (! $user->platforms()->where('platform' , $tournament->platform)->exists()){
+                throw new \Exception(
+                    "You need a {$tournament->platform->label()} account to sign up for this tournament."
+                );
+            }
+
             $tournament->players()->attach($user->id);
 
             $affectedRow = Tournament::where('id' , $tournament->id)
@@ -44,12 +51,13 @@ class TournamentService extends BaseController
                 ->increment('current_player_count');
 
             if ($affectedRow === 0){
-                $tournament->player()->detach($tournament->id);
+                $tournament->players()->detach($user->id);
                 throw new \Exception("Tournament is full");
             }
 
             $tournament->refresh();
-            $tournament->syncStatus();
+            $tournament->syncStatusBeforeSave();
+            $tournament->save();
 
             return $tournament;
         });
@@ -69,7 +77,8 @@ class TournamentService extends BaseController
                $tournament->decrement('current_player_count');
 
                $tournament->refresh();
-               $tournament->syncStatus();
+               $tournament->syncStatusBeforeSave();
+               $tournament->save();
            }elseif (!$user->tournaments()->where('tournament_id' , $tournament->id)->exists()){
                throw new \Exception("You are not registered in this tournament");
            }

@@ -232,7 +232,7 @@ class TournamentController extends BaseController
             $tournamentService->signUp($request->user() , $tournament);
             return $this->sendResponse($tournament->players , 'you are successfully signed up' , 200);
         }catch (\Exception $e){
-            return $this->sendError([] , $e->getMessage());
+            return $this->sendError($e->getMessage() , [] , 422);
         }
     }
 
@@ -267,7 +267,7 @@ class TournamentController extends BaseController
 //            $tournamentService->signOut($tournament);
 //            return $this->sendResponse([],'you are successfully signed out');
 //        }catch (\Exception $e){
-//            return $this->sendError([] , $e->getMessage());
+//            return $this->sendError($e->getMessage() , [] , 422);
 //        }
 //    }
 
