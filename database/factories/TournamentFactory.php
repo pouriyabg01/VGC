@@ -19,6 +19,7 @@ class TournamentFactory extends Factory
     {
         return [
             'game' => fake()->randomElement(['fifa' , 'nfs' , 'mortal' , 'crash' , 'GT7' , 'PES']),
+            'platform' => 'PC',
             'capacity' => '32',
             'end_at' => null,
             'winner_id' => null,
