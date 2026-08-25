@@ -34,8 +34,8 @@
                             <label class="font-mono text-[10px] uppercase text-mist mb-2 block">Platform</label>
                             <select wire:model="form.platform" class="w-full bg-transparent border-b border-steel outline-none text-sm @error('form.platform') border-ember @enderror">
                                 <option value="">Select...</option>
-                                @foreach($platformOptions as $option)
-                                    <option value="{{ $option }}">{{ strtoupper($option) }}</option>
+                                @foreach($platformOptions as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
                                 @endforeach
                             </select>
                             @error('form.platform') <span class="text-ember text-[10px]">{{ $message }}</span> @enderror

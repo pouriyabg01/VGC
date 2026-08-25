@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Platforms\PlatformEnum;
+use Illuminate\Validation\Rule;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePlatformRequest extends FormRequest
@@ -23,7 +26,7 @@ class StorePlatformRequest extends FormRequest
     {
         return [
             'nickname' => ['required' , 'string' , 'max:50'],
-            'platform' => ['required' , 'string' , 'in:pc,xbox,ps,mobile' , 'unique:platforms,platform']
+            'platform' => ['required' , 'string' , Rule::enum(PlatformEnum::class) , 'unique:platforms,platform']
         ];
     }
 }

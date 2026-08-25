@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Profile;
 
+use App\Enums\Platforms\PlatformEnum;
+
 use App\Livewire\Forms\PlatformForm;
 use App\Models\Platform;
 use Livewire\Component;
@@ -17,7 +19,7 @@ class Index extends Component
     {
         // This runs when the page loads
         // We initialize the options here so the view can see them
-        $this->platformOptions = ['xbox', 'pc', 'ps', 'mobile'];
+        $this->platformOptions = PlatformEnum::options();
     }
 
     public function addPlatform()

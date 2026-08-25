@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tournaments\Schemas;
 
+use App\Enums\Platforms\PlatformEnum;
 use App\Enums\Tournaments\TournamentEnum;
 use Closure;
 use Filament\Forms\Components\DatePicker;
@@ -19,12 +20,7 @@ class TournamentForm
             ->components([
                 Select::make('platform')
                     ->required()
-                    ->options([
-                        'PC' => 'PC',
-                        'Playstation' => 'Playstation',
-                        'Xbox' => 'Xbox',
-                        'Mobile' => 'Mobile',
-                    ]),
+                    ->options(PlatformEnum::options()),
                 TextInput::make('game')
                     ->required(),
                 TextInput::make('capacity')

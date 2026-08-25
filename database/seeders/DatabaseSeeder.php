@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             TournamentSeeder::class,
             PlanSeeder::class,
             UserSubSeeder::class,
-            TournamentUser::class
+            TournamentUser::class,
+            PlatformSeeder::class,
         ]);
     }
 }

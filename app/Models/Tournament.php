@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Platforms\PlatformEnum;
 use App\Enums\Tournaments\TournamentEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Tournament extends Model
     protected $fillable = ['platform' , 'current_player_count' , 'capacity' , 'game' , 'end_at' , 'winner_id' , 'status'];
 
     protected $casts = [
+        'platform' => PlatformEnum::class,
         'status' => TournamentEnum::class,
         'end_at' => 'date',
     ];

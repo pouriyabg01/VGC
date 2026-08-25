@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\Platforms\PlatformEnum;
+
 use Livewire\Form;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +13,7 @@ class PlatformForm extends Form
     {
         return [
             'nickname' => ['required' , 'string' , 'max:50'],
-            'platform' => ['required' , 'string' , 'in:pc,xbox,ps,mobile' ,
+            'platform' => ['required' , 'string' , Rule::enum(PlatformEnum::class) ,
                 Rule::unique('platforms', 'platform')->where(function ($query) {
                     return $query->where('user_id', Auth::id());
                 })

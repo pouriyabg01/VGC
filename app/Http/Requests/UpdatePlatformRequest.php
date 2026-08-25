@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Platforms\PlatformEnum;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +29,7 @@ class UpdatePlatformRequest extends FormRequest
                 'required',
                 'string',
                 Rule::unique('platforms', 'platform')->ignore($this->route('platform')),
-                'in:xbox,pc,ps,mobile'
+                Rule::enum(PlatformEnum::class)
             ],
             'nickname' => 'required|string|min:3|max:50',
         ];

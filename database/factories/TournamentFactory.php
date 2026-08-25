@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\Platforms\PlatformEnum;
+
 use App\Enums\Tournaments\TournamentEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +21,7 @@ class TournamentFactory extends Factory
     {
         return [
             'game' => fake()->randomElement(['fifa' , 'nfs' , 'mortal' , 'crash' , 'GT7' , 'PES']),
-            'platform' => 'PC',
+            'platform' => fake()->randomElement(PlatformEnum::cases()),
             'capacity' => '32',
             'end_at' => null,
             'winner_id' => null,
