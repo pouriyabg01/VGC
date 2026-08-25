@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Platforms\PlatformEnum;
 use App\Enums\Tournaments\TournamentEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
-            $table->enum('platform' , ['PC' , 'Playstation' , 'Xbox' , 'Mobile']);
+            $table->enum('platform' , PlatformEnum::values());
             $table->string('game');
             $table->integer('capacity');
             $table->integer('current_player_count')->default('0');
