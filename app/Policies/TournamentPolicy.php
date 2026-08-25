@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Admin;
 use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class TournamentPolicy
 {
@@ -13,25 +13,25 @@ class TournamentPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(Admin $user): bool
+    public function create(Authenticatable $user): bool
     {
-        return true;
+        return $user instanceof \App\Models\Admin;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(Admin $user): bool
+    public function update(Authenticatable $user , Tournament $tournament): bool
     {
-        return true;
+        return $user instanceof \App\Models\Admin;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(Admin $user, Tournament $tournament): bool
+    public function delete(Authenticatable $user, Tournament $tournament): bool
     {
-        return true;
+        return $user instanceof \App\Models\Admin;
     }
 
     public function signUp(User $user)
