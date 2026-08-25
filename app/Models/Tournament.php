@@ -40,16 +40,31 @@ class Tournament extends Model
         )->withTimestamps();
     }
 
-    public function syncStatus(): void
+    protected static function booted(): void
     {
-        //change status READY if count is full and status not READY
-        if ($this->current_player_count >= $this->capacity && $this->status !== TournamentEnum::READY){
-            $this->update(['status' => TournamentEnum::READY]);
-            //TODO fire startTournament event
+        static::saving(function (Tournament $tournament) {
+            // Only run sync logic if the capacity or status is being modified
+            if ($tournament->isDirty(['capacity' , 'current_player_count']))  {
+                $tournament->syncStatusBeforeSave();
+            }
+        });
+    }
+
+    /**
+     * Sync status before the model is saved to the database.
+     */
+    public function syncStatusBeforeSave(): void
+    {
+        $playerCount = $this->current_player_count ?? $this->players()->count();
+
+        // Change status to READY if count is full and status is not READY
+        if ($playerCount >= $this->capacity && $this->status !== TournamentEnum::READY) {
+            $this->status = TournamentEnum::READY;
         }
-        //change status to PENDING if status READY and still has capacity
-        elseif ($this->current_player_count < $this->capacity && $this->status === TournamentEnum::READY){
-            $this->update(['status' => TournamentEnum::PENDING]);
+        // Change status to PENDING if status is READY but we now have capacity
+        elseif ($playerCount < $this->capacity && $this->status === TournamentEnum::READY) {
+            $this->status = TournamentEnum::PENDING;
         }
     }
+
 }
