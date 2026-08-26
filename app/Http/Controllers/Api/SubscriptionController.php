@@ -91,10 +91,9 @@ class SubscriptionController extends BaseController
      *     "started_at": "2026-07-14T00:00:00.000000Z"
      *   }
      * }
-     * @response 401 scenario="No subscription" {
-     *   "success": true,
-     *   "message": "have no subscription",
-     *   "data": []
+     * @response 404 scenario="No subscription" {
+     *   "success": false,
+     *   "message": "have no subscription"
      * }
      */
     public function show(Request $request)
@@ -102,7 +101,7 @@ class SubscriptionController extends BaseController
         $subscription = $this->latestSubscription($request->user());
 
         if (! $subscription || ! $subscription->pivot->status) {
-            return $this->sendResponse([], 'have no subscription', 401);
+            return $this->sendError('have no subscription', [], 404);
         }
 
         return $this->sendResponse(

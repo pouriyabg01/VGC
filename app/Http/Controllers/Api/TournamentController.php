@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Platforms\PlatformEnum;
+use Illuminate\Auth\Access\AuthorizationException;
 use App\Enums\Tournaments\TournamentEnum;
 use App\Http\Requests\TournamentRequest;
 use App\Http\Resources\TournamentResource;
@@ -231,7 +232,13 @@ class TournamentController extends BaseController
         try {
             $tournamentService->signUp($request->user() , $tournament);
             return $this->sendResponse($tournament->players , 'you are successfully signed up' , 200);
+        }catch (AuthorizationException $e){
+            // The policy refused the player outright, e.g. no active
+            // subscription. Caught before \Exception, which it extends.
+            return $this->sendError($e->getMessage() , [] , 403);
         }catch (\Exception $e){
+            // A sign-up rule said no: wrong platform, already entered,
+            // tournament full or no longer open.
             return $this->sendError($e->getMessage() , [] , 422);
         }
     }

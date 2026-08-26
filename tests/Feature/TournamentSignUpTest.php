@@ -50,11 +50,27 @@ it('refuses a player without an active subscription', function () {
     Platform::factory()->for($user)->on(PlatformEnum::XBOX)->create();
     Sanctum::actingAs($user);
 
-    // The policy denial surfaces as 422, not 403: signUp() calls authorize(),
-    // and the controller's catch (\Exception) turns the AuthorizationException
-    // into the same error shape as the business-rule refusals.
-    $r = $this->postJson("/api/tournaments/{$t->id}/sign-up")->assertStatus(422);
+    // A policy denial is an authorization failure, so 403 — distinct from the
+    // 422 the sign-up rules return.
+    $r = $this->postJson("/api/tournaments/{$t->id}/sign-up")->assertStatus(403);
+    expect($r->json('success'))->toBeFalse();
     expect($r->json('message'))->toContain('sub');
+    expect($t->fresh()->players()->count())->toBe(0);
+});
+
+it('separates an authorization denial from a rule refusal', function () {
+    $t = xboxTournament();
+
+    // No subscription -> the policy stops it: 403.
+    $noSub = User::factory()->create();
+    Platform::factory()->for($noSub)->on(PlatformEnum::XBOX)->create();
+    Sanctum::actingAs($noSub);
+    $this->postJson("/api/tournaments/{$t->id}/sign-up")->assertStatus(403);
+
+    // Subscribed but wrong platform -> a rule stops it: 422.
+    Sanctum::actingAs(playerOn(PlatformEnum::PLAYSTATION));
+    $this->postJson("/api/tournaments/{$t->id}/sign-up")->assertStatus(422);
+
     expect($t->fresh()->players()->count())->toBe(0);
 });
 

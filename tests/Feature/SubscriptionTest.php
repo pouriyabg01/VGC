@@ -47,7 +47,16 @@ it('reports no subscription when the latest one is inactive', function () {
     $user->plan()->attach(Plan::factory()->create()->id, ['status' => false]);
 
     $this->getJson('/api/subscription')
-        ->assertStatus(401)->assertJsonPath('message', 'have no subscription');
+        ->assertStatus(404)
+        ->assertJsonPath('success', false)
+        ->assertJsonPath('message', 'have no subscription');
+});
+
+it('reports no subscription when the user never subscribed', function () {
+    Sanctum::actingAs(User::factory()->create());
+
+    $this->getJson('/api/subscription')
+        ->assertStatus(404)->assertJsonPath('success', false);
 });
 
 it('deactivates subscriptions for a set of players', function () {
