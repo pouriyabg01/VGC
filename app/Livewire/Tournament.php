@@ -29,9 +29,11 @@ class Tournament extends Component
             return;
         }
 
-        $this->authorize('signUp', $this->tournament);
-
         try {
+            // The service authorizes as its first step, so the denial arrives
+            // here as an AuthorizationException and becomes an inline message.
+            // Calling authorize() out here as well threw past this catch and
+            // replaced the page with a 403.
             app(TournamentService::class)->signUp($user, $this->tournament);
             $this->loadTournament($this->tournament);
             session()->flash('message', 'You have successfully signed up!');

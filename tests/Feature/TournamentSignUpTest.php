@@ -6,6 +6,7 @@ use App\Models\Platform;
 use App\Models\Tournament;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Livewire\Livewire;
 
 function xboxTournament(array $overrides = []): Tournament
 {
@@ -104,4 +105,33 @@ it('flips the tournament to READY when the last seat is taken', function () {
     $t->refresh();
     expect($t->current_player_count)->toBe(2)
         ->and($t->status)->toBe(TournamentEnum::READY);
+});
+
+it('shows a denial as an inline error on the page, not a 403 screen', function () {
+    $t = xboxTournament();
+
+    // No subscription: the policy denies. The page must stay on screen with
+    // the reason attached to the component, not blow up into an error page.
+    $noSub = User::factory()->create();
+    Platform::factory()->for($noSub)->on(PlatformEnum::XBOX)->create();
+
+    Livewire::actingAs($noSub)
+        ->test(\App\Livewire\Tournament::class, ['tournament' => $t])
+        ->call('signUp')
+        ->assertOk()
+        ->assertHasErrors('signUp');
+
+    expect($t->fresh()->players()->count())->toBe(0);
+});
+
+it('shows a rule refusal as an inline error too', function () {
+    $t = xboxTournament();
+
+    Livewire::actingAs(playerOn(PlatformEnum::PLAYSTATION))
+        ->test(\App\Livewire\Tournament::class, ['tournament' => $t])
+        ->call('signUp')
+        ->assertOk()
+        ->assertHasErrors('signUp');
+
+    expect($t->fresh()->players()->count())->toBe(0);
 });
