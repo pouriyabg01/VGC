@@ -2,19 +2,19 @@
     {{-- Hero --}}
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-24">
         <div class="max-w-2xl">
-            <p class="font-mono text-xs tracking-widest uppercase text-plasma mb-4">For people who bill by the hour, not the meeting</p>
+            <p class="font-mono text-xs tracking-widest uppercase text-plasma mb-4">Bracket tournaments for players who came to win</p>
             <h1 class="font-display text-5xl sm:text-6xl leading-[1.05] tracking-tight text-frost">
-                Track your work in <span class="italic text-mist">lanes</span>,
-                not to-do lists.
+                Enter the bracket.<br>
+                <span class="text-plasma">Take the crown.</span>
             </h1>
             <p class="mt-6 text-lg text-mist leading-relaxed">
-                Focuslane turns your day into a set of focused lanes — one per client,
-                one per project — so you always know where your hours actually went.
+                Single-elimination tournaments on PC, PlayStation, Xbox and mobile.
+                Sign up with your gamertag, get drawn into the bracket, and play your way to the final.
             </p>
             <div class="mt-8 flex items-center gap-4">
                 <a href="{{ route('register') }}" wire:navigate
                    class="bg-neon text-void px-6 py-3 rounded-sm hover:bg-neon/90 transition-colors">
-                    Start tracking free
+                    Create your account
                 </a>
                 <a href="{{ route('login') }}" wire:navigate class="text-mist hover:text-frost transition-colors text-sm">
                     I already have an account &rarr;
@@ -22,19 +22,19 @@
             </div>
         </div>
 
-        {{-- Signature element: live-looking lane bars --}}
+        {{-- Signature element: how full each bracket is --}}
         <div class="mt-16 space-y-3">
             @foreach ([
-                ['label' => 'Client — Redwood Studio', 'pct' => 82, 'time' => '3h 24m'],
-                ['label' => 'Client — North & Co.', 'pct' => 54, 'time' => '2h 01m'],
-                ['label' => 'Internal — Admin', 'pct' => 21, 'time' => '0h 47m'],
-            ] as $lane)
+                ['label' => 'FIFA — PlayStation', 'pct' => 82, 'filled' => '26/32'],
+                ['label' => 'Rocket League — PC', 'pct' => 54, 'filled' => '17/32'],
+                ['label' => 'Mortal Kombat — Xbox', 'pct' => 21, 'filled' => '3/16'],
+            ] as $bracket)
                 <div class="flex items-center gap-4">
-                    <span class="w-44 shrink-0 text-sm text-mist truncate">{{ $lane['label'] }}</span>
+                    <span class="w-44 shrink-0 text-sm text-mist truncate">{{ $bracket['label'] }}</span>
                     <div class="flex-1 h-2 bg-steel rounded-full overflow-hidden">
-                        <div class="h-full bg-plasma rounded-full" style="width: {{ $lane['pct'] }}%"></div>
+                        <div class="h-full bg-plasma rounded-full" style="width: {{ $bracket['pct'] }}%"></div>
                     </div>
-                    <span class="w-16 shrink-0 text-right font-mono text-xs text-mist">{{ $lane['time'] }}</span>
+                    <span class="w-16 shrink-0 text-right font-mono text-xs text-mist">{{ $bracket['filled'] }}</span>
                 </div>
             @endforeach
         </div>
@@ -108,7 +108,7 @@
             <div class="mb-10">
                 <div>
                     <p class="font-mono text-xs tracking-widest uppercase text-plasma mb-3">Plans</p>
-                    <h2 class="font-display text-3xl text-frost">Choose the lane that fits your work.</h2>
+                    <h2 class="font-display text-3xl text-frost">Pick the pass that fits your run.</h2>
                 </div>
             </div>
 
@@ -146,8 +146,8 @@
     {{-- CTA --}}
     <section class="border-t border-steel bg-void">
         <div class="mx-auto max-w-6xl px-6 py-20 text-center">
-            <h2 class="font-display text-3xl sm:text-4xl text-frost mb-4">Open your first lane today.</h2>
-            <p class="text-mist mb-8 max-w-md mx-auto">Free while you're the only one on your team. No card required.</p>
+            <h2 class="font-display text-3xl sm:text-4xl text-frost mb-4">Your first bracket is waiting.</h2>
+            <p class="text-mist mb-8 max-w-md mx-auto">Grab a pass, add your gamertag, and enter your first tournament.</p>
             <a href="{{ route('register') }}" wire:navigate
                class="inline-block bg-plasma text-void px-6 py-3 rounded-sm hover:bg-plasma/90 transition-colors font-medium">
                 Create your account

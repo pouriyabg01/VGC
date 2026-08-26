@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? 'Focuslane' }}</title>
+    <title>{{ $title ?? config('app.name') }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
         <div class="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
             <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2 font-display text-lg tracking-tight">
                 <span class="inline-block w-4 h-[3px] bg-plasma"></span>
-                Focuslane
+                {{ config('app.name') }}
             </a>
 
             <nav class="flex items-center gap-6 text-sm">
@@ -53,9 +53,9 @@
         <div class="mx-auto max-w-6xl px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-mist">
             <div class="flex items-center gap-2 font-display text-frost">
                 <span class="inline-block w-3 h-[2px] bg-plasma"></span>
-                Focuslane
+                {{ config('app.name') }}
             </div>
-            <p>&copy; {{ date('Y') }} Focuslane. Built for focused work.</p>
+            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. Built for competitive play.</p>
         </div>
     </footer>
 

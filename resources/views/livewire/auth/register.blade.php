@@ -1,6 +1,6 @@
 <div>
     <h1 class="font-display text-2xl text-frost mb-1">Create your account</h1>
-    <p class="text-mist text-sm mb-8">One lane at a time starts here.</p>
+    <p class="text-mist text-sm mb-8">Set up your player account.</p>
 
     <form wire:submit="register" class="space-y-5">
         <div>
@@ -11,7 +11,7 @@
                 id="name"
                 autocomplete="name"
                 class="w-full border border-steel rounded-sm px-3 py-2.5 bg-void focus:outline-none focus:ring-2 focus:ring-neon/40 focus:border-neon"
-                placeholder="Jamie Rivers"
+                placeholder="Your name"
             >
             @error('name') <p class="text-ember text-xs mt-1.5">{{ $message }}</p> @enderror
         </div>
@@ -24,7 +24,7 @@
                 id="email"
                 autocomplete="email"
                 class="w-full border border-steel rounded-sm px-3 py-2.5 bg-void focus:outline-none focus:ring-2 focus:ring-neon/40 focus:border-neon"
-                placeholder="you@studio.com"
+                placeholder="you@example.com"
             >
             @error('email') <p class="text-ember text-xs mt-1.5">{{ $message }}</p> @enderror
         </div>
@@ -66,7 +66,7 @@
     </form>
 
     <p class="text-center text-sm text-mist mt-6">
-        Already have a lane going?
+        Already competing?
         <a href="{{ route('login') }}" wire:navigate class="text-frost underline underline-offset-2">Log in</a>
     </p>
 </div>
