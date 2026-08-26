@@ -15,7 +15,7 @@
                         <div class="flex items-center justify-between bg-carbon/60 border border-steel p-4" wire:key="plat-{{ $p->id }}">
                             <div>
                                 <span class="font-display text-lg text-frost block">{{ $p->nickname }}</span>
-                                <span class="font-mono text-[10px] uppercase text-mist tracking-widest">{{ $p->platform }}</span>
+                                <span class="font-mono text-[10px] uppercase text-mist tracking-widest">{{ $p->platform->label() }}</span>
                             </div>
                             <button wire:click="removePlatform({{ $p->id }})" class="text-xs uppercase text-ember">Remove</button>
                         </div>
@@ -24,24 +24,36 @@
 
                 {{-- Add Platform Form --}}
                 <div class="mt-16 space-y-3">
-                    <form wire:submit.prevent="addPlatform" class="flex flex-row flex-wrap items-end gap-4">
+                    <form wire:submit.prevent="addPlatform" class="flex flex-row flex-wrap items-start gap-4">
                         <div class="flex-1 min-w-[160px]">
-                            <label class="font-mono text-[10px] uppercase text-mist mb-2 block">Nickname</label>
-                            <input type="text" wire:model="form.nickname" class="w-full bg-transparent border-b border-steel outline-none text-sm @error('form.nickname') border-ember @enderror">
-                            @error('form.nickname') <span class="text-ember text-[10px]">{{ $message }}</span> @enderror
+                            <label for="nickname" class="font-mono text-[10px] uppercase tracking-widest text-mist mb-2 block">Nickname</label>
+                            <input type="text" id="nickname" wire:model="form.nickname" placeholder="your gamertag"
+                                   class="w-full h-11 bg-void border border-steel rounded-sm px-3 text-sm text-frost placeholder:text-mist/50 outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30 @error('form.nickname') border-ember @enderror">
+                            @error('form.nickname') <span class="mt-1.5 block text-ember text-[10px]">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex-1 min-w-[160px]">
-                            <label class="font-mono text-[10px] uppercase text-mist mb-2 block">Platform</label>
-                            <select wire:model="form.platform" class="w-full bg-transparent border-b border-steel outline-none text-sm @error('form.platform') border-ember @enderror">
-                                <option value="">Select...</option>
-                                @foreach($platformOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            @error('form.platform') <span class="text-ember text-[10px]">{{ $message }}</span> @enderror
+                            <label for="platform" class="font-mono text-[10px] uppercase tracking-widest text-mist mb-2 block">Platform</label>
+                            {{-- appearance-none: a bare select keeps the OS widget, which renders
+                                 light-on-light against this theme. The chevron is drawn back in. --}}
+                            <div class="relative">
+                                <select id="platform" wire:model="form.platform"
+                                        class="w-full h-11 appearance-none bg-void border border-steel rounded-sm pl-3 pr-9 text-sm text-frost outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30 @error('form.platform') border-ember @enderror">
+                                    <option value="" class="bg-void text-mist">Select&hellip;</option>
+                                    @foreach($platformOptions as $value => $label)
+                                        <option value="{{ $value }}" class="bg-void text-frost">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                                <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-mist"
+                                     viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                    <path d="M6 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            @error('form.platform') <span class="mt-1.5 block text-ember text-[10px]">{{ $message }}</span> @enderror
                         </div>
-                        <div class="flex-1 min-w-[160px]">
-                            <button type="submit" class="bg-neon text-void px-8 py-2 text-xs uppercase border border-steel">
+                        <div class="min-w-[120px]">
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-transparent mb-2 block" aria-hidden="true">Add</span>
+                            <button type="submit"
+                                    class="h-11 w-full bg-neon text-void px-8 rounded-sm font-mono text-xs uppercase tracking-widest transition-colors hover:bg-neon/90">
                                 Add
                             </button>
                         </div>
