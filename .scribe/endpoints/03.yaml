@@ -1,50 +1,30 @@
-name: 'Match Management'
-description: ''
+name: 'Plan Management'
+description: |-
+
+  APIs for listing and managing subscription plans.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: 'api/tournaments/{tournament_id}/matches'
+    uri: api/plans
     metadata:
       custom: []
-      groupName: 'Match Management'
-      groupDescription: ''
+      groupName: 'Plan Management'
+      groupDescription: |-
+
+        APIs for listing and managing subscription plans.
       subgroup: ''
       subgroupDescription: ''
-      title: 'show matches of tournament'
-      description: ''
+      title: 'List all plans'
+      description: 'Returns every available subscription plan.'
       authenticated: false
       deprecated: false
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      tournament_id:
-        custom: []
-        name: tournament_id
-        description: 'The ID of the tournament.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      tournament:
-        custom: []
-        name: tournament
-        description: ''
-        required: true
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tournament_id: 1
-      tournament: 16
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -54,12 +34,82 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success":true,"message":"match list","data":[{"id":2,"tournament_id":1,"round":1,"player1":1,"player2":2,"winner_id":1,"player1_goal":2,"player2_goal":1,"match_date":"2026-01-03","status":"COMPLETED","created_at":"2026-01-03T10:02:49.000000Z","updated_at":"2026-01-03T10:03:55.000000Z"}]}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
+        content: |-
+          {
+            "success": true,
+            "message": "all plans",
+            "data": [
+              {
+                "id": 1,
+                "title": "Basic",
+                "description": "Monthly basic plan",
+                "price": 1000
+              }
+            ]
+          }
+        headers: []
+        description: Success
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/plans/{plan_id}'
+    metadata:
+      custom: []
+      groupName: 'Plan Management'
+      groupDescription: |-
+
+        APIs for listing and managing subscription plans.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Show a plan'
+      description: 'Returns details of a specific subscription plan.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      plan_id:
+        custom: []
+        name: plan_id
+        description: 'The ID of the plan.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      plan_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "plan",
+            "data": {
+              "id": 1,
+              "title": "Basic",
+              "description": "Monthly basic plan",
+              "price": 1000
+            }
+          }
+        headers: []
+        description: Success
     responseFields: []
     auth: []
     controller: null
@@ -69,67 +119,83 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: 'api/tournaments-matches/{tournament_id}'
+    uri: api/plans
     metadata:
       custom: []
-      groupName: 'Match Management'
-      groupDescription: ''
+      groupName: 'Plan Management'
+      groupDescription: |-
+
+        APIs for listing and managing subscription plans.
       subgroup: ''
       subgroupDescription: ''
-      title: 'create matches for tournament'
-      description: ''
+      title: 'Create a plan'
+      description: 'Creates a new subscription plan. Admin only.'
       authenticated: true
       deprecated: false
     headers:
       Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      tournament_id:
-        custom: []
-        name: tournament_id
-        description: 'The ID of the tournament.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tournament_id: 1
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      tournament_id:
+      title:
         custom: []
-        name: tournament_id
-        description: ''
+        name: title
+        description: 'The plan title.'
         required: true
-        example: 16
-        type: integer
+        example: Pro
+        type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
-      players:
+      description:
         custom: []
-        name: players
-        description: 'min:2'
+        name: description
+        description: 'The plan description.'
         required: true
-        example:
-          - architecto
-        type: 'string[]'
+        example: 'Full access plan'
+        type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      price:
+        custom: []
+        name: price
+        description: 'The plan price in the smallest currency unit.'
+        required: true
+        example: 2500
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      tournament_id: 16
-      players:
-        - architecto
+      title: Pro
+      description: 'Full access plan'
+      price: 2500
     fileParameters: []
-    responses: []
+    responses:
+      -
+        custom: []
+        status: 201
+        content: |-
+          {
+            "success": true,
+            "message": "plan successfully created",
+            "data": {
+              "id": 2,
+              "title": "Pro",
+              "description": "Full access plan",
+              "price": 2500
+            }
+          }
+        headers: []
+        description: Success
     responseFields: []
     auth:
       - headers
@@ -141,16 +207,19 @@ endpoints:
   -
     custom: []
     httpMethods:
-      - POST
-    uri: 'api/tournament-matches/{tournamentMatch_id}/submit-result'
+      - PUT
+      - PATCH
+    uri: 'api/plans/{id}'
     metadata:
       custom: []
-      groupName: 'Match Management'
-      groupDescription: ''
+      groupName: 'Plan Management'
+      groupDescription: |-
+
+        APIs for listing and managing subscription plans.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Player submitted result'
-      description: ''
+      title: 'Update a plan'
+      description: 'Updates an existing subscription plan. Admin only.'
       authenticated: true
       deprecated: false
     headers:
@@ -158,49 +227,137 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      tournamentMatch_id:
+      id:
         custom: []
-        name: tournamentMatch_id
-        description: 'The ID of the tournamentMatch.'
+        name: id
+        description: 'The ID of the plan.'
         required: true
-        example: 2
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournamentMatch_id: 2
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      scored_goals:
+      title:
         custom: []
-        name: scored_goals
-        description: ''
+        name: title
+        description: 'The plan title.'
         required: true
-        example: 16
-        type: integer
+        example: 'Pro Plus'
+        type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
-      conceded_goals:
+      description:
         custom: []
-        name: conceded_goals
-        description: ''
+        name: description
+        description: 'The plan description.'
         required: true
-        example: 16
+        example: 'Updated full access plan'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      price:
+        custom: []
+        name: price
+        description: 'The plan price.'
+        required: true
+        example: 3000
         type: integer
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      scored_goals: 16
-      conceded_goals: 16
+      title: 'Pro Plus'
+      description: 'Updated full access plan'
+      price: 3000
     fileParameters: []
-    responses: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "plan successfully updated",
+            "data": {
+              "id": 1,
+              "title": "Pro Plus",
+              "description": "Updated full access plan",
+              "price": 3000
+            }
+          }
+        headers: []
+        description: Success
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/plans/{id}'
+    metadata:
+      custom: []
+      groupName: 'Plan Management'
+      groupDescription: |-
+
+        APIs for listing and managing subscription plans.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a plan'
+      description: 'Permanently removes a subscription plan. Admin only.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the plan.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "plan successfully deleted",
+            "data": []
+          }
+        headers: []
+        description: Success
     responseFields: []
     auth:
       - headers

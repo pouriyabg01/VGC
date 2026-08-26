@@ -1,22 +1,27 @@
-name: 'Plan Management'
-description: ''
+name: 'Subscription Management'
+description: |-
+
+  APIs for subscribing to plans and viewing the current subscription.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/plans
+    uri: api/subscription
     metadata:
       custom: []
-      groupName: 'Plan Management'
-      groupDescription: ''
+      groupName: 'Subscription Management'
+      groupDescription: |-
+
+        APIs for subscribing to plans and viewing the current subscription.
       subgroup: ''
       subgroupDescription: ''
-      title: 'all plans'
-      description: ''
-      authenticated: false
+      title: 'Show current subscription'
+      description: "Returns the authenticated user's active subscription, or an empty response if none exists."
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -29,15 +34,37 @@ endpoints:
     responses:
       -
         custom: []
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "user's subscription",
+            "data": {
+              "sub_id": 1,
+              "user_id": 1,
+              "plan_id": 1,
+              "plan_title": "Basic",
+              "status": true,
+              "started_at": "2026-07-14T00:00:00.000000Z"
+            }
+          }
+        headers: []
+        description: 'Active subscription'
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+            "success": false,
+            "message": "have no subscription"
+          }
+        headers: []
+        description: 'No subscription'
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -45,208 +72,21 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/plans
+    uri: 'api/subscription/plans/{plan_id}'
     metadata:
       custom: []
-      groupName: 'Plan Management'
-      groupDescription: ''
+      groupName: 'Subscription Management'
+      groupDescription: |-
+
+        APIs for subscribing to plans and viewing the current subscription.
       subgroup: ''
       subgroupDescription: ''
-      title: 'store plan'
-      description: ''
-      authenticated: false
+      title: 'Subscribe to a plan'
+      description: 'Activates a subscription for the authenticated user. Only one active subscription is allowed at a time.'
+      authenticated: true
       deprecated: false
     headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      title:
-        custom: []
-        name: title
-        description: ''
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      description:
-        custom: []
-        name: description
-        description: ''
-        required: true
-        example: 'Eius et animi quos velit et.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      price:
-        custom: []
-        name: price
-        description: ''
-        required: true
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      title: architecto
-      description: 'Eius et animi quos velit et.'
-      price: 16
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'api/plans/{id}'
-    metadata:
-      custom: []
-      groupName: 'Plan Management'
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'update plan'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        custom: []
-        name: id
-        description: 'the id of plan'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      id: architecto
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      title:
-        custom: []
-        name: title
-        description: ''
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      description:
-        custom: []
-        name: description
-        description: ''
-        required: true
-        example: 'Eius et animi quos velit et.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      price:
-        custom: []
-        name: price
-        description: ''
-        required: true
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      title: architecto
-      description: 'Eius et animi quos velit et.'
-      price: 16
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - DELETE
-    uri: 'api/plans/{id}'
-    metadata:
-      custom: []
-      groupName: 'Plan Management'
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'delete plan'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        custom: []
-        name: id
-        description: 'the id of plan'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      id: architecto
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/plans/{plan_id}'
-    metadata:
-      custom: []
-      groupName: 'Plan Management'
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'show plan'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -261,20 +101,8 @@ endpoints:
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      id:
-        custom: []
-        name: id
-        description: 'the id of Plan'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
     cleanUrlParameters:
       plan_id: 1
-      id: architecto
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -284,14 +112,36 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"id":1,"title":"VIP","description":"new future","price":250000,"created_at":"2026-01-02T15:38:56.000000Z","updated_at":"2026-01-02T15:50:44.000000Z"}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
+        content: |-
+          {
+            "success": true,
+            "message": "you successfully get a subscription",
+            "data": {
+              "sub_id": 1,
+              "user_id": 1,
+              "plan_id": 1,
+              "plan_title": "Basic",
+              "status": true,
+              "started_at": "2026-07-14T00:00:00.000000Z"
+            }
+          }
+        headers: []
+        description: Success
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+            "success": false,
+            "message": "you already have subscription!"
+          }
+        headers: []
+        description: 'Already subscribed'
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
