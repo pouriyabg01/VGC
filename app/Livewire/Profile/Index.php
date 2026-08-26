@@ -2,8 +2,6 @@
 
 namespace App\Livewire\Profile;
 
-use App\Enums\Platforms\PlatformEnum;
-
 use App\Livewire\Forms\PlatformForm;
 use App\Models\Platform;
 use Livewire\Component;
@@ -13,14 +11,6 @@ class Index extends Component
 {
     // Properties for Platform Management
     public PlatformForm $form;
-    public $platformOptions = [];
-
-    public function mount()
-    {
-        // This runs when the page loads
-        // We initialize the options here so the view can see them
-        $this->platformOptions = PlatformEnum::options();
-    }
 
     public function addPlatform()
     {

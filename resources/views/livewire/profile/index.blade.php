@@ -1,3 +1,5 @@
+@use('App\Enums\Platforms\PlatformEnum')
+
 <div>
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-24">
         {{-- PLATFORMS SECTION --}}
@@ -39,8 +41,8 @@
                                 <select id="platform" wire:model="form.platform"
                                         class="w-full h-11 appearance-none bg-void border border-steel rounded-sm pl-3 pr-9 text-sm text-frost outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30 @error('form.platform') border-ember @enderror">
                                     <option value="" class="bg-void text-mist">Select&hellip;</option>
-                                    @foreach($platformOptions as $value => $label)
-                                        <option value="{{ $value }}" class="bg-void text-frost">{{ $label }}</option>
+                                    @foreach(PlatformEnum::cases() as $platform)
+                                        <option value="{{ $platform->value }}" class="bg-void text-frost">{{ $platform->label() }}</option>
                                     @endforeach
                                 </select>
                                 <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-mist"
