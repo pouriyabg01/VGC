@@ -28,7 +28,9 @@ class UpdatePlatformRequest extends FormRequest
             'platform' => [
                 'required',
                 'string',
-                Rule::unique('platforms', 'platform')->ignore($this->route('platform')),
+                Rule::unique('platforms', 'platform')
+                    ->ignore($this->route('platform'))
+                    ->where(fn ($query) => $query->where('user_id', $this->user()?->id)),
                 Rule::enum(PlatformEnum::class)
             ],
             'nickname' => 'required|string|min:3|max:50',

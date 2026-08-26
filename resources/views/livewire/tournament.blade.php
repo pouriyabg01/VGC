@@ -98,9 +98,14 @@
                 <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($tournament->players as $player)
                         <li class="bg-carbon border border-steel rounded-sm px-6 py-5" wire:key="player-{{ $player->id }}">
+                            @php
+                                // The account this player is entered with, i.e. the one on the
+                                // tournament's own platform.
+                                $account = $player->platforms->firstWhere('platform', $tournament->platform);
+                            @endphp
                             <p class="font-display text-lg text-frost">{{ $player->name }}</p>
-                            <p class="mt-1 font-mono text-xs text-mist">{{ $player->platform?->platform }}</p>
-                            <p class="mt-1 font-mono text-xs text-mist">{{ $player->platform?->nickname }}</p>
+                            <p class="mt-1 font-mono text-xs uppercase tracking-widest text-plasma">{{ $tournament->platform->label() }}</p>
+                            <p class="mt-1 font-mono text-xs text-mist">{{ $account?->nickname ?? '—' }}</p>
                         </li>
                     @endforeach
                 </ul>

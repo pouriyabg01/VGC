@@ -11,6 +11,7 @@ use App\Models\Tournament;
 use App\Models\TournamentMatch;
 use App\Models\User;
 use App\Services\Subscription;
+use App\Services\SubscriptionService;
 use App\Services\TournamentService;
 
 trait TournamentMatchTrait
@@ -53,7 +54,7 @@ trait TournamentMatchTrait
         // Tournament finished
         if ($winners->count() === 1) {
             app(TournamentService::class)->finalizeTournament($tournament,$winners->first());
-            app(Subscription::class)->deactive($tournament->players);
+            app(SubscriptionService::class)->deactivateFor($tournament->players);
             return true;
         }
 

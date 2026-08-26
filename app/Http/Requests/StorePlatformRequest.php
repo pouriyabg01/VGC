@@ -26,7 +26,16 @@ class StorePlatformRequest extends FormRequest
     {
         return [
             'nickname' => ['required' , 'string' , 'max:50'],
-            'platform' => ['required' , 'string' , Rule::enum(PlatformEnum::class) , 'unique:platforms,platform']
+            'platform' => [
+                'required',
+                'string',
+                Rule::enum(PlatformEnum::class),
+                // The table is unique on (platform, user_id), not on platform
+                // alone. Unscoped, the first account on a platform locked every
+                // other user out of it.
+                Rule::unique('platforms', 'platform')
+                    ->where(fn ($query) => $query->where('user_id', $this->user()?->id)),
+            ]
         ];
     }
 }

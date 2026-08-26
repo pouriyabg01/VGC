@@ -100,7 +100,7 @@ class Tournament extends Component
     {
         $this->tournament = $tournament->load([
             'winner',
-            'players',
+            'players.platforms',
             'matches.player1',
             'matches.player2',
             'matches.winner',

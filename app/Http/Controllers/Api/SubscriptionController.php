@@ -113,17 +113,4 @@ class SubscriptionController extends BaseController
     }
 
 
-    public function deactive(User $players)
-    {
-        foreach ($players as $player){
-            $activeSub = $player->latest_active_sub;
-            if ($activeSub){
-                $player->plan()->updateExistingPivot(
-                    $activeSub->id,[
-                        'status' => false
-                    ]
-                );
-            }
-        }
-    }
 }
