@@ -1,47 +1,30 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Test Case
-|--------------------------------------------------------------------------
-|
-| The closure you provide to your test functions is always bound to a specific PHPUnit test
-| case class. By default, that class is "PHPUnit\Framework\TestCase". Of course, you may
-| need to change it using the "pest()" function to bind a different classes or traits.
-|
-*/
+use App\Enums\Platforms\PlatformEnum;
+use App\Models\Plan;
+use App\Models\Platform;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+uses(Tests\TestCase::class, RefreshDatabase::class)->in('Feature', 'Unit');
 
-/*
-|--------------------------------------------------------------------------
-| Expectations
-|--------------------------------------------------------------------------
-|
-| When you're writing tests, you often need to check that values meet certain conditions. The
-| "expect()" function gives you access to a set of "expectations" methods that you can use
-| to assert different things. Of course, you may extend the Expectation API at any time.
-|
-*/
-
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Functions
-|--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
-*/
-
-function something()
+/**
+ * A player who satisfies both sign-up preconditions: an active subscription,
+ * and an account on the given platform.
+ */
+function playerOn(PlatformEnum $platform, string $nickname = 'tag'): User
 {
-    // ..
+    $user = subscriber();
+    Platform::factory()->for($user)->on($platform)->create(['nickname' => $nickname]);
+
+    return $user;
+}
+
+/** A user with an active subscription and no platform accounts. */
+function subscriber(): User
+{
+    $user = User::factory()->create();
+    $user->plan()->attach(Plan::factory()->create()->id, ['status' => true]);
+
+    return $user;
 }
