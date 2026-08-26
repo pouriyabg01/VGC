@@ -15,13 +15,11 @@ class Index extends Component
     public function addPlatform()
     {
         $this->form->store();
-        session()->flash('message', 'Platform added successfully!');
     }
 
     public function removePlatform($id)
     {
         Platform::find($id)->delete();
-        session()->flash('message', 'Platform deleted successfully!');
     }
 
     public function render()

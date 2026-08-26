@@ -4,12 +4,7 @@
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-24">
         {{-- PLATFORMS SECTION --}}
         <div class="mb-20">
-                <div class="flex items-center justify-between">
-                    <p class="font-display text-2xl text-frost">My Platforms</p>
-                    @if (session()->has('message'))
-                        <span class="font-mono text-xs text-plasma">{{ session('message') }}</span>
-                    @endif
-                </div>
+                <p class="font-display text-2xl text-frost">My Platforms</p>
 
                 {{-- List Platforms --}}
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
