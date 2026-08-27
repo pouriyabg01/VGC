@@ -8,6 +8,18 @@ use App\Models\User;
 class SubscriptionService
 {
     /**
+     * Subscriptions already resolved this request, keyed by user id.
+     *
+     * The header renders activeFor() on every page and the page's own
+     * component usually asks again, so the same query ran twice per request.
+     * Both writers below drop their user's entry, so a subscription taken out
+     * or spent mid-request is still read back correctly.
+     *
+     * @var array<int, ?Plan>
+     */
+    private array $latest = [];
+
+    /**
      * The user's most recent subscription, as a Plan carrying its pivot row.
      *
      * SubscriptionResource reads $this->pivot and $this->title, so a
@@ -16,7 +28,11 @@ class SubscriptionService
      */
     public function latestFor(User $user): ?Plan
     {
-        return $user->plan()
+        if (array_key_exists($user->id, $this->latest)) {
+            return $this->latest[$user->id];
+        }
+
+        return $this->latest[$user->id] = $user->plan()
             ->orderByPivot('created_at', 'desc')
             // created_at alone ties whenever two subscriptions land in the same
             // second, and the tie resolves arbitrarily — which can hand back a
@@ -44,6 +60,8 @@ class SubscriptionService
     {
         $user->plan()->attach($plan->id, ['status' => true]);
 
+        $this->forget($user);
+
         return $this->latestFor($user);
     }
 
@@ -70,9 +88,16 @@ class SubscriptionService
             }
 
             $player->plan()->updateExistingPivot($latest->id, ['status' => false]);
+            $this->forget($player);
             $deactivated++;
         }
 
         return $deactivated;
+    }
+
+    /** Drops a user's memoised subscription after it has been written to. */
+    public function forget(User $user): void
+    {
+        unset($this->latest[$user->id]);
     }
 }
