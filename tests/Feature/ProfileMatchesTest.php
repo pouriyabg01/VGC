@@ -4,7 +4,18 @@ use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+
+// Every submission writes a proof screenshot, so keep the real public disk out
+// of it and hand the forms a throwaway image.
+beforeEach(fn () => Storage::fake('public'));
+
+function proof(): UploadedFile
+{
+    return UploadedFile::fake()->image('final-score.jpg');
+}
 
 function matchBetween(User $a, User $b, array $overrides = []): TournamentMatch
 {
@@ -55,6 +66,7 @@ it('records a result and then shows it as submitted', function () {
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", 3)
         ->set("goals.{$match->id}.conceded", 1)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasNoErrors();
 
@@ -80,6 +92,7 @@ it('rejects missing or negative goals', function () {
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", -1)
         ->set("goals.{$match->id}.conceded", 0)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasErrors('match.'.$match->id);
 
@@ -93,11 +106,13 @@ it('refuses a second submission from the same player', function () {
     $test = Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", 2)
         ->set("goals.{$match->id}.conceded", 2)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasNoErrors();
 
     $test->set("goals.{$match->id}.scored", 5)
         ->set("goals.{$match->id}.conceded", 0)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasErrors('match.'.$match->id);
 
@@ -111,6 +126,7 @@ it('refuses a player who is not in the match', function () {
     Livewire::actingAs($outsider)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", 1)
         ->set("goals.{$match->id}.conceded", 0)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasErrors('match.'.$match->id);
 
@@ -124,10 +140,12 @@ it('settles the match and shows the score once both players agree', function () 
 
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", 3)->set("goals.{$match->id}.conceded", 1)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
     Livewire::actingAs($rival)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", 1)->set("goals.{$match->id}.conceded", 3)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
     $match->refresh();
@@ -146,10 +164,12 @@ it('marks the match disputed when the two reports disagree', function () {
 
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", 3)->set("goals.{$match->id}.conceded", 1)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
     Livewire::actingAs($rival)->test(\App\Livewire\Profile\Matches::class)
         ->set("goals.{$match->id}.scored", 4)->set("goals.{$match->id}.conceded", 0)
+        ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
     expect($match->refresh()->status)->toBe(TournamentMatchEnum::DISPUTED);

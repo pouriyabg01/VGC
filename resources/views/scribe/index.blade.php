@@ -189,7 +189,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: August 26, 2026</li>
+        <li>Last updated: August 27, 2026</li>
     </ul>
 </div>
 
@@ -553,7 +553,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/tournament-matches/16/submit-by-admin" \
+    "http://localhost:8000/api/tournament-matches/1/submit-by-admin" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -566,7 +566,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournament-matches/16/submit-by-admin"
+    "http://localhost:8000/api/tournament-matches/1/submit-by-admin"
 );
 
 const headers = {
@@ -700,10 +700,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournamentMatch_id"                data-endpoint="PUTapi-tournament-matches--tournamentMatch_id--submit-by-admin"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournamentMatch. Example: <code>16</code></p>
+<p>The ID of the tournamentMatch. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -746,37 +746,35 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/tournament-matches/16/submit-result" \
+    "http://localhost:8000/api/tournament-matches/1/submit-result" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: application/json" \
+    --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --data "{
-    \"scored_goals\": 3,
-    \"conceded_goals\": 1
-}"
-</code></pre></div>
+    --form "scored_goals=3"\
+    --form "conceded_goals=1"\
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpm2bum52gvi4u2ZfACN8" </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournament-matches/16/submit-result"
+    "http://localhost:8000/api/tournament-matches/1/submit-result"
 );
 
 const headers = {
     "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     "Accept": "application/json",
 };
 
-let body = {
-    "scored_goals": 3,
-    "conceded_goals": 1
-};
+const body = new FormData();
+body.append('scored_goals', '3');
+body.append('conceded_goals', '1');
+body.append('screenshot', document.querySelector('input[name="screenshot"]').files[0]);
 
 fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify(body),
+    body,
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -794,8 +792,8 @@ fetch(url, {
         &quot;tournament_id&quot;: 1,
         &quot;match_id&quot;: 1,
         &quot;user_id&quot;: 1,
-        &quot;screenshot&quot;: &quot;adw&quot;,
-        &quot;screenshot_url&quot;: &quot;http://localhost/storage/adw&quot;,
+        &quot;screenshot&quot;: &quot;conclusion-screenshot/1/1/9kQ2m0XcVb.jpg&quot;,
+        &quot;screenshot_url&quot;: &quot;http://localhost/storage/conclusion-screenshot/1/1/9kQ2m0XcVb.jpg&quot;,
         &quot;scored_goals&quot;: 3,
         &quot;conceded_goals&quot;: 1
     }
@@ -808,8 +806,8 @@ fetch(url, {
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: false,
-    &quot;message&quot;: [],
-    &quot;data&quot;: &quot;you not in this match&quot;
+    &quot;message&quot;: &quot;you not in this match&quot;,
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -831,7 +829,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-tournament-matches--tournamentMatch_id--submit-result" data-method="POST"
       data-path="api/tournament-matches/{tournamentMatch_id}/submit-result"
       data-authed="1"
-      data-hasfiles="0"
+      data-hasfiles="1"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-tournament-matches--tournamentMatch_id--submit-result', this);">
@@ -879,10 +877,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Content-Type"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value="application/json"
+               value="multipart/form-data"
                data-component="header">
     <br>
-<p>Example: <code>application/json</code></p>
+<p>Example: <code>multipart/form-data</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
@@ -904,13 +902,25 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournamentMatch_id"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value="16"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the tournamentMatch. Example: <code>16</code></p>
+<p>The ID of the tournamentMatch. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>screenshot</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="file" style="display: none"
+                              name="screenshot"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
+               value=""
+               data-component="body">
+    <br>
+<p>Proof of the final score. An image of at most 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpm2bum52gvi4u2ZfACN8</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored_goals</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;

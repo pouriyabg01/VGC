@@ -10,8 +10,6 @@ use App\Traits\TournamentMatchTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Models\TournamentMatch;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
 
 /**
@@ -158,6 +156,7 @@ class TournamentMatchController extends BaseController
      *
      * @bodyParam scored_goals integer required Goals scored by the submitting player. Example: 3
      * @bodyParam conceded_goals integer required Goals conceded by the submitting player. Example: 1
+     * @bodyParam screenshot file required Proof of the final score. An image of at most 5 MB.
      *
      * @response 200 scenario="Success" {
      *   "success": true,
@@ -166,23 +165,22 @@ class TournamentMatchController extends BaseController
      *     "tournament_id": 1,
      *     "match_id": 1,
      *     "user_id": 1,
-     *     "screenshot": "adw",
-     *     "screenshot_url": "http://localhost/storage/adw",
+     *     "screenshot": "conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
+     *     "screenshot_url": "http://localhost/storage/conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
      *     "scored_goals": 3,
      *     "conceded_goals": 1
      *   }
      * }
      * @response 422 scenario="Not a participant" {
      *   "success": false,
-     *   "message": [],
-     *   "data": "you not in this match"
+     *   "message": "you not in this match",
+     *   "data": []
      * }
      */
     public function submitByPlayer(Request $request, TournamentMatch $tournamentMatch)
     {
         $data = $request->validate([
-            //TODO screenshot upload feature: restore this rule once saveScreenshot() works
-//            'screenshot' => 'required|file|image',
+            'screenshot' => 'required|file|image|max:5120',
             'scored_goals' => 'required|integer|min:0',
             'conceded_goals' => 'required|integer|min:0',
         ]);
@@ -193,6 +191,7 @@ class TournamentMatchController extends BaseController
                 $tournamentMatch,
                 (int) $data['scored_goals'],
                 (int) $data['conceded_goals'],
+                $data['screenshot'],
             );
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage(), [], 422);
@@ -207,8 +206,4 @@ class TournamentMatchController extends BaseController
         );
     }
 
-    private function saveScreenshot($image , TournamentMatch $tournamentMatch)
-    {
-        $image->store('conclusion-screenshot/' . $tournamentMatch->id . '/' . Auth::id(), 'public');
-    }
 }

@@ -186,14 +186,14 @@ endpoints:
         name: tournamentMatch_id
         description: 'The ID of the tournamentMatch.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournamentMatch_id: 16
+      tournamentMatch_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -270,7 +270,7 @@ endpoints:
       deprecated: false
     headers:
       Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
       tournamentMatch_id:
@@ -278,17 +278,28 @@ endpoints:
         name: tournamentMatch_id
         description: 'The ID of the tournamentMatch.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournamentMatch_id: 16
+      tournamentMatch_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
+      screenshot:
+        custom: []
+        name: screenshot
+        description: 'Proof of the final score. An image of at most 5 MB.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
       scored_goals:
         custom: []
         name: scored_goals
@@ -314,7 +325,8 @@ endpoints:
     cleanBodyParameters:
       scored_goals: 3
       conceded_goals: 1
-    fileParameters: []
+    fileParameters:
+      screenshot: null
     responses:
       -
         custom: []
@@ -327,8 +339,8 @@ endpoints:
               "tournament_id": 1,
               "match_id": 1,
               "user_id": 1,
-              "screenshot": "adw",
-              "screenshot_url": "http://localhost/storage/adw",
+              "screenshot": "conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
+              "screenshot_url": "http://localhost/storage/conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
               "scored_goals": 3,
               "conceded_goals": 1
             }
@@ -341,8 +353,8 @@ endpoints:
         content: |-
           {
             "success": false,
-            "message": [],
-            "data": "you not in this match"
+            "message": "you not in this match",
+            "data": []
           }
         headers: []
         description: 'Not a participant'

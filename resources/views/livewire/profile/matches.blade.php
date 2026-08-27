@@ -80,8 +80,24 @@
                                        wire:model="goals.{{ $match->id }}.conceded"
                                        class="w-full h-11 bg-void border border-steel rounded-sm px-3 text-sm text-frost outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30">
                             </div>
+                            <div class="min-w-64 flex-1">
+                                <label for="screenshot-{{ $match->id }}"
+                                       class="font-mono text-[10px] uppercase tracking-widest text-mist mb-2 block">
+                                    Screenshot of the final score
+                                </label>
+                                <input type="file" id="screenshot-{{ $match->id }}" accept="image/*"
+                                       wire:model="screenshots.{{ $match->id }}"
+                                       class="w-full h-11 bg-void border border-steel rounded-sm text-sm text-mist outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30
+                                              file:h-11 file:mr-4 file:border-0 file:bg-steel file:text-frost file:px-4
+                                              file:font-mono file:text-[10px] file:uppercase file:tracking-widest file:cursor-pointer">
+                                <p class="mt-2 font-mono text-[10px] uppercase tracking-widest text-mist"
+                                   wire:loading wire:target="screenshots.{{ $match->id }}">
+                                    Uploading&hellip;
+                                </p>
+                            </div>
+
                             <button type="submit"
-                                    wire:loading.attr="disabled" wire:target="submit({{ $match->id }})"
+                                    wire:loading.attr="disabled" wire:target="submit({{ $match->id }}), screenshots.{{ $match->id }}"
                                     class="h-11 bg-neon text-void px-8 rounded-sm font-mono text-xs uppercase tracking-widest transition-colors hover:bg-neon/90 disabled:opacity-60">
                                 <span wire:loading.remove wire:target="submit({{ $match->id }})">Submit result</span>
                                 <span wire:loading wire:target="submit({{ $match->id }})">Sending&hellip;</span>
@@ -99,6 +115,12 @@
                                 You reported {{ $submitted->scored_goals }}&ndash;{{ $submitted->conceded_goals }}.
                                 Waiting for {{ $opponent?->name ?? 'your opponent' }}.
                             </p>
+                            @if ($submitted->screenshot)
+                                <a href="{{ Storage::disk('public')->url($submitted->screenshot) }}" target="_blank"
+                                   class="mt-3 inline-block font-mono text-[10px] uppercase tracking-widest text-plasma hover:underline">
+                                    View your screenshot
+                                </a>
+                            @endif
                         </div>
                     @endif
                 </article>

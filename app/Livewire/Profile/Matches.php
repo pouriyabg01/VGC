@@ -7,10 +7,11 @@ use App\Models\TournamentMatch;
 use App\Traits\TournamentMatchTrait;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Matches extends Component
 {
-    use TournamentMatchTrait;
+    use TournamentMatchTrait, WithFileUploads;
 
     /**
      * Goal inputs keyed by match id, so several open forms keep their own
@@ -19,6 +20,14 @@ class Matches extends Component
      * @var array<int, array<string, mixed>>
      */
     public array $goals = [];
+
+    /**
+     * Proof screenshots keyed by match id, so each open form holds its own
+     * upload: ['12' => TemporaryUploadedFile].
+     *
+     * @var array<int, mixed>
+     */
+    public array $screenshots = [];
 
     public function submit(int $matchId): void
     {
@@ -34,13 +43,21 @@ class Matches extends Component
             [
                 'scored' => $this->goals[$matchId]['scored'] ?? null,
                 'conceded' => $this->goals[$matchId]['conceded'] ?? null,
+                'screenshot' => $this->screenshots[$matchId] ?? null,
             ],
             [
                 'scored' => ['required', 'integer', 'min:0'],
                 'conceded' => ['required', 'integer', 'min:0'],
+                // Same shape as the API rule, so a file the page accepts is one
+                // the API would accept too.
+                'screenshot' => ['required', 'image', 'max:5120'],
             ],
             [],
-            ['scored' => 'goals scored', 'conceded' => 'goals conceded'],
+            [
+                'scored' => 'goals scored',
+                'conceded' => 'goals conceded',
+                'screenshot' => 'screenshot',
+            ],
         );
 
         if ($validated->fails()) {
@@ -56,6 +73,7 @@ class Matches extends Component
                 $match,
                 (int) $validated->validated()['scored'],
                 (int) $validated->validated()['conceded'],
+                $validated->validated()['screenshot'],
             );
         } catch (\Exception $e) {
             $this->addError('match.'.$matchId, $e->getMessage());
@@ -63,7 +81,7 @@ class Matches extends Component
             return;
         }
 
-        unset($this->goals[$matchId]);
+        unset($this->goals[$matchId], $this->screenshots[$matchId]);
     }
 
     public function render()

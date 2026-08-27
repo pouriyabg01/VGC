@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Services\Subscription;
 use App\Services\SubscriptionService;
 use App\Services\TournamentService;
+use Illuminate\Http\UploadedFile;
 
 trait TournamentMatchTrait
 {
@@ -31,9 +32,10 @@ trait TournamentMatchTrait
      * than each keeping their own copy.
      *
      * @throws \Exception when the user is not in the match, the match is not
-     *                     open, or they have already reported.
+     *                     open, they have already reported, or the screenshot
+     *                     cannot be written to disk.
      */
-    private function submitResultFor(User $user, TournamentMatch $match, int $scored, int $conceded): MatchResult
+    private function submitResultFor(User $user, TournamentMatch $match, int $scored, int $conceded, UploadedFile $screenshot): MatchResult
     {
         if (! in_array($user->id, [$match->player1_id, $match->player2_id], true)) {
             throw new \Exception('you not in this match');
@@ -47,12 +49,11 @@ trait TournamentMatchTrait
             throw new \Exception('You already submitted result');
         }
 
+        // Written only after the rules above pass, so a refused submission
+        // leaves nothing behind on disk.
         $submission = $match->submissions()->create([
             'user_id' => $user->id,
-            //TODO screenshot upload feature: every submission currently stores the
-            //     placeholder 'adw'. Swap it for the real path once saveScreenshot()
-            //     returns one, and restore the validation rule on the callers.
-            'screenshot' => 'adw',
+            'screenshot' => $this->storeScreenshot($screenshot, $match, $user),
             'scored_goals' => $scored,
             'conceded_goals' => $conceded,
         ]);
@@ -63,6 +64,33 @@ trait TournamentMatchTrait
         }
 
         return $submission;
+    }
+
+    /**
+     * Puts a player's proof screenshot on the public disk and hands back the
+     * path to record against the submission.
+     *
+     * The path stays relative to the disk root, because cleanup:screenshots
+     * compares the stored value against Storage::allFiles('conclusion-screenshot'),
+     * which yields that same form. Storing a URL or an absolute path here would
+     * make every file look orphaned and get it deleted.
+     *
+     * @throws \Exception when the disk refuses the write.
+     */
+    private function storeScreenshot(UploadedFile $screenshot, TournamentMatch $match, User $user): string
+    {
+        $path = $screenshot->store(
+            'conclusion-screenshot/'.$match->id.'/'.$user->id,
+            'public'
+        );
+
+        // The public disk is configured with 'throw' => false, so a failed
+        // write comes back as false rather than as an exception.
+        if (! is_string($path) || $path === '') {
+            throw new \Exception('Could not save your screenshot. Please try again.');
+        }
+
+        return $path;
     }
 
     private function generateNextRound(Tournament $tournament)
