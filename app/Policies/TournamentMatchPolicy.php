@@ -11,6 +11,22 @@ class TournamentMatchPolicy
 
 
     /**
+     * Determine whether the user can list models.
+     */
+    public function viewAny(Authenticatable $user): bool
+    {
+        return $user instanceof Admin;
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function view(Authenticatable $user, TournamentMatch $tournamentMatch): bool
+    {
+        return $user instanceof Admin;
+    }
+
+    /**
      * Determine whether the user can create models.
      */
     public function create(Authenticatable $user): bool

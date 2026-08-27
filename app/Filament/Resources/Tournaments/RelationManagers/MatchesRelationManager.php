@@ -3,12 +3,12 @@
 namespace App\Filament\Resources\Tournaments\RelationManagers;
 
 use App\Enums\Tournaments\TournamentEnum;
-use App\Filament\Resources\Tournaments\TournamentResource;
+use App\Filament\Resources\TournamentMatches\TournamentMatchResource;
 use App\Models\TournamentMatch;
 use App\Services\CreateMatches;
 use App\Models\Tournament;
 use Filament\Actions\Action;
-use Filament\Actions\CreateAction;
+use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
@@ -20,7 +20,17 @@ class MatchesRelationManager extends RelationManager
 
     protected static ?string $relationshipTitle = 'Matches';
 
-    protected static ?string $relatedResource = TournamentResource::class;
+    /**
+     * The rows here are matches, so this has to name the match resource. It
+     * named TournamentResource, and since that resource's model is not the one
+     * the rows carry, Filament could not link out to it — it fell back to a
+     * modal built from the tournament's own infolist, which is why a match's
+     * values appeared under "View tournament" beside tournament labels.
+     *
+     * Pointing it at a resource that owns this model also turns the view action
+     * into a link to that resource's page instead of a modal.
+     */
+    protected static ?string $relatedResource = TournamentMatchResource::class;
 
     public function table(Table $table): Table
     {
@@ -47,6 +57,9 @@ class MatchesRelationManager extends RelationManager
             ])
             ->emptyStateHeading('No Matches')
             ->emptyStateDescription('Create a match to get started.')
+            ->recordActions([
+                ViewAction::make(),
+            ])
             ->headerActions([
                 Action::make('generateMatches')
                     ->label('Start Tournament Matches')
