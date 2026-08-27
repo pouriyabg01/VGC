@@ -1,6 +1,7 @@
 <?php
 use App\Livewire\Checkout;
 use App\Livewire\Landing;
+use App\Livewire\Plans;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Profile\Index;
@@ -23,6 +24,8 @@ Route::post('/logout', function () {
 })->middleware('auth')->name('logout');
 
 Route::get('profile' , Index::class)->middleware('auth')->name('profile');
+
+Route::get('plans', Plans::class)->name('plans');
 
 // Public: a guest can read the plan; only confirming requires an account.
 Route::get('checkout/{plan}', Checkout::class)->name('checkout');

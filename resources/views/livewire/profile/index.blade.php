@@ -43,7 +43,7 @@
                 <p class="mt-3 max-w-md text-sm leading-6 text-mist">
                     A pass is what lets you enter tournaments. Pick one to get started.
                 </p>
-                <a href="{{ route('home') }}#plans" wire:navigate
+                <a href="{{ route('plans') }}" wire:navigate
                    class="mt-6 inline-block bg-neon text-void px-6 py-3 rounded-sm font-mono text-xs uppercase tracking-widest transition-colors hover:bg-neon/90">
                     Browse plans
                 </a>

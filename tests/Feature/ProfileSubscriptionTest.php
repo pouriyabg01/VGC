@@ -31,7 +31,7 @@ it('offers plans when there is no subscription', function () {
     expect($html)->toContain('My Subscription')
         ->and($html)->toContain('No active pass')
         ->and($html)->toContain('Browse plans')
-        ->and($html)->toContain(route('home').'#plans');
+        ->and($html)->toContain(route('plans'));
 });
 
 it('treats a lapsed pass as none', function () {
@@ -74,7 +74,7 @@ it('reflects a subscription taken through checkout', function () {
         ->not->toContain('No active pass');
 });
 
-it('anchors the plans band so browse plans lands on it', function () {
+it('still anchors the plans band on the landing page', function () {
     Plan::factory()->create();
 
     expect($this->get('/')->assertOk()->getContent())->toContain('id="plans"');
