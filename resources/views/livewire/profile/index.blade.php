@@ -1,6 +1,56 @@
 @use('App\Enums\Platforms\PlatformEnum')
 
 <div>
+    {{-- SUBSCRIPTION SECTION --}}
+    <section class="mx-auto max-w-6xl px-6 pt-20">
+        <p class="font-display text-2xl text-frost">My Subscription</p>
+
+        @php $sub = $this->activeSubscription(); @endphp
+
+        @if ($sub)
+            <div class="mt-6 bg-carbon border border-steel rounded-sm">
+                <div class="flex flex-wrap items-start justify-between gap-6 p-8">
+                    <div class="min-w-[220px]">
+                        <div class="flex items-center gap-3">
+                            <h3 class="font-display text-2xl text-frost">{{ $sub->title }}</h3>
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-plasma border border-plasma/40 bg-plasma/10 px-2 py-1">
+                                Active
+                            </span>
+                        </div>
+                        @if ($sub->description)
+                            <p class="mt-3 max-w-md text-sm leading-6 text-mist">{{ $sub->description }}</p>
+                        @endif
+                    </div>
+
+                    <dl class="flex flex-wrap gap-x-12 gap-y-4 text-sm">
+                        <div>
+                            <dt class="font-mono text-[10px] uppercase tracking-widest text-mist">Price</dt>
+                            <dd class="mt-1 font-display text-2xl text-frost">${{ number_format($sub->price) }}</dd>
+                        </div>
+                        <div>
+                            <dt class="font-mono text-[10px] uppercase tracking-widest text-mist">Started</dt>
+                            <dd class="mt-1 text-frost">
+                                {{ optional($sub->pivot->created_at)->format('M j, Y') ?? '&mdash;' }}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        @else
+            {{-- No pass: point straight at the plans rather than leaving a dead end. --}}
+            <div class="mt-6 border border-dashed border-steel bg-carbon rounded-sm px-8 py-10">
+                <p class="font-mono text-xs uppercase tracking-widest text-mist">No active pass</p>
+                <p class="mt-3 max-w-md text-sm leading-6 text-mist">
+                    A pass is what lets you enter tournaments. Pick one to get started.
+                </p>
+                <a href="{{ route('home') }}#plans" wire:navigate
+                   class="mt-6 inline-block bg-neon text-void px-6 py-3 rounded-sm font-mono text-xs uppercase tracking-widest transition-colors hover:bg-neon/90">
+                    Browse plans
+                </a>
+            </div>
+        @endif
+    </section>
+
     <section class="mx-auto max-w-6xl px-6 pt-20 pb-24">
         {{-- PLATFORMS SECTION --}}
         <div class="mb-20">

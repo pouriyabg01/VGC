@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Plan;
 use App\Models\User;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 
 /**
@@ -42,35 +43,18 @@ class SubscriptionController extends BaseController
     public function store(Request $request,Plan $plan)
     {
         $user = $request->user();
-        $latest = $this->latestSubscription($user);
 
-        if ($latest && $latest->pivot->status){
+        if (app(SubscriptionService::class)->activeFor($user)){
             return $this->sendError('you already have subscription!');
         }
 
-        $user->plan()->attach($plan , ['status' => true]);
-
         return $this->sendResponse(
-            new SubscriptionResource($this->latestSubscription($user)),
+            new SubscriptionResource(app(SubscriptionService::class)->subscribe($user, $plan)),
             'you successfully get a subscription',
             200
         );
     }
 
-    /**
-     * The user's most recent subscription, as a Plan carrying its pivot row.
-     *
-     * SubscriptionResource reads $this->pivot, so the subscription has to be
-     * resolved through the plan() belongsToMany. The Subscription model has no
-     * pivot and no title, and $user->latest_active_sub resolves to null because
-     * the matching accessor is commented out on User.
-     */
-    private function latestSubscription(User $user): ?Plan
-    {
-        return $user->plan()
-            ->orderByPivot('created_at', 'desc')
-            ->first();
-    }
 
     /**
      * Show current subscription
@@ -98,9 +82,9 @@ class SubscriptionController extends BaseController
      */
     public function show(Request $request)
     {
-        $subscription = $this->latestSubscription($request->user());
+        $subscription = app(SubscriptionService::class)->activeFor($request->user());
 
-        if (! $subscription || ! $subscription->pivot->status) {
+        if (! $subscription) {
             return $this->sendError('have no subscription', [], 404);
         }
 

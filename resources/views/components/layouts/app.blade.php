@@ -24,8 +24,16 @@
             <nav class="flex items-center gap-6 text-sm">
                 @auth
                     <a href="{{ route('profile') }}" wire:navigate class="flex items-center gap-2 text-mist hover:text-frost transition-colors">
-                        @if (auth()->user()->latest_active_sub)
-                            <img src="{{ asset('storage/images/subscription-icon.png') }}" alt="icon" class="w-5 h-5">
+                        @if (app(\App\Services\SubscriptionService::class)->activeFor(auth()->user()))
+                            {{-- Shown only while a pass is active; absent otherwise. --}}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                                 stroke-linecap="round" stroke-linejoin="round"
+                                 class="h-5 w-5 shrink-0 text-plasma" role="img"
+                                 aria-label="Active subscription">
+                                <title>Active subscription</title>
+                                <path d="M7 8.5h10a4.5 4.5 0 0 1 4.42 3.66l.62 3.3A2.35 2.35 0 0 1 19.73 18c-.79 0-1.52-.4-1.95-1.05L16.6 15.2H7.4l-1.18 1.75A2.35 2.35 0 0 1 4.27 18a2.35 2.35 0 0 1-2.31-2.54l.62-3.3A4.5 4.5 0 0 1 7 8.5Z"/>
+                                <path d="M7.6 11.4v2M6.6 12.4h2M15.6 11.7h.01M17.4 13.3h.01"/>
+                            </svg>
                         @endif
                         <span>{{ auth()->user()->name }}</span>
                     </a>

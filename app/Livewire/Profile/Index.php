@@ -3,7 +3,9 @@
 namespace App\Livewire\Profile;
 
 use App\Livewire\Forms\PlatformForm;
+use App\Models\Plan;
 use App\Models\Platform;
+use App\Services\SubscriptionService;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +22,15 @@ class Index extends Component
     public function removePlatform($id)
     {
         Platform::find($id)->delete();
+    }
+
+    /**
+     * The pass the user currently holds, as a Plan carrying its pivot row, or
+     * null. Same source the header icon and checkout use.
+     */
+    public function activeSubscription(): ?Plan
+    {
+        return app(SubscriptionService::class)->activeFor(Auth::user());
     }
 
     public function render()

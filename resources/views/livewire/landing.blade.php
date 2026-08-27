@@ -103,7 +103,7 @@
     </section>
 
     {{-- Plans --}}
-    <section class="border-t border-steel bg-void">
+    <section id="plans" class="border-t border-steel bg-void scroll-mt-8">
         <div class="mx-auto max-w-6xl px-6 py-20">
             <div class="mb-10">
                 <div>
@@ -128,6 +128,11 @@
                                 <p class="mt-2 font-display text-4xl text-frost">
                                     ${{ number_format($plan->price) }}
                                 </p>
+
+                                <a href="{{ route('checkout', $plan) }}" wire:navigate
+                                   class="mt-6 block w-full text-center bg-neon text-void px-6 py-3 rounded-sm font-mono text-xs uppercase tracking-widest transition-colors hover:bg-neon/90">
+                                    Get {{ $plan->title }}
+                                </a>
                             </div>
                         </article>
                     @endforeach
