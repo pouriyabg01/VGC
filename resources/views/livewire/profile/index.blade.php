@@ -140,7 +140,7 @@
                                             @if ($tournament->status === \App\Enums\Tournaments\TournamentEnum::COMPLETED)
                                                 DONE!
                                             @else
-                                                {{ count($tournament->matches()->latestRound()) }}
+                                                {{ $tournament->matchesLeft() }} left
                                             @endif
                                         </dd>
                                     </div>

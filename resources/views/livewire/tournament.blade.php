@@ -73,10 +73,10 @@
             </div>
             <div>
                 <dt class="font-mono text-xs uppercase tracking-widest text-mist">Matches</dt>
-                @if($tournament->matches->count() === 1)
+                @if ($tournament->status === \App\Enums\Tournaments\TournamentEnum::COMPLETED)
                     <dd class="mt-1 text-plasma font-bold">DONE!</dd>
                 @else
-                    <dd class="mt-1 text-frost">{{ $tournament->matches->count() }}</dd>
+                    <dd class="mt-1 text-frost">{{ $tournament->matchesLeft() }} left</dd>
                 @endif
             </div>
             <div>
