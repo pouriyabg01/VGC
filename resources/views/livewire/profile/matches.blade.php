@@ -61,7 +61,8 @@
                     @elseif ($canReport)
                         {{-- Open match this player has not reported yet. --}}
                         <form wire:submit.prevent="submit({{ $match->id }})"
-                              class="mt-5 border-t border-steel pt-5 flex flex-wrap items-end gap-4">
+                              class="mt-5 border-t border-steel pt-5 space-y-5">
+                          <div class="flex flex-wrap items-end gap-4">
                             <div class="w-32">
                                 <label for="scored-{{ $match->id }}"
                                        class="font-mono text-[10px] uppercase tracking-widest text-mist mb-2 block">
@@ -80,20 +81,50 @@
                                        wire:model="goals.{{ $match->id }}.conceded"
                                        class="w-full h-11 bg-void border border-steel rounded-sm px-3 text-sm text-frost outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30">
                             </div>
-                            <div class="min-w-64 flex-1">
+                          </div>
+
+                            {{-- The picked file is previewed straight from the
+                                 browser, so the player can read the scoreline
+                                 back before committing to it. --}}
+                            <div x-data="{
+                                    preview: null,
+                                    fileName: null,
+                                    show(event) {
+                                        const file = event.target.files[0];
+                                        if (this.preview) URL.revokeObjectURL(this.preview);
+                                        this.preview = file ? URL.createObjectURL(file) : null;
+                                        this.fileName = file ? file.name : null;
+                                    },
+                                 }"
+                                 x-on:beforeunload.window="preview && URL.revokeObjectURL(preview)">
                                 <label for="screenshot-{{ $match->id }}"
-                                       class="font-mono text-[10px] uppercase tracking-widest text-mist mb-2 block">
+                                       class="font-mono text-[10px] uppercase tracking-widest text-mist block">
                                     Screenshot of the final score
                                 </label>
-                                <input type="file" id="screenshot-{{ $match->id }}" accept="image/*"
+                                <p class="mt-1 text-xs text-mist">{{ $screenshotHint }}</p>
+
+                                <input type="file" id="screenshot-{{ $match->id }}"
+                                       accept="{{ $screenshotAccept }}"
                                        wire:model="screenshots.{{ $match->id }}"
-                                       class="w-full h-11 bg-void border border-steel rounded-sm text-sm text-mist outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30
-                                              file:h-11 file:mr-4 file:border-0 file:bg-steel file:text-frost file:px-4
-                                              file:font-mono file:text-[10px] file:uppercase file:tracking-widest file:cursor-pointer">
-                                <p class="mt-2 font-mono text-[10px] uppercase tracking-widest text-mist"
+                                       x-on:change="show($event)"
+                                       class="mt-2 w-full h-12 bg-void border border-steel rounded-sm text-sm text-mist outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30
+                                              file:h-12 file:mr-4 file:border-0 file:bg-steel file:text-frost file:px-5
+                                              file:font-mono file:text-[10px] file:uppercase file:tracking-widest file:cursor-pointer hover:file:bg-steel/80">
+
+                                <p class="mt-2 font-mono text-[10px] uppercase tracking-widest text-plasma"
                                    wire:loading wire:target="screenshots.{{ $match->id }}">
                                     Uploading&hellip;
                                 </p>
+
+                                <div x-cloak x-show="preview" class="mt-4">
+                                    <p class="font-mono text-[10px] uppercase tracking-widest text-mist"
+                                       x-text="fileName"></p>
+                                    <a :href="preview" target="_blank" class="mt-2 block w-fit">
+                                        <img :src="preview" alt="Screenshot preview"
+                                             class="max-h-72 w-auto max-w-full rounded-sm border border-steel bg-void object-contain">
+                                    </a>
+                                    <p class="mt-2 text-xs text-mist">Click the preview to open it full size.</p>
+                                </div>
                             </div>
 
                             <button type="submit"

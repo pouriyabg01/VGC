@@ -752,7 +752,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "scored_goals=3"\
     --form "conceded_goals=1"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpm2bum52gvi4u2ZfACN8" </code></pre></div>
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpdj08tfe02bcg72Z7Z2L" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -796,6 +796,20 @@ fetch(url, {
         &quot;screenshot_url&quot;: &quot;http://localhost/storage/conclusion-screenshot/1/1/9kQ2m0XcVb.jpg&quot;,
         &quot;scored_goals&quot;: 3,
         &quot;conceded_goals&quot;: 1
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Unacceptable screenshot):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The screenshot must be a JPG, PNG or WEBP image.&quot;,
+    &quot;errors&quot;: {
+        &quot;screenshot&quot;: [
+            &quot;The screenshot must be a JPG, PNG or WEBP image.&quot;
+        ]
     }
 }</code>
  </pre>
@@ -918,7 +932,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Proof of the final score. An image of at most 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpm2bum52gvi4u2ZfACN8</code></p>
+<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpdj08tfe02bcg72Z7Z2L</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored_goals</code></b>&nbsp;&nbsp;

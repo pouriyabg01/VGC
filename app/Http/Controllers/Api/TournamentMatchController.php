@@ -6,6 +6,7 @@ use App\Enums\Tournaments\TournamentEnum;
 use App\Services\CreateMatches;
 use App\Http\Resources\MatchResultResource;
 use App\Models\Tournament;
+use App\Support\MatchScreenshot;
 use App\Traits\TournamentMatchTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -156,7 +157,7 @@ class TournamentMatchController extends BaseController
      *
      * @bodyParam scored_goals integer required Goals scored by the submitting player. Example: 3
      * @bodyParam conceded_goals integer required Goals conceded by the submitting player. Example: 1
-     * @bodyParam screenshot file required Proof of the final score. An image of at most 5 MB.
+     * @bodyParam screenshot file required Proof of the final score. JPG, PNG or WEBP, up to 5 MB.
      *
      * @response 200 scenario="Success" {
      *   "success": true,
@@ -171,6 +172,12 @@ class TournamentMatchController extends BaseController
      *     "conceded_goals": 1
      *   }
      * }
+     * @response 422 scenario="Unacceptable screenshot" {
+     *   "message": "The screenshot must be a JPG, PNG or WEBP image.",
+     *   "errors": {
+     *     "screenshot": ["The screenshot must be a JPG, PNG or WEBP image."]
+     *   }
+     * }
      * @response 422 scenario="Not a participant" {
      *   "success": false,
      *   "message": "you not in this match",
@@ -180,10 +187,11 @@ class TournamentMatchController extends BaseController
     public function submitByPlayer(Request $request, TournamentMatch $tournamentMatch)
     {
         $data = $request->validate([
-            'screenshot' => 'required|file|image|max:5120',
+            // Shared with the profile form, so both sides accept the same files.
+            'screenshot' => MatchScreenshot::rules(),
             'scored_goals' => 'required|integer|min:0',
             'conceded_goals' => 'required|integer|min:0',
-        ]);
+        ], MatchScreenshot::messages());
 
         try {
             $match = $this->submitResultFor(

@@ -294,7 +294,7 @@ endpoints:
       screenshot:
         custom: []
         name: screenshot
-        description: 'Proof of the final score. An image of at most 5 MB.'
+        description: 'Proof of the final score. JPG, PNG or WEBP, up to 5 MB.'
         required: true
         example: null
         type: file
@@ -349,6 +349,18 @@ endpoints:
           }
         headers: []
         description: Success
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "message": "The screenshot must be a JPG, PNG or WEBP image.",
+            "errors": {
+              "screenshot": ["The screenshot must be a JPG, PNG or WEBP image."]
+            }
+          }
+        headers: []
+        description: 'Unacceptable screenshot'
       -
         custom: []
         status: 422

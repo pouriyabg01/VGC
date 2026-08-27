@@ -4,6 +4,7 @@ namespace App\Livewire\Profile;
 
 use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Models\TournamentMatch;
+use App\Support\MatchScreenshot;
 use App\Traits\TournamentMatchTrait;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -48,11 +49,11 @@ class Matches extends Component
             [
                 'scored' => ['required', 'integer', 'min:0'],
                 'conceded' => ['required', 'integer', 'min:0'],
-                // Same shape as the API rule, so a file the page accepts is one
-                // the API would accept too.
-                'screenshot' => ['required', 'image', 'max:5120'],
+                // Read from the same place the API reads, so a file the page
+                // accepts is one the API would accept too.
+                'screenshot' => MatchScreenshot::rules(),
             ],
-            [],
+            MatchScreenshot::messages(),
             [
                 'scored' => 'goals scored',
                 'conceded' => 'goals conceded',
@@ -98,6 +99,9 @@ class Matches extends Component
             'matches' => $matches,
             'userId' => $user->id,
             'pending' => TournamentMatchEnum::PENDING,
+            // Told to the player up front, and enforced by the same constants.
+            'screenshotHint' => MatchScreenshot::hint(),
+            'screenshotAccept' => MatchScreenshot::accept(),
         ]);
     }
 }

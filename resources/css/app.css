@@ -28,3 +28,10 @@
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
     --font-mono: 'Chakra Petch', ui-monospace, monospace;
 }
+
+/* Alpine hides x-cloak elements until it takes over, so a preview pane cannot
+   flash empty on first paint. Alpine itself only removes the attribute; the
+   hiding is ours to declare. */
+[x-cloak] {
+    display: none !important;
+}
