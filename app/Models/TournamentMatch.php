@@ -15,8 +15,13 @@ class TournamentMatch extends Model
 
     public function scopeLatestRound($query)
     {
-        $max = $this->newQuery()->max('round');
-        return $query->where('round' , $max)->get();
+        // Read the highest round from the query as already constrained. Taking
+        // it from a fresh model query read across every tournament, so any
+        // tournament on an earlier round than the deepest one matched nothing
+        // and counted zero.
+        $max = (clone $query)->max('round');
+
+        return $query->where('round', $max)->get();
     }
     public function tournament()
     {

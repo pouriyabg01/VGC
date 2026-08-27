@@ -108,6 +108,13 @@
                 </div>
             </div>
     </section>
+        {{-- MATCHES SECTION --}}
+    <section class="border-t border-steel">
+        <section class="mx-auto max-w-6xl px-6 pt-20 pb-24">
+            <livewire:profile.matches />
+        </section>
+    </section>
+
         {{-- TOURNAMENTS SECTION --}}
     <section class="border-t border-steel">
         <section class="mx-auto max-w-6xl px-6 pt-20 pb-24">
@@ -129,7 +136,13 @@
                                     </div>
                                     <div>
                                         <dt class="font-mono text-xs uppercase tracking-widest text-mist">Matches</dt>
-                                        <dd class="mt-1 text-frost">{{ count($tournament->matches()->latestRound()) === '1' ?: 'DONE!'}}</dd>
+                                        <dd class="mt-1 text-frost">
+                                            @if ($tournament->status === \App\Enums\Tournaments\TournamentEnum::COMPLETED)
+                                                DONE!
+                                            @else
+                                                {{ count($tournament->matches()->latestRound()) }}
+                                            @endif
+                                        </dd>
                                     </div>
                                 </dl>
                             </div>

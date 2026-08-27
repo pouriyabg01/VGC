@@ -180,18 +180,6 @@ class TournamentMatchController extends BaseController
      */
     public function submitByPlayer(Request $request, TournamentMatch $tournamentMatch)
     {
-        $user = $request->user();
-
-        //get players of this match
-        $matchUsers = [
-            $tournamentMatch->player1->id,
-            $tournamentMatch->player2->id
-        ];
-        //check if loggedin user is one of player of match
-        if (!in_array($user->id , $matchUsers , true)){
-            return $this->sendError('you not in this match', [], 422);
-        }
-
         $data = $request->validate([
             //TODO screenshot upload feature: restore this rule once saveScreenshot() works
 //            'screenshot' => 'required|file|image',
@@ -199,44 +187,26 @@ class TournamentMatchController extends BaseController
             'conceded_goals' => 'required|integer|min:0',
         ]);
 
-        //check for player submit result
-        if ($tournamentMatch->submissions()->where('user_id', $user->id)->exists()) {
-            return $this->sendError('You already submitted result');
+        try {
+            $match = $this->submitResultFor(
+                $request->user(),
+                $tournamentMatch,
+                (int) $data['scored_goals'],
+                (int) $data['conceded_goals'],
+            );
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage(), [], 422);
         }
 
-        $match = $tournamentMatch->submissions()->create([
-            //store user id in MatchResult model
-            //TODO screenshot upload feature: every submission currently stores the
-            //     placeholder 'adw'. Swap it for the real path once saveScreenshot()
-            //     returns one, and restore the validation rule above.
-//            'screenshot' => $this->saveScreenshot($data['screenshot'] , $tournamentMatch),
-            'screenshot' => 'adw',
-            'scored_goals' => $data['scored_goals'],
-            'conceded_goals' => $data['conceded_goals'],
-        ]);
+        $finished = $tournamentMatch->tournament->fresh()->status === TournamentEnum::COMPLETED;
 
-        $isTourFinished = false;
-
-        if ($tournamentMatch->submissions()->count() === 2) {
-            $this->resolveBySubmissions($tournamentMatch);
-            $isTourFinished = $this->generateNextRound($tournamentMatch->tournament);
-        }
-        if ($isTourFinished) {
-            return $this->sendResponse(
-                new MatchResultResource($match),
-                'Result submitted. The tournament is finito!'
-            , 200);
-        }
-
-
-        return $this->sendResponse(new MatchResultResource($match), 'Result submitted' , 200);
+        return $this->sendResponse(
+            new MatchResultResource($match),
+            $finished ? 'Result submitted. The tournament is finito!' : 'Result submitted',
+            200
+        );
     }
 
-    /**
-     * TODO screenshot upload feature: unused while submissions store a placeholder.
-     *      store() returns the stored path, but this method discards it, so callers
-     *      would persist null. Return the value before wiring this back up.
-     */
     private function saveScreenshot($image , TournamentMatch $tournamentMatch)
     {
         $image->store('conclusion-screenshot/' . $tournamentMatch->id . '/' . Auth::id(), 'public');

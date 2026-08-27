@@ -7,6 +7,7 @@ use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Enums\Tournaments\TournamentMatchResultEnum;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\TournamentResource;
+use App\Models\MatchResult;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
 use App\Models\User;
@@ -21,6 +22,49 @@ trait TournamentMatchTrait
      *      Shared Logic
      * ======================
      */
+
+    /**
+     * Records one player's result for a match and settles the match once both
+     * sides have reported.
+     *
+     * Lives here so the API and the profile page run the same rules rather
+     * than each keeping their own copy.
+     *
+     * @throws \Exception when the user is not in the match, the match is not
+     *                     open, or they have already reported.
+     */
+    private function submitResultFor(User $user, TournamentMatch $match, int $scored, int $conceded): MatchResult
+    {
+        if (! in_array($user->id, [$match->player1_id, $match->player2_id], true)) {
+            throw new \Exception('you not in this match');
+        }
+
+        if ($match->status !== TournamentMatchEnum::PENDING) {
+            throw new \Exception('This match is no longer open for results.');
+        }
+
+        if ($match->submissions()->where('user_id', $user->id)->exists()) {
+            throw new \Exception('You already submitted result');
+        }
+
+        $submission = $match->submissions()->create([
+            'user_id' => $user->id,
+            //TODO screenshot upload feature: every submission currently stores the
+            //     placeholder 'adw'. Swap it for the real path once saveScreenshot()
+            //     returns one, and restore the validation rule on the callers.
+            'screenshot' => 'adw',
+            'scored_goals' => $scored,
+            'conceded_goals' => $conceded,
+        ]);
+
+        if ($match->submissions()->count() === 2) {
+            $this->resolveBySubmissions($match);
+            $this->generateNextRound($match->tournament);
+        }
+
+        return $submission;
+    }
+
     private function generateNextRound(Tournament $tournament)
     {
         // Get current round number for THIS tournament

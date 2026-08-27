@@ -86,6 +86,15 @@ class User extends Authenticatable
 //        return $this->activeSub()->latest('id')->first();
 //    }
 
+    /**
+     * Matches this user is in, on either side of the draw.
+     */
+    public function matches()
+    {
+        return TournamentMatch::query()
+            ->where(fn ($q) => $q->where('player1_id', $this->id)->orWhere('player2_id', $this->id));
+    }
+
     public function tournaments()
     {
         return $this->belongsToMany(
