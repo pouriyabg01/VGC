@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Admin;
 use App\Models\TournamentMatch;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class TournamentMatchPolicy
 {
@@ -13,32 +13,32 @@ class TournamentMatchPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(Authenticatable $user): bool
     {
-        return $user->is_admin;
+        return $user instanceof Admin;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, TournamentMatch $tournamentMatch): bool
+    public function update(Authenticatable $user, TournamentMatch $tournamentMatch): bool
     {
-        return $user->is_admin;
+        return $user instanceof Admin;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, TournamentMatch $tournamentMatch): bool
+    public function delete(Authenticatable $user, TournamentMatch $tournamentMatch): bool
     {
-        return $user->is_admin;
+        return $user instanceof Admin;
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can submit a result on a player's behalf.
      */
-    public function submit(User $user, TournamentMatch $tournamentMatch): bool
+    public function submit(Authenticatable $user, TournamentMatch $tournamentMatch): bool
     {
-        return $user->is_admin;
+        return $user instanceof Admin;
     }
 }
