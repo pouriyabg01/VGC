@@ -153,9 +153,6 @@
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-POSTapi-tournaments--tournament_id--sign-up">
                                 <a href="#tournament-management-POSTapi-tournaments--tournament_id--sign-up">Sign up for a tournament</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="tournament-management-POSTapi-tournaments--tournament_id--sign-out">
-                                <a href="#tournament-management-POSTapi-tournaments--tournament_id--sign-out">Leave a tournament</a>
-                            </li>
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-POSTapi-tournaments">
                                 <a href="#tournament-management-POSTapi-tournaments">Create a tournament</a>
                             </li>
@@ -780,7 +777,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "scored=3"\
     --form "conceded=1"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phplecj7qo0hcq992T4o1m" </code></pre></div>
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpbmmkqgk3vv5b0Ap8BXg" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -960,7 +957,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phplecj7qo0hcq992T4o1m</code></p>
+<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpbmmkqgk3vv5b0Ap8BXg</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored</code></b>&nbsp;&nbsp;
@@ -3261,180 +3258,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournament_id"                data-endpoint="POSTapi-tournaments--tournament_id--sign-up"
-               value="1"
-               data-component="url">
-    <br>
-<p>The ID of the tournament. Example: <code>1</code></p>
-            </div>
-                    </form>
-
-                    <h2 id="tournament-management-POSTapi-tournaments--tournament_id--sign-out">Leave a tournament</h2>
-
-<p>
-<small class="badge badge-darkred">requires authentication</small>
-</p>
-
-<p>Takes the authenticated player back out, releasing their seat. Allowed
-until the tournament goes GAMING. If a draw had been made but play had
-not begun, that draw is void and is cleared along with them.</p>
-
-<span id="example-requests-POSTapi-tournaments--tournament_id--sign-out">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/tournaments/1/sign-out" \
-    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournaments/1/sign-out"
-);
-
-const headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-
-fetch(url, {
-    method: "POST",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-POSTapi-tournaments--tournament_id--sign-out">
-            <blockquote>
-            <p>Example response (200, Success):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;success&quot;: true,
-    &quot;message&quot;: &quot;you are successfully signed out&quot;,
-    &quot;data&quot;: []
-}</code>
- </pre>
-            <blockquote>
-            <p>Example response (422, Play has begun):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;success&quot;: false,
-    &quot;message&quot;: &quot;You cannot leave a tournament once it has started.&quot;,
-    &quot;data&quot;: []
-}</code>
- </pre>
-            <blockquote>
-            <p>Example response (422, Not in this tournament):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;success&quot;: false,
-    &quot;message&quot;: &quot;You are not registered in this tournament&quot;,
-    &quot;data&quot;: []
-}</code>
- </pre>
-    </span>
-<span id="execution-results-POSTapi-tournaments--tournament_id--sign-out" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-tournaments--tournament_id--sign-out"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-tournaments--tournament_id--sign-out"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-POSTapi-tournaments--tournament_id--sign-out" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-tournaments--tournament_id--sign-out">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-POSTapi-tournaments--tournament_id--sign-out" data-method="POST"
-      data-path="api/tournaments/{tournament_id}/sign-out"
-      data-authed="1"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-tournaments--tournament_id--sign-out', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-tournaments--tournament_id--sign-out"
-                    onclick="tryItOut('POSTapi-tournaments--tournament_id--sign-out');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-tournaments--tournament_id--sign-out"
-                    onclick="cancelTryOut('POSTapi-tournaments--tournament_id--sign-out');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-tournaments--tournament_id--sign-out"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/tournaments/{tournament_id}/sign-out</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
-               value="Bearer {YOUR_AUTH_KEY}"
-               data-component="header">
-    <br>
-<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>tournament_id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="tournament_id"                data-endpoint="POSTapi-tournaments--tournament_id--sign-out"
                value="1"
                data-component="url">
     <br>
