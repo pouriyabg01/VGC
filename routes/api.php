@@ -59,5 +59,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('subscription/plans/{plan}', [SubscriptionController::class, 'store']);
 
     Route::apiResource('plans', PlanController::class)->except(['show', 'index']);
-    Route::post('test', [PlanController::class, 'test']);
 });

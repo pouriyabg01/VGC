@@ -7,8 +7,6 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Profile\Index;
 use Illuminate\Support\Facades\Route;
 
-Route::get('test' , [\App\Http\Controllers\testController::class , 'index']);
-
 Route::get('/', Landing::class)->name('home');
 
 Route::middleware('guest')->group(function () {
