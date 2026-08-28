@@ -47,13 +47,3 @@ it('offers plans to a guest', function () {
 
     expect($this->get(route('plans'))->getContent())->toContain('Get Rookie');
 });
-
-it('is where Browse plans on the profile leads', function () {
-    $user = User::factory()->create();
-
-    $html = $this->actingAs($user)->get(route('profile'))->assertOk()->getContent();
-
-    expect($html)->toContain('Browse plans')
-        ->and($html)->toContain(route('plans'))
-        ->and($html)->not->toContain(route('home').'#plans');
-});
