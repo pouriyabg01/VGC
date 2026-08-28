@@ -73,11 +73,12 @@
             </div>
             <div>
                 <dt class="font-mono text-xs uppercase tracking-widest text-mist">Matches</dt>
-                @if ($tournament->status === \App\Enums\Tournaments\TournamentEnum::COMPLETED)
-                    <dd class="mt-1 text-plasma font-bold">DONE!</dd>
-                @else
-                    <dd class="mt-1 text-frost">{{ $tournament->matchesLeft() }} left</dd>
-                @endif
+                {{-- The page keeps the styling call; the wording is the model's. --}}
+                <dd class="mt-1 {{ $tournament->status === \App\Enums\Tournaments\TournamentEnum::COMPLETED
+                        ? 'text-plasma font-bold'
+                        : 'text-frost' }}">
+                    {{ $tournament->matchesLabel() }}
+                </dd>
             </div>
             <div>
                 <dt class="font-mono text-xs uppercase tracking-widest text-mist">Winner</dt>

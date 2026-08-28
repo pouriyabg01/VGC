@@ -7,6 +7,7 @@ use App\Enums\Tournaments\TournamentEnum;
 use App\Enums\Tournaments\TournamentMatchEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Tournament extends Model
 {
@@ -43,8 +44,43 @@ class Tournament extends Model
      */
     public function matchesLeft(): int
     {
-        return $this->matches()
-            ->latestRound()
+        return $this->unsettledIn($this->matches()->latestRound());
+    }
+
+    /**
+     * What the "Matches" stat reads on the landing, profile and tournament
+     * pages.
+     *
+     * Three states, not two. A tournament nobody has drawn yet holds no
+     * matches, so matchesLeft() answers 0 for it — and "0 left" reads as a
+     * tournament that finished rather than one that has not begun.
+     *
+     * Lives on the model so all three pages say the same thing; the branch
+     * used to be written out in each of them.
+     */
+    public function matchesLabel(): string
+    {
+        if ($this->status === TournamentEnum::COMPLETED) {
+            return 'DONE!';
+        }
+
+        if ($this->status === TournamentEnum::CANCELED) {
+            return 'Canceled';
+        }
+
+        $round = $this->matches()->latestRound();
+
+        if ($round->isEmpty()) {
+            return 'Not started';
+        }
+
+        return $this->unsettledIn($round).' left';
+    }
+
+    /** How many of a drawn round are still to be settled. */
+    private function unsettledIn(Collection $round): int
+    {
+        return $round
             ->reject(fn (TournamentMatch $match): bool => $match->status === TournamentMatchEnum::COMPLETED)
             ->count();
     }

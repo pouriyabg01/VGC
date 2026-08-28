@@ -86,3 +86,36 @@ it('does not call a single drawn match a finished tournament', function () {
         ->assertDontSee('DONE!')
         ->assertSee('1 left');
 });
+
+it('does not count a tournament nobody has drawn yet', function () {
+    $t = Tournament::factory()->create(['capacity' => 8]);
+
+    // matchesLeft() answers 0 when no matches exist, and "0 left" read as a
+    // tournament that had finished rather than one that had not begun.
+    expect($t->matchesLabel())->toBe('Not started');
+});
+
+it('says the same thing on the landing, profile and tournament pages', function (string $expected, ?TournamentEnum $status) {
+    $user = User::factory()->create();
+    $t = Tournament::factory()->create(['capacity' => 8]);
+    $t->players()->attach($user->id);
+
+    if ($expected !== 'Not started') {
+        matchIn($t, 1, TournamentMatchEnum::COMPLETED);
+        matchIn($t, 1);
+    }
+
+    if ($status) {
+        $t->status = $status;
+        $t->save();
+    }
+
+    $this->get(route('tournament', $t))->assertOk()->assertSee($expected);
+    $this->get(route('home'))->assertOk()->assertSee($expected);
+    $this->actingAs($user)->get(route('profile'))->assertOk()->assertSee($expected);
+})->with([
+    ['Not started', null],
+    ['1 left', null],
+    ['DONE!', TournamentEnum::COMPLETED],
+    ['Canceled', TournamentEnum::CANCELED],
+]);

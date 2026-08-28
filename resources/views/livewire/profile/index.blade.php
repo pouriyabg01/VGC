@@ -136,13 +136,7 @@
                                     </div>
                                     <div>
                                         <dt class="font-mono text-xs uppercase tracking-widest text-mist">Matches</dt>
-                                        <dd class="mt-1 text-frost">
-                                            @if ($tournament->status === \App\Enums\Tournaments\TournamentEnum::COMPLETED)
-                                                DONE!
-                                            @else
-                                                {{ $tournament->matchesLeft() }} left
-                                            @endif
-                                        </dd>
+                                        <dd class="mt-1 text-frost">{{ $tournament->matchesLabel() }}</dd>
                                     </div>
                                 </dl>
                             </div>
