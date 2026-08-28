@@ -35,6 +35,14 @@ function filledTournament(int $capacity = 4, array $overrides = []): Tournament
     return $tournament->fresh();
 }
 
+it('has no sign-out route while the controller method is commented out', function () {
+    $tournament = Tournament::factory()->create(['capacity' => 4]);
+    Sanctum::actingAs(User::factory()->create());
+
+    // Routing to a method that does not exist answered 500, not 404.
+    $this->postJson("/api/tournaments/{$tournament->id}/sign-out")->assertNotFound();
+});
+
 it('refuses to let a player leave once the draw is made', function () {
     $tournament = filledTournament();
     app(CreateMatches::class)->execute($tournament);
@@ -43,6 +51,8 @@ it('refuses to let a player leave once the draw is made', function () {
     $player = $tournament->players()->first();
     Auth::login($player);
 
+    // Leaving used to drop the head count while the player stayed named in an
+    // unplayed match, so their opponent waited on a result nobody would send.
     expect(fn () => app(TournamentService::class)->signOut($tournament->fresh()))
         ->toThrow(Exception::class);
 

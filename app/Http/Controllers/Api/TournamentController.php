@@ -243,41 +243,39 @@ class TournamentController extends BaseController
         }
     }
 
-    /**
-     * Leave a tournament
-     *
-     * Takes the authenticated player back out of a tournament, releasing their
-     * seat. Only possible before the draw is made — once matches exist the
-     * player is named in one, so leaving would strand their opponent. The
-     * subscription is not spent by leaving.
-     *
-     * @authenticated
-     *
-     * @response 200 scenario="Success" {
-     *   "success": true,
-     *   "message": "you are successfully signed out",
-     *   "data": []
-     * }
-     * @response 422 scenario="Draw already made" {
-     *   "success": false,
-     *   "message": "You cannot leave a tournament once the draw has been made.",
-     *   "data": []
-     * }
-     * @response 422 scenario="Not in this tournament" {
-     *   "success": false,
-     *   "message": "You are not registered in this tournament",
-     *   "data": []
-     * }
-     */
-    public function signOut(Tournament $tournament, TournamentService $tournamentService)
-    {
-        try {
-            $tournamentService->signOut($tournament);
-
-            return $this->sendResponse([], 'you are successfully signed out');
-        } catch (\Exception $e) {
-            return $this->sendError($e->getMessage(), [], 422);
-        }
-    }
+//    /**
+//     * Signed out tournament
+//     *
+//     * signed out the authenticated user as a player of the tournament.
+//     *
+//     * @authenticated
+//     *
+//     *
+//     * @response 200 scenario="Success" {
+//     *   "success": true,
+//     *   "message": "you are successfully signed out",
+//     *   "data": [
+//     *     {
+//     *       "id": 1,
+//     *       "name": "John Doe",
+//     *       "email": "john@example.com"
+//     *     }
+//     *   ]
+//     * }
+//     * @response 404 scenario="Already signed out" {
+//     *   "success": false,
+//     *   "message": [],
+//     *   "data": "You are not registered in this tournament"
+//     * }
+//     */
+//    public function signOut(Tournament $tournament,TournamentService $tournamentService)
+//    {
+//        try {
+//            $tournamentService->signOut($tournament);
+//            return $this->sendResponse([],'you are successfully signed out');
+//        }catch (\Exception $e){
+//            return $this->sendError($e->getMessage() , [] , 422);
+//        }
+//    }
 
 }

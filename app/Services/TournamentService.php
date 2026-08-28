@@ -66,31 +66,16 @@ class TournamentService extends BaseController
     /**
      * Sign out user of tournament
      */
-    /**
-     * Takes a player back out of a tournament they have not yet played.
-     *
-     * The seat is released, so a tournament that had filled up drops back to
-     * PENDING and can take somebody else. The entry they hold is untouched:
-     * a subscription is only spent when a tournament finishes, so leaving one
-     * they never played does not cost them the pass.
-     *
-     * @throws \Exception when the draw has been made, or they were never in it.
-     */
     public function signOut(Tournament $tournament)
     {
         $user = Auth::user();
+        if (! $user) return;
 
-        if (! $user) {
-            throw new \Exception('You need an account to leave a tournament.');
-        }
-
-        // Leaving is only safe before the draw. Once matches exist the player
-        // is named in one, and dropping them leaves their opponent waiting on
-        // a result nobody will ever report. A tournament that is merely full
-        // has not been drawn yet, so it is still safe to leave.
-        if ($tournament->matches()->exists()
-            || ! in_array($tournament->status, [TournamentEnum::PENDING, TournamentEnum::READY], true)) {
-            throw new \Exception('You cannot leave a tournament once the draw has been made.');
+        // Once the draw is made the player is named in a match, and leaving
+        // only drops them from the head count — their opponent is left
+        // waiting on a result nobody will ever report.
+        if ($tournament->status !== TournamentEnum::PENDING) {
+            throw new \Exception('You cannot leave a tournament once it has started.');
         }
         DB::transaction(function () use ($tournament , $user){
            if ($user->tournaments()->where('tournament_id' , $tournament->id)->exists()){
