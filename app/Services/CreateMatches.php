@@ -45,6 +45,15 @@ class CreateMatches
             ];
         }
 
+        // The panel disables its button for anything but READY; the API had no
+        // such guard, so a canceled tournament could still be started.
+        if ($tournament->status === TournamentEnum::CANCELED) {
+            $error = [
+                'success' => false,
+                'message' => 'this tournament is canceled'
+            ];
+        }
+
         shuffle($players);
 
 

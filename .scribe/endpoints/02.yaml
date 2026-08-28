@@ -186,14 +186,14 @@ endpoints:
         name: tournamentMatch_id
         description: 'The ID of the tournamentMatch.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournamentMatch_id: 1
+      tournamentMatch_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -301,14 +301,14 @@ endpoints:
         name: tournamentMatch_id
         description: 'The ID of the tournamentMatch.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tournamentMatch_id: 1
+      tournamentMatch_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:

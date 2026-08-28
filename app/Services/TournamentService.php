@@ -70,6 +70,13 @@ class TournamentService extends BaseController
     {
         $user = Auth::user();
         if (! $user) return;
+
+        // Once the draw is made the player is named in a match, and leaving
+        // only drops them from the head count — their opponent is left
+        // waiting on a result nobody will ever report.
+        if ($tournament->status !== TournamentEnum::PENDING) {
+            throw new \Exception('You cannot leave a tournament once it has started.');
+        }
         DB::transaction(function () use ($tournament , $user){
            if ($user->tournaments()->where('tournament_id' , $tournament->id)->exists()){
 

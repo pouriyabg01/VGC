@@ -39,7 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Tournament Management
     Route::prefix('tournaments/{tournament}')->group(function () {
         Route::post('sign-up', [TournamentController::class, 'signUp']);
-        Route::post('sign-out', [TournamentController::class, 'signOut']);
+        // No sign-out route: TournamentController::signOut() is commented out,
+        // so routing to it answered 500 for every authenticated caller. Put
+        // this back with the controller method, not before it.
     });
 
     // Tournament CRUD & Matches

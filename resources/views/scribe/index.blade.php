@@ -553,7 +553,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/tournament-matches/1/submit-by-admin" \
+    "http://localhost:8000/api/tournament-matches/16/submit-by-admin" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -566,7 +566,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournament-matches/1/submit-by-admin"
+    "http://localhost:8000/api/tournament-matches/16/submit-by-admin"
 );
 
 const headers = {
@@ -725,10 +725,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournamentMatch_id"                data-endpoint="PUTapi-tournament-matches--tournamentMatch_id--submit-by-admin"
-               value="1"
+               value="16"
                data-component="url">
     <br>
-<p>The ID of the tournamentMatch. Example: <code>1</code></p>
+<p>The ID of the tournamentMatch. Example: <code>16</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -771,18 +771,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/tournament-matches/1/submit-result" \
+    "http://localhost:8000/api/tournament-matches/16/submit-result" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "scored=3"\
     --form "conceded=1"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/php5v9it61j86dvf50jJJr" </code></pre></div>
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpbmmkqgk3vv5b0Ap8BXg" </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tournament-matches/1/submit-result"
+    "http://localhost:8000/api/tournament-matches/16/submit-result"
 );
 
 const headers = {
@@ -941,10 +941,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="tournamentMatch_id"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
-               value="1"
+               value="16"
                data-component="url">
     <br>
-<p>The ID of the tournamentMatch. Example: <code>1</code></p>
+<p>The ID of the tournamentMatch. Example: <code>16</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -957,7 +957,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/php5v9it61j86dvf50jJJr</code></p>
+<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpbmmkqgk3vv5b0Ap8BXg</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored</code></b>&nbsp;&nbsp;
