@@ -18,6 +18,10 @@ return new class extends Migration
             $table->enum('platform' , PlatformEnum::values());
             $table->string('game');
             $table->integer('capacity');
+            // Hours a player gets to report a result before the match is
+            // forfeited. Per tournament, so a weekend cup can run tighter
+            // than a league that spans weeks.
+            $table->unsignedSmallInteger('result_deadline_hours')->default(24);
             $table->integer('current_player_count')->default('0');
             $table->date('end_at')->nullable();
             $table->enum('status',TournamentEnum::values())->default(TournamentEnum::PENDING->value);

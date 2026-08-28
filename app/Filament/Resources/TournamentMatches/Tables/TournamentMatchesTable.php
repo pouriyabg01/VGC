@@ -19,13 +19,19 @@ class TournamentMatchesTable
                 TextColumn::make('player1.name')
                     ->label('player 1')
                     ->limit(10)
-                    ->description(fn (TournamentMatch $record): string => 'goal: '.($record->winner_id !== null ? $record->player1_goal : '-')),
+                    ->description(fn (TournamentMatch $record): string => 'score: '.($record->winner_id !== null ? $record->player1_score : '-')),
                 TextColumn::make('player2.name')
                     ->label('player 2')
                     ->limit(10)
-                    ->description(fn (TournamentMatch $record): string => 'goal: '.($record->winner_id !== null ? $record->player2_goal : '-')),
+                    ->description(fn (TournamentMatch $record): string => 'score: '.($record->winner_id !== null ? $record->player2_score : '-')),
                 TextColumn::make('winner.name')
                     ->limit(10),
+                TextColumn::make('deadline_at')
+                    ->label('Report by')
+                    ->dateTime()
+                    ->placeholder('—')
+                    ->color(fn ($record) => $record->deadline_at?->isPast() ? 'danger' : null)
+                    ->sortable(),
                 TextColumn::make('status')
                     ->badge(),
                 TextColumn::make('match_date')

@@ -46,20 +46,29 @@
                             <div>
                                 <span class="font-mono text-[10px] uppercase tracking-widest text-mist">Score</span>
                                 <p class="mt-1 text-frost">
-                                    {{ $isPlayer1 ? $match->player1_goal : $match->player2_goal }}
+                                    {{ $isPlayer1 ? $match->player1_score : $match->player2_score }}
                                     &ndash;
-                                    {{ $isPlayer1 ? $match->player2_goal : $match->player1_goal }}
+                                    {{ $isPlayer1 ? $match->player2_score : $match->player1_score }}
                                 </p>
                             </div>
                             <div>
                                 <span class="font-mono text-[10px] uppercase tracking-widest text-mist">Result</span>
                                 <p class="mt-1 {{ $match->winner_id === $userId ? 'text-plasma' : 'text-mist' }}">
-                                    {{ $match->winner_id === $userId ? 'You won' : ($match->winner_id ? 'You lost' : 'Draw') }}
+                                    {{ $match->winner_id === $userId ? 'You won' : 'You lost' }}
                                 </p>
                             </div>
                         </div>
                     @elseif ($canReport)
                         {{-- Open match this player has not reported yet. --}}
+                        @if ($match->deadline_at)
+                            <p class="mt-4 font-mono text-[10px] uppercase tracking-widest
+                                {{ $match->deadline_at->isPast() ? 'text-ember' : 'text-mist' }}">
+                                {{ $match->deadline_at->isPast()
+                                    ? 'Reporting closed — awaiting settlement'
+                                    : 'Report by '.$match->deadline_at->format('M j, H:i').' or forfeit' }}
+                            </p>
+                        @endif
+
                         <form wire:submit.prevent="submit({{ $match->id }})"
                               class="mt-5 border-t border-steel pt-5 space-y-5">
                           <div class="flex flex-wrap items-end gap-4">
@@ -69,7 +78,7 @@
                                     You scored
                                 </label>
                                 <input type="number" min="0" id="scored-{{ $match->id }}"
-                                       wire:model="goals.{{ $match->id }}.scored"
+                                       wire:model="scores.{{ $match->id }}.scored"
                                        class="w-full h-11 bg-void border border-steel rounded-sm px-3 text-sm text-frost outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30">
                             </div>
                             <div class="w-32">
@@ -78,7 +87,7 @@
                                     Conceded
                                 </label>
                                 <input type="number" min="0" id="conceded-{{ $match->id }}"
-                                       wire:model="goals.{{ $match->id }}.conceded"
+                                       wire:model="scores.{{ $match->id }}.conceded"
                                        class="w-full h-11 bg-void border border-steel rounded-sm px-3 text-sm text-frost outline-none transition-colors focus:border-neon focus:ring-2 focus:ring-neon/30">
                             </div>
                           </div>
@@ -143,7 +152,7 @@
                         <div class="mt-5 border-t border-steel pt-4">
                             <p class="font-mono text-[10px] uppercase tracking-widest text-plasma">Result submitted</p>
                             <p class="mt-2 text-sm text-mist">
-                                You reported {{ $submitted->scored_goals }}&ndash;{{ $submitted->conceded_goals }}.
+                                You reported {{ $submitted->scored }}&ndash;{{ $submitted->conceded }}.
                                 Waiting for {{ $opponent?->name ?? 'your opponent' }}.
                             </p>
                             @if ($submitted->screenshot)

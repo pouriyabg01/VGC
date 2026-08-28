@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('tournament_match_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->string('screenshot');
-            $table->integer('scored_goals');
-            $table->integer('conceded_goals');
+            $table->integer('scored');
+            $table->integer('conceded');
             $table->enum('status', TournamentMatchResultEnum::values())->default(TournamentMatchResultEnum::PENDING->value);
             $table->unique(['tournament_match_id' , 'user_id']);
             $table->timestamps();

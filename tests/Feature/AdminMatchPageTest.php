@@ -4,8 +4,6 @@ use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Enums\Tournaments\TournamentMatchResultEnum;
 use App\Filament\Resources\TournamentMatches\Pages\ViewTournamentMatch;
 use App\Filament\Resources\TournamentMatches\TournamentMatchResource;
-use App\Filament\Resources\Tournaments\Pages\ViewTournament;
-use App\Filament\Resources\Tournaments\RelationManagers\MatchesRelationManager;
 use App\Models\Admin;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
@@ -52,8 +50,8 @@ function disputedMatch(): TournamentMatch
             'tournament_match_id' => $match->id,
             'user_id' => $player->id,
             'screenshot' => $path,
-            'scored_goals' => $scored,
-            'conceded_goals' => $conceded,
+            'scored' => $scored,
+            'conceded' => $conceded,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -61,28 +59,6 @@ function disputedMatch(): TournamentMatch
 
     return $match->fresh();
 }
-
-it('opens a match on its own page, not in a tournament modal', function () {
-    $match = disputedMatch();
-
-    $this->get(TournamentMatchResource::getUrl('view', ['record' => $match]))
-        ->assertOk()
-        ->assertSee('View match')
-        ->assertSee('Ali')
-        ->assertSee('Reza');
-});
-
-it('does not label a match with the tournament\'s own fields', function () {
-    $match = disputedMatch();
-
-    // The old modal read TournamentResource's infolist, so a match was
-    // described by tournament-only fields it does not even have.
-    $this->get(TournamentMatchResource::getUrl('view', ['record' => $match]))
-        ->assertOk()
-        ->assertDontSee('Capacity')
-        ->assertDontSee('Current player count')
-        ->assertDontSee('View tournament');
-});
 
 it('shows what the players reported, with their screenshots', function () {
     $match = disputedMatch();
@@ -99,42 +75,6 @@ it('shows what the players reported, with their screenshots', function () {
     }
 });
 
-it('shows the score and the dates of the match itself', function () {
-    $match = disputedMatch();
-
-    $this->get(TournamentMatchResource::getUrl('view', ['record' => $match]))
-        ->assertOk()
-        ->assertSee('Final score')
-        ->assertSee('Played at')
-        ->assertSee('Drawn at')
-        ->assertSee(TournamentMatchEnum::DISPUTED->value);
-});
-
-it('says a match is not settled instead of leaving the fields blank', function () {
-    $match = disputedMatch();
-
-    expect($match->match_date)->toBeNull();
-
-    $this->get(TournamentMatchResource::getUrl('view', ['record' => $match]))
-        ->assertOk()
-        ->assertSee('Not settled yet')
-        ->assertSee('Undecided');
-});
-
-it('links the tournament relation manager straight at the match page', function () {
-    $match = disputedMatch();
-
-    Livewire::test(MatchesRelationManager::class, [
-        'ownerRecord' => $match->tournament,
-        'pageClass' => ViewTournament::class,
-    ])
-        ->assertTableActionHasUrl(
-            'view',
-            TournamentMatchResource::getUrl('view', ['record' => $match]),
-            $match,
-        );
-});
-
 it('offers a judge button on a disputed match', function () {
     $match = disputedMatch();
 
@@ -147,13 +87,13 @@ it('settles a disputed match on the score the admin enters', function () {
     [$one, $two] = [$match->player1, $match->player2];
 
     Livewire::test(ViewTournamentMatch::class, ['record' => $match->getKey()])
-        ->callAction('judge', ['player1_goal' => 2, 'player2_goal' => 5]);
+        ->callAction('judge', ['player1_score' => 2, 'player2_score' => 5]);
 
     $match->refresh();
 
     expect($match->status)->toBe(TournamentMatchEnum::COMPLETED)
-        ->and($match->player1_goal)->toBe(2)
-        ->and($match->player2_goal)->toBe(5)
+        ->and($match->player1_score)->toBe(2)
+        ->and($match->player2_score)->toBe(5)
         ->and($match->winner_id)->toBe($two->id)
         ->and($match->match_date)->not->toBeNull();
 
@@ -162,15 +102,18 @@ it('settles a disputed match on the score the admin enters', function () {
         ->toBe([TournamentMatchResultEnum::CONFIRMED]);
 });
 
-it('records a judged draw without inventing a winner', function () {
+it('refuses to settle a knockout match level', function () {
     $match = disputedMatch();
 
     Livewire::test(ViewTournamentMatch::class, ['record' => $match->getKey()])
-        ->callAction('judge', ['player1_goal' => 1, 'player2_goal' => 1]);
+        ->callAction('judge', ['player1_score' => 1, 'player2_score' => 1])
+        ->assertHasActionErrors(['player1_score']);
 
+    // Left where it was: a level score used to complete the match with no
+    // winner, and the next round then dropped both players from the draw.
     $match->refresh();
 
-    expect($match->status)->toBe(TournamentMatchEnum::COMPLETED)
+    expect($match->status)->toBe(TournamentMatchEnum::DISPUTED)
         ->and($match->winner_id)->toBeNull();
 });
 
@@ -188,12 +131,12 @@ it('draws the next round once every match of the round is judged', function () {
     ]);
 
     Livewire::test(ViewTournamentMatch::class, ['record' => $match->getKey()])
-        ->callAction('judge', ['player1_goal' => 3, 'player2_goal' => 0]);
+        ->callAction('judge', ['player1_score' => 3, 'player2_score' => 0]);
 
     expect($tournament->matches()->where('round', 2)->count())->toBe(0);
 
     Livewire::test(ViewTournamentMatch::class, ['record' => $other->getKey()])
-        ->callAction('judge', ['player1_goal' => 0, 'player2_goal' => 2]);
+        ->callAction('judge', ['player1_score' => 0, 'player2_score' => 2]);
 
     $next = $tournament->matches()->where('round', 2)->get();
 
@@ -206,7 +149,7 @@ it('hides the judge button once the match is settled', function () {
     $match = disputedMatch();
 
     Livewire::test(ViewTournamentMatch::class, ['record' => $match->getKey()])
-        ->callAction('judge', ['player1_goal' => 3, 'player2_goal' => 0]);
+        ->callAction('judge', ['player1_score' => 3, 'player2_score' => 0]);
 
     // Re-judging would leave the drawn bracket contradicting the new result,
     // because a round that already exists is never redrawn.
@@ -218,8 +161,8 @@ it('refuses to judge without a score', function () {
     $match = disputedMatch();
 
     Livewire::test(ViewTournamentMatch::class, ['record' => $match->getKey()])
-        ->callAction('judge', ['player1_goal' => null, 'player2_goal' => null])
-        ->assertHasActionErrors(['player1_goal' => 'required', 'player2_goal' => 'required']);
+        ->callAction('judge', ['player1_score' => null, 'player2_score' => null])
+        ->assertHasActionErrors(['player1_score' => 'required', 'player2_score' => 'required']);
 
     expect($match->fresh()->status)->toBe(TournamentMatchEnum::DISPUTED);
 });

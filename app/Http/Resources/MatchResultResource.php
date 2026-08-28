@@ -20,8 +20,8 @@ class MatchResultResource extends JsonResource
             'user_id' => $request->user()->id,
             'screenshot' => $this->screenshot,
             'screenshot_url' => asset('storage/'.$this->screenshot),
-            'scored_goals' => $this->scored_goals,
-            'conceded_goals' => $this->conceded_goals,
+            'scored' => $this->scored,
+            'conceded' => $this->conceded,
         ];
     }
 }

@@ -15,12 +15,12 @@ class Matches extends Component
     use TournamentMatchTrait, WithFileUploads;
 
     /**
-     * Goal inputs keyed by match id, so several open forms keep their own
+     * Score inputs keyed by match id, so several open forms keep their own
      * values: ['12' => ['scored' => '3', 'conceded' => '1']].
      *
      * @var array<int, array<string, mixed>>
      */
-    public array $goals = [];
+    public array $scores = [];
 
     /**
      * Proof screenshots keyed by match id, so each open form holds its own
@@ -42,8 +42,8 @@ class Matches extends Component
 
         $validated = validator(
             [
-                'scored' => $this->goals[$matchId]['scored'] ?? null,
-                'conceded' => $this->goals[$matchId]['conceded'] ?? null,
+                'scored' => $this->scores[$matchId]['scored'] ?? null,
+                'conceded' => $this->scores[$matchId]['conceded'] ?? null,
                 'screenshot' => $this->screenshots[$matchId] ?? null,
             ],
             [
@@ -55,8 +55,8 @@ class Matches extends Component
             ],
             MatchScreenshot::messages(),
             [
-                'scored' => 'goals scored',
-                'conceded' => 'goals conceded',
+                'scored' => 'score',
+                'conceded' => 'conceded',
                 'screenshot' => 'screenshot',
             ],
         );
@@ -82,7 +82,7 @@ class Matches extends Component
             return;
         }
 
-        unset($this->goals[$matchId], $this->screenshots[$matchId]);
+        unset($this->scores[$matchId], $this->screenshots[$matchId]);
     }
 
     public function render()

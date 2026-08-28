@@ -189,7 +189,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: August 27, 2026</li>
+        <li>Last updated: August 28, 2026</li>
     </ul>
 </div>
 
@@ -266,8 +266,8 @@ fetch(url, {
             &quot;player1_id&quot;: 1,
             &quot;player2_id&quot;: 2,
             &quot;winner_id&quot;: null,
-            &quot;player1_goal&quot;: null,
-            &quot;player2_goal&quot;: null,
+            &quot;player1_score&quot;: null,
+            &quot;player2_score&quot;: null,
             &quot;round&quot;: 1
         }
     ]
@@ -558,8 +558,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"player1_goal\": 2,
-    \"player2_goal\": 1
+    \"player1_score\": 2,
+    \"player2_score\": 1
 }"
 </code></pre></div>
 
@@ -576,8 +576,8 @@ const headers = {
 };
 
 let body = {
-    "player1_goal": 2,
-    "player2_goal": 1
+    "player1_score": 2,
+    "player2_score": 1
 };
 
 fetch(url, {
@@ -602,10 +602,35 @@ fetch(url, {
         &quot;tournament_id&quot;: 1,
         &quot;player1_id&quot;: 1,
         &quot;player2_id&quot;: 2,
-        &quot;player1_goal&quot;: 2,
-        &quot;player2_goal&quot;: 1,
+        &quot;player1_score&quot;: 2,
+        &quot;player2_score&quot;: 1,
         &quot;winner_id&quot;: 1
     }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Level score):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;A draw cannot settle a knockout match. Play it out &mdash; extra time or penalties &mdash; and report the decisive score.&quot;,
+    &quot;errors&quot;: {
+        &quot;player1_score&quot;: [
+            &quot;A draw cannot settle a knockout match. Play it out &mdash; extra time or penalties &mdash; and report the decisive score.&quot;
+        ]
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Already settled):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;This match has already been settled.&quot;,
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -707,28 +732,28 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>player1_goal</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>player1_score</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="player1_goal"                data-endpoint="PUTapi-tournament-matches--tournamentMatch_id--submit-by-admin"
+               step="any"               name="player1_score"                data-endpoint="PUTapi-tournament-matches--tournamentMatch_id--submit-by-admin"
                value="2"
                data-component="body">
     <br>
-<p>Goals scored by player 1. Example: <code>2</code></p>
+<p>Score for player 1. Must differ from player 2's. Example: <code>2</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>player2_goal</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>player2_score</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="player2_goal"                data-endpoint="PUTapi-tournament-matches--tournamentMatch_id--submit-by-admin"
+               step="any"               name="player2_score"                data-endpoint="PUTapi-tournament-matches--tournamentMatch_id--submit-by-admin"
                value="1"
                data-component="body">
     <br>
-<p>Goals scored by player 2. Example: <code>1</code></p>
+<p>Score for player 2. Example: <code>1</code></p>
         </div>
         </form>
 
@@ -750,9 +775,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "scored_goals=3"\
-    --form "conceded_goals=1"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpdj08tfe02bcg72Z7Z2L" </code></pre></div>
+    --form "scored=3"\
+    --form "conceded=1"\
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/php5v9it61j86dvf50jJJr" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -767,8 +792,8 @@ const headers = {
 };
 
 const body = new FormData();
-body.append('scored_goals', '3');
-body.append('conceded_goals', '1');
+body.append('scored', '3');
+body.append('conceded', '1');
 body.append('screenshot', document.querySelector('input[name="screenshot"]').files[0]);
 
 fetch(url, {
@@ -794,8 +819,8 @@ fetch(url, {
         &quot;user_id&quot;: 1,
         &quot;screenshot&quot;: &quot;conclusion-screenshot/1/1/9kQ2m0XcVb.jpg&quot;,
         &quot;screenshot_url&quot;: &quot;http://localhost/storage/conclusion-screenshot/1/1/9kQ2m0XcVb.jpg&quot;,
-        &quot;scored_goals&quot;: 3,
-        &quot;conceded_goals&quot;: 1
+        &quot;scored&quot;: 3,
+        &quot;conceded&quot;: 1
     }
 }</code>
  </pre>
@@ -932,31 +957,31 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpdj08tfe02bcg72Z7Z2L</code></p>
+<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/php5v9it61j86dvf50jJJr</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>scored_goals</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>scored</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="scored_goals"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
+               step="any"               name="scored"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
                value="3"
                data-component="body">
     <br>
-<p>Goals scored by the submitting player. Example: <code>3</code></p>
+<p>Score for the submitting player. Must differ from the opponent's. Example: <code>3</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>conceded_goals</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>conceded</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="conceded_goals"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
+               step="any"               name="conceded"                data-endpoint="POSTapi-tournament-matches--tournamentMatch_id--submit-result"
                value="1"
                data-component="body">
     <br>
-<p>Goals conceded by the submitting player. Example: <code>1</code></p>
+<p>Score for their opponent. Example: <code>1</code></p>
         </div>
         </form>
 

@@ -20,9 +20,15 @@ return new class extends Migration
             $table->foreignId('player1_id')->constrained('users');
             $table->foreignId('player2_id')->constrained('users');
             $table->foreignId('winner_id')->nullable()->constrained('users');
-            $table->integer('player1_goal')->default('0');
-            $table->integer('player2_goal')->default('0');
+            // "score", not "goal": the same column carries rounds won in
+            // Tekken and races won in a racing game.
+            $table->integer('player1_score')->default('0');
+            $table->integer('player2_score')->default('0');
             $table->date('match_date')->nullable();
+            // When the match stops waiting on the players. Null until the
+            // match is drawn into a round.
+            $table->dateTime('deadline_at')->nullable();
+            $table->index('deadline_at');
             $table->enum('status' , TournamentMatchEnum::values())->default(TournamentMatchEnum::PENDING->value);
             $table->timestamps();
         });

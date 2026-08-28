@@ -59,8 +59,8 @@ endpoints:
                 "player1_id": 1,
                 "player2_id": 2,
                 "winner_id": null,
-                "player1_goal": null,
-                "player2_goal": null,
+                "player1_score": null,
+                "player2_score": null,
                 "round": 1
               }
             ]
@@ -199,10 +199,10 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      player1_goal:
+      player1_score:
         custom: []
-        name: player1_goal
-        description: 'Goals scored by player 1.'
+        name: player1_score
+        description: "Score for player 1. Must differ from player 2's."
         required: true
         example: 2
         type: integer
@@ -210,10 +210,10 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      player2_goal:
+      player2_score:
         custom: []
-        name: player2_goal
-        description: 'Goals scored by player 2.'
+        name: player2_score
+        description: 'Score for player 2.'
         required: true
         example: 1
         type: integer
@@ -222,8 +222,8 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      player1_goal: 2
-      player2_goal: 1
+      player1_score: 2
+      player2_score: 1
     fileParameters: []
     responses:
       -
@@ -238,13 +238,36 @@ endpoints:
               "tournament_id": 1,
               "player1_id": 1,
               "player2_id": 2,
-              "player1_goal": 2,
-              "player2_goal": 1,
+              "player1_score": 2,
+              "player2_score": 1,
               "winner_id": 1
             }
           }
         headers: []
         description: Success
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "message": "A draw cannot settle a knockout match. Play it out — extra time or penalties — and report the decisive score.",
+            "errors": {
+              "player1_score": ["A draw cannot settle a knockout match. Play it out — extra time or penalties — and report the decisive score."]
+            }
+          }
+        headers: []
+        description: 'Level score'
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "success": false,
+            "message": "This match has already been settled.",
+            "data": []
+          }
+        headers: []
+        description: 'Already settled'
     responseFields: []
     auth:
       - headers
@@ -302,10 +325,10 @@ endpoints:
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      scored_goals:
+      scored:
         custom: []
-        name: scored_goals
-        description: 'Goals scored by the submitting player.'
+        name: scored
+        description: "Score for the submitting player. Must differ from the opponent's."
         required: true
         example: 3
         type: integer
@@ -313,10 +336,10 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      conceded_goals:
+      conceded:
         custom: []
-        name: conceded_goals
-        description: 'Goals conceded by the submitting player.'
+        name: conceded
+        description: 'Score for their opponent.'
         required: true
         example: 1
         type: integer
@@ -325,8 +348,8 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      scored_goals: 3
-      conceded_goals: 1
+      scored: 3
+      conceded: 1
     fileParameters:
       screenshot: null
     responses:
@@ -343,8 +366,8 @@ endpoints:
               "user_id": 1,
               "screenshot": "conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
               "screenshot_url": "http://localhost/storage/conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
-              "scored_goals": 3,
-              "conceded_goals": 1
+              "scored": 3,
+              "conceded": 1
             }
           }
         headers: []

@@ -134,14 +134,14 @@
                                             <div>
                                                 <p class="font-display text-lg">{{ $match->player1?->name ?? 'TBD' }}</p>
                                                 <p class="mt-1 font-mono text-xs uppercase tracking-widest text-mist">
-                                                    Goal: {{ $match->player1_goal ?? '—' }}
+                                                    Score: {{ $match->player1_score ?? '—' }}
                                                 </p>
                                             </div>
                                             <span class="font-mono text-xs uppercase text-mist/60">vs</span>
                                             <div>
                                                 <p class="font-display text-lg">{{ $match->player2?->name ?? 'TBD' }}</p>
                                                 <p class="mt-1 font-mono text-xs uppercase tracking-widest text-mist">
-                                                    Goal: {{ $match->player2_goal ?? '—' }}
+                                                    Score: {{ $match->player2_score ?? '—' }}
                                                 </p>
                                             </div>
                                         </div>

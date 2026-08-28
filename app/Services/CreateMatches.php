@@ -49,11 +49,16 @@ class CreateMatches
 
 
         if (!$error){
-            \DB::transaction(function () use ($tournament, $players, $count) {
+            // Round one starts the clock too, otherwise the first round is the
+            // only one a no-show can stall forever.
+            $deadline = now()->addHours($tournament->result_deadline_hours ?: 24);
+
+            \DB::transaction(function () use ($tournament, $players, $count, $deadline) {
                 for ($i = 0; $i + 1 < $count; $i += 2) {
                     $tournament->matches()->create([
                         'player1_id' => $players[$i],
                         'player2_id' => $players[$i + 1],
+                        'deadline_at' => $deadline,
                     ]);
                 }
             });

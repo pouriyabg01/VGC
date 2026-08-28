@@ -47,16 +47,20 @@ class TournamentMatchInfolist
                             ->placeholder('TBD'),
                         TextEntry::make('winner.name')
                             ->label('Winner')
-                            // A settled draw has no winner; an open match has no
-                            // result at all. They are not the same thing.
-                            ->placeholder(fn (TournamentMatch $record): string => $record->match_date === null
-                                ? 'Undecided'
-                                : 'Draw'),
+                            // A settled match always names a winner now that a
+                            // level score is refused, so the only empty case
+                            // left is a match that has not been settled.
+                            ->placeholder('Undecided'),
+                        TextEntry::make('deadline_at')
+                            ->label('Report by')
+                            ->dateTime()
+                            ->placeholder('—')
+                            ->color(fn (TournamentMatch $record) => $record->deadline_at?->isPast() ? 'danger' : null),
                         TextEntry::make('score')
                             ->label('Final score')
                             ->state(fn (TournamentMatch $record): string => $record->match_date === null
                                 ? '—'
-                                : $record->player1_goal.' – '.$record->player2_goal)
+                                : $record->player1_score.' – '.$record->player2_score)
                             ->helperText('Player 1 – Player 2'),
                     ]),
 
@@ -69,9 +73,9 @@ class TournamentMatchInfolist
                             ->schema([
                                 TextEntry::make('user.name')
                                     ->label('Reported by'),
-                                TextEntry::make('scored_goals')
+                                TextEntry::make('scored')
                                     ->label('Scored'),
-                                TextEntry::make('conceded_goals')
+                                TextEntry::make('conceded')
                                     ->label('Conceded'),
                                 TextEntry::make('status')
                                     ->badge(),

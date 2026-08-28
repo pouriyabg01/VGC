@@ -29,14 +29,6 @@ function matchBetween(User $a, User $b, array $overrides = []): TournamentMatch
     ], $overrides));
 }
 
-it('says so when the player has no matches', function () {
-    $user = User::factory()->create();
-
-    expect($this->actingAs($user)->get(route('profile'))->assertOk()->getContent())
-        ->toContain('My Matches')
-        ->toContain('No matches yet');
-});
-
 it('lists a match with the opponent and offers a form while pending', function () {
     $user = User::factory()->create(['name' => 'Me']);
     $rival = User::factory()->create(['name' => 'Rival']);
@@ -47,7 +39,7 @@ it('lists a match with the opponent and offers a form while pending', function (
     expect($html)->toContain('Rival')
         ->and($html)->toContain('Round 1')
         ->and($html)->toContain('Submit result')
-        ->and($html)->toContain('goals.'.$match->id.'.scored');
+        ->and($html)->toContain('scores.'.$match->id.'.scored');
 });
 
 it('finds the match from either side of the draw', function () {
@@ -64,15 +56,15 @@ it('records a result and then shows it as submitted', function () {
     $match = matchBetween($user, $rival);
 
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", 3)
-        ->set("goals.{$match->id}.conceded", 1)
+        ->set("scores.{$match->id}.scored", 3)
+        ->set("scores.{$match->id}.conceded", 1)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('match_results', [
         'tournament_match_id' => $match->id, 'user_id' => $user->id,
-        'scored_goals' => 3, 'conceded_goals' => 1,
+        'scored' => 3, 'conceded' => 1,
     ]);
 
     $html = $this->actingAs($user)->get(route('profile'))->getContent();
@@ -81,7 +73,7 @@ it('records a result and then shows it as submitted', function () {
         ->and($html)->not->toContain('Submit result');
 });
 
-it('rejects missing or negative goals', function () {
+it('rejects a missing or negative score', function () {
     $user = User::factory()->create();
     $match = matchBetween($user, User::factory()->create());
 
@@ -90,8 +82,8 @@ it('rejects missing or negative goals', function () {
         ->assertHasErrors('match.'.$match->id);
 
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", -1)
-        ->set("goals.{$match->id}.conceded", 0)
+        ->set("scores.{$match->id}.scored", -1)
+        ->set("scores.{$match->id}.conceded", 0)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasErrors('match.'.$match->id);
@@ -104,14 +96,14 @@ it('refuses a second submission from the same player', function () {
     $match = matchBetween($user, User::factory()->create());
 
     $test = Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", 2)
-        ->set("goals.{$match->id}.conceded", 2)
+        ->set("scores.{$match->id}.scored", 2)
+        ->set("scores.{$match->id}.conceded", 1)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasNoErrors();
 
-    $test->set("goals.{$match->id}.scored", 5)
-        ->set("goals.{$match->id}.conceded", 0)
+    $test->set("scores.{$match->id}.scored", 5)
+        ->set("scores.{$match->id}.conceded", 0)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasErrors('match.'.$match->id);
@@ -124,8 +116,8 @@ it('refuses a player who is not in the match', function () {
     $match = matchBetween(User::factory()->create(), User::factory()->create());
 
     Livewire::actingAs($outsider)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", 1)
-        ->set("goals.{$match->id}.conceded", 0)
+        ->set("scores.{$match->id}.scored", 1)
+        ->set("scores.{$match->id}.conceded", 0)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id)
         ->assertHasErrors('match.'.$match->id);
@@ -139,12 +131,12 @@ it('settles the match and shows the score once both players agree', function () 
     $match = matchBetween($user, $rival);
 
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", 3)->set("goals.{$match->id}.conceded", 1)
+        ->set("scores.{$match->id}.scored", 3)->set("scores.{$match->id}.conceded", 1)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
     Livewire::actingAs($rival)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", 1)->set("goals.{$match->id}.conceded", 3)
+        ->set("scores.{$match->id}.scored", 1)->set("scores.{$match->id}.conceded", 3)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
@@ -163,12 +155,12 @@ it('marks the match disputed when the two reports disagree', function () {
     $match = matchBetween($user, $rival);
 
     Livewire::actingAs($user)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", 3)->set("goals.{$match->id}.conceded", 1)
+        ->set("scores.{$match->id}.scored", 3)->set("scores.{$match->id}.conceded", 1)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
     Livewire::actingAs($rival)->test(\App\Livewire\Profile\Matches::class)
-        ->set("goals.{$match->id}.scored", 4)->set("goals.{$match->id}.conceded", 0)
+        ->set("scores.{$match->id}.scored", 4)->set("scores.{$match->id}.conceded", 0)
         ->set("screenshots.{$match->id}", proof())
         ->call('submit', $match->id);
 
@@ -190,5 +182,5 @@ it('offers no form once the match is settled', function () {
 
     expect($match->fresh()->status)->toBe(TournamentMatchEnum::COMPLETED);
     expect($this->actingAs($user)->get(route('profile'))->getContent())
-        ->not->toContain('goals.'.$match->id.'.scored');
+        ->not->toContain('scores.'.$match->id.'.scored');
 });

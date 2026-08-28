@@ -18,6 +18,9 @@ use Illuminate\Http\UploadedFile;
 
 trait TournamentMatchTrait
 {
+    /** Said the same way by the player form, the admin panel and the API. */
+    public const DRAW_REFUSED = 'A draw cannot settle a knockout match. Play it out — extra time or penalties — and report the decisive score.';
+
     /**
      * ======================
      *      Shared Logic
@@ -49,13 +52,20 @@ trait TournamentMatchTrait
             throw new \Exception('You already submitted result');
         }
 
+        // A knockout match has to send somebody through, so a level score is
+        // not a result the bracket can use. Refused here rather than stored,
+        // so the players go and settle it instead of the match dead-ending.
+        if ($scored === $conceded) {
+            throw new \Exception(self::DRAW_REFUSED);
+        }
+
         // Written only after the rules above pass, so a refused submission
         // leaves nothing behind on disk.
         $submission = $match->submissions()->create([
             'user_id' => $user->id,
             'screenshot' => $this->storeScreenshot($screenshot, $match, $user),
-            'scored_goals' => $scored,
-            'conceded_goals' => $conceded,
+            'scored' => $scored,
+            'conceded' => $conceded,
         ]);
 
         if ($match->submissions()->count() === 2) {
@@ -93,6 +103,17 @@ trait TournamentMatchTrait
         return $path;
     }
 
+    /**
+     * When a match drawn now stops waiting on its players.
+     *
+     * Read off the tournament so a weekend cup can run tighter than one that
+     * spans weeks; 24 hours when the tournament says nothing.
+     */
+    private function deadlineFor(Tournament $tournament): \Illuminate\Support\Carbon
+    {
+        return now()->addHours($tournament->result_deadline_hours ?: 24);
+    }
+
     private function generateNextRound(Tournament $tournament)
     {
         // Get current round number for THIS tournament
@@ -120,46 +141,119 @@ trait TournamentMatchTrait
             return null;
         }
 
-        $winnersId = $matches->pluck('winner_id')->filter()->values();
-        $winners = User::whereIn('id' , $winnersId)->get();
+        // Ordered by match id, so the winner of the first match meets the
+        // winner of the second. Loading the users instead returned them in id
+        // order, which paired the bracket by who registered first rather than
+        // by where they actually sat in the draw.
+        $winnerIds = $matches->sortBy('id')->pluck('winner_id')->values();
+
+        // A completed match always names a winner now that draws are refused.
+        // One without a winner means the round is not really settled, and
+        // silently dropping it is what used to delete players from the draw.
+        if ($winnerIds->contains(null)) {
+            throw new \RuntimeException(
+                "Tournament {$tournament->id} has a completed match with no winner; the round cannot be drawn."
+            );
+        }
 
         // Tournament finished
-        if ($winners->count() === 1) {
-            app(TournamentService::class)->finalizeTournament($tournament,$winners->first());
+        if ($winnerIds->count() === 1) {
+            $champion = User::findOrFail($winnerIds->first());
+            app(TournamentService::class)->finalizeTournament($tournament, $champion);
             app(SubscriptionService::class)->deactivateFor($tournament->players);
             return true;
         }
 
-        // Create next round matches
-        $winners->chunk(2)->each(function ($pair) use ($tournament, $nextRound) {
-            if ($pair->count() === 2) {
-                $tournament->matches()->create([
-                    'player1_id' => $pair[0]->id,
-                    'player2_id' => $pair[1]->id,
-                    'round'      => $nextRound,
-                ]);
-            }
+        // An odd count cannot be paired, so somebody would be left out. That
+        // is a broken bracket, not a round to draw.
+        if ($winnerIds->count() % 2 !== 0) {
+            throw new \RuntimeException(
+                "Tournament {$tournament->id} has {$winnerIds->count()} winners in round {$currentRound}; a round cannot be drawn from an odd count."
+            );
+        }
+
+        $deadline = $this->deadlineFor($tournament);
+
+        $winnerIds->chunk(2)->each(function ($pair) use ($tournament, $nextRound, $deadline) {
+            $pair = $pair->values();
+            $tournament->matches()->create([
+                'player1_id'  => $pair[0],
+                'player2_id'  => $pair[1],
+                'round'       => $nextRound,
+                'deadline_at' => $deadline,
+            ]);
         });
+
         return false;
     }
 
 
+    /**
+     * Settles every match whose reporting deadline has passed.
+     *
+     * One report standing unanswered is taken at its word — the player who
+     * did not turn up does not get to stall the bracket. No report at all is
+     * nobody's word to take, so it goes to an admin instead of being decided
+     * by a coin toss.
+     *
+     * @return array{settled: int, disputed: int}
+     */
+    private function forfeitOverdueMatches(): array
+    {
+        $overdue = TournamentMatch::query()
+            ->where('status', TournamentMatchEnum::PENDING)
+            ->whereNotNull('deadline_at')
+            ->where('deadline_at', '<=', now())
+            ->with(['submissions', 'tournament'])
+            ->get();
+
+        $settled = $disputed = 0;
+
+        foreach ($overdue as $match) {
+            $reports = $match->submissions;
+
+            if ($reports->count() !== 1) {
+                $match->status = TournamentMatchEnum::DISPUTED;
+                $match->save();
+                $disputed++;
+
+                continue;
+            }
+
+            $report = $reports->first();
+
+            // The report is written from the reporter's side, so it only maps
+            // onto player1/player2 once we know which of them sent it.
+            [$p1, $p2] = $report->user_id === $match->player1_id
+                ? [$report->scored, $report->conceded]
+                : [$report->conceded, $report->scored];
+
+            $this->finalizeMatch($match, $p1, $p2);
+            $this->generateNextRound($match->tournament);
+            $settled++;
+        }
+
+        return ['settled' => $settled, 'disputed' => $disputed];
+    }
+
     /*
      * store the match result
      */
-    private function finalizeMatch(TournamentMatch $match, int $p1Goals, int $p2Goals)
+    private function finalizeMatch(TournamentMatch $match, int $p1Score, int $p2Score)
     {
-        $match->player1_goal = $p1Goals;
-        $match->player2_goal = $p2Goals;
+        $match->player1_score = $p1Score;
+        $match->player2_score = $p2Score;
         $match->match_date = now();
 
-        if ($p1Goals > $p2Goals) {
-            $match->winner_id = $match->player1->id;
-        } elseif ($p2Goals > $p1Goals) {
-            $match->winner_id = $match->player2->id;
-        } else {
-            $match->winner_id = null;
+        // Callers validate before reaching here; this is the backstop that
+        // keeps a level score from ever being written as a settled match.
+        if ($p1Score === $p2Score) {
+            throw new \Exception(self::DRAW_REFUSED);
         }
+
+        $match->winner_id = $p1Score > $p2Score
+            ? $match->player1_id
+            : $match->player2_id;
 
         $match->submissions()->update(['status' => TournamentMatchResultEnum::CONFIRMED]);
 
@@ -177,14 +271,17 @@ trait TournamentMatchTrait
         $p1 = $subs->where('user_id', $match->player1->id)->first();
         $p2 = $subs->where('user_id', $match->player2->id)->first();
 
-        if (
-            $p1->scored_goals === $p2->conceded_goals &&
-            $p2->scored_goals === $p1->conceded_goals
-        ) {
+        $agree = $p1->scored === $p2->conceded
+            && $p2->scored === $p1->conceded;
+
+        // Draws are refused on the way in, so agreeing on one means something
+        // upstream let it through. An admin judging it beats an exception
+        // thrown at whichever player happened to report second.
+        if ($agree && $p1->scored !== $p2->scored) {
             $this->finalizeMatch(
                 $match,
-                $p1->scored_goals,
-                $p2->scored_goals
+                $p1->scored,
+                $p2->scored
             );
         } else {
             $match->status = TournamentMatchEnum::DISPUTED;

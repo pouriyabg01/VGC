@@ -61,30 +61,37 @@ class ViewTournamentMatch extends ViewRecord
             ->modalDescription('Enter the score you read off the screenshots. This settles the match, records the winner and draws the next round.')
             ->modalSubmitActionLabel('Confirm result')
             ->schema(fn (TournamentMatch $record): array => [
-                TextInput::make('player1_goal')
+                TextInput::make('player1_score')
                     ->label(($record->player1?->name ?? 'Player 1').' scored')
                     ->helperText($this->reportedBy($record, $record->player1_id))
                     ->numeric()
                     ->minValue(0)
                     ->required()
-                    ->default($record->submissions->firstWhere('user_id', $record->player1_id)?->scored_goals),
-                TextInput::make('player2_goal')
+                    // Somebody has to go through, so the admin cannot record
+                    // the match level either. different() is used over the raw
+                    // rule because it resolves the other field's state path,
+                    // which a bare 'different:player2_score' does not inside a
+                    // Filament action form.
+                    ->different('player2_score')
+                    ->validationMessages(['different' => self::DRAW_REFUSED])
+                    ->default($record->submissions->firstWhere('user_id', $record->player1_id)?->scored),
+                TextInput::make('player2_score')
                     ->label(($record->player2?->name ?? 'Player 2').' scored')
                     ->helperText($this->reportedBy($record, $record->player2_id))
                     ->numeric()
                     ->minValue(0)
                     ->required()
-                    ->default($record->submissions->firstWhere('user_id', $record->player2_id)?->scored_goals),
+                    ->default($record->submissions->firstWhere('user_id', $record->player2_id)?->scored),
             ])
             ->action(function (array $data, TournamentMatch $record): void {
-                $this->finalizeMatch($record, (int) $data['player1_goal'], (int) $data['player2_goal']);
+                $this->finalizeMatch($record, (int) $data['player1_score'], (int) $data['player2_score']);
                 $this->generateNextRound($record->tournament);
 
                 Notification::make()
                     ->title('Match settled')
                     ->body($record->winner?->name
                         ? $record->winner->name.' goes through.'
-                        : 'The match is recorded as a draw, so nobody goes through.')
+                        : 'Match settled.')
                     ->success()
                     ->send();
             });
@@ -99,6 +106,6 @@ class ViewTournamentMatch extends ViewRecord
             return 'No report submitted.';
         }
 
-        return 'Reported '.$submission->scored_goals.'–'.$submission->conceded_goals.'.';
+        return 'Reported '.$submission->scored.'–'.$submission->conceded.'.';
     }
 }

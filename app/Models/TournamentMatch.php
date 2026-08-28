@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class TournamentMatch extends Model
 {
-    protected $fillable = ['tournament_id','player1_id','player2_id','winner_id','player1_goal','player2_goal','round'];
+    protected $fillable = ['tournament_id','player1_id','player2_id','winner_id','player1_score','player2_score','round','deadline_at'];
 
     protected $casts = [
         'status' => TournamentMatchEnum::class,
+        'deadline_at' => 'datetime',
+        'match_date' => 'date',
     ];
 
     public function scopeLatestRound($query)

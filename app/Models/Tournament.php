@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tournament extends Model
 {
     use HasFactory;
-    protected $fillable = ['platform' , 'current_player_count' , 'capacity' , 'game' , 'end_at' , 'winner_id' , 'status'];
+    protected $fillable = ['platform' , 'current_player_count' , 'capacity' , 'game' , 'end_at' , 'winner_id' , 'status' , 'result_deadline_hours'];
 
     protected $casts = [
         'platform' => PlatformEnum::class,

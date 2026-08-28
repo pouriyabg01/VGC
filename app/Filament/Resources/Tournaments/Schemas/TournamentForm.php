@@ -48,6 +48,13 @@ class TournamentForm
                             $set('status', TournamentEnum::PENDING->value);
                         }
                     }),
+                TextInput::make('result_deadline_hours')
+                    ->label('Reporting window (hours)')
+                    ->helperText('How long players get to report a result before the match is forfeited.')
+                    ->numeric()
+                    ->minValue(1)
+                    ->default(24)
+                    ->required(),
                 Select::make('status')
                     ->options(TournamentEnum::class)
                     ->hint('default value is pending')

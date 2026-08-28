@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MatchResult extends Model
 {
-    protected $fillable = ['tournament_match_id' , 'user_id' , 'screenshot' ,'scored_goals' , 'conceded_goals' , 'status'];
+    protected $fillable = ['tournament_match_id' , 'user_id' , 'screenshot' ,'scored' , 'conceded' , 'status'];
 
     protected static function booted()
     {

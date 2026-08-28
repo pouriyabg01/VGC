@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Tournaments\TournamentEnum;
+use App\Enums\Tournaments\TournamentMatchEnum;
 use App\Services\CreateMatches;
 use App\Http\Resources\MatchResultResource;
 use App\Models\Tournament;
@@ -38,8 +39,8 @@ class TournamentMatchController extends BaseController
      *       "player1_id": 1,
      *       "player2_id": 2,
      *       "winner_id": null,
-     *       "player1_goal": null,
-     *       "player2_goal": null,
+     *       "player1_score": null,
+     *       "player2_score": null,
      *       "round": 1
      *     }
      *   ]
@@ -111,8 +112,20 @@ class TournamentMatchController extends BaseController
      * @authenticated
      *
      *
-     * @bodyParam player1_goal integer required Goals scored by player 1. Example: 2
-     * @bodyParam player2_goal integer required Goals scored by player 2. Example: 1
+     * @bodyParam player1_score integer required Score for player 1. Must differ from player 2's. Example: 2
+     * @bodyParam player2_score integer required Score for player 2. Example: 1
+     *
+     * @response 422 scenario="Level score" {
+     *   "message": "A draw cannot settle a knockout match. Play it out — extra time or penalties — and report the decisive score.",
+     *   "errors": {
+     *     "player1_score": ["A draw cannot settle a knockout match. Play it out — extra time or penalties — and report the decisive score."]
+     *   }
+     * }
+     * @response 422 scenario="Already settled" {
+     *   "success": false,
+     *   "message": "This match has already been settled.",
+     *   "data": []
+     * }
      *
      * @response 200 scenario="Success" {
      *   "success": true,
@@ -122,29 +135,43 @@ class TournamentMatchController extends BaseController
      *     "tournament_id": 1,
      *     "player1_id": 1,
      *     "player2_id": 2,
-     *     "player1_goal": 2,
-     *     "player2_goal": 1,
+     *     "player1_score": 2,
+     *     "player2_score": 1,
      *     "winner_id": 1
      *   }
      * }
      */
     public function submitByAdmin(Request $request, TournamentMatch $tournamentMatch)
     {
-        $this->authorize('submit' , TournamentMatch::class);
+        // The policy's submit() takes the match, so passing the class name
+        // handed it one argument and raised a TypeError instead of a
+        // decision — this endpoint could not succeed at all.
+        $this->authorize('submit' , $tournamentMatch);
+
+        // The next round is drawn from the winner and an existing round is
+        // never redrawn, so a second judgement would leave the bracket
+        // contradicting the result it was built from. The panel hides its
+        // button once a match is settled; this is the same rule for the API.
+        if ($tournamentMatch->status === TournamentMatchEnum::COMPLETED) {
+            return $this->sendError('This match has already been settled.', [], 422);
+        }
+
         $data = $request->validate([
-            'player1_goal' => 'required|integer|min:0',
-            'player2_goal' => 'required|integer|min:0',
+            'player1_score' => 'required|integer|min:0|different:player2_score',
+            'player2_score' => 'required|integer|min:0',
+        ], [
+            'player1_score.different' => self::DRAW_REFUSED,
         ]);
 
         $this->finalizeMatch(
             $tournamentMatch,
-            $data['player1_goal'],
-            $data['player2_goal']
+            $data['player1_score'],
+            $data['player2_score']
         );
 
         $this->generateNextRound($tournamentMatch->tournament);
 
-        return $this->sendResponse($tournamentMatch, 'Match result submitted successfully' , 201);
+        return $this->sendResponse($tournamentMatch->fresh(), 'Match result submitted successfully' , 201);
     }
 
     /**
@@ -155,8 +182,8 @@ class TournamentMatchController extends BaseController
      * @authenticated
      *
      *
-     * @bodyParam scored_goals integer required Goals scored by the submitting player. Example: 3
-     * @bodyParam conceded_goals integer required Goals conceded by the submitting player. Example: 1
+     * @bodyParam scored integer required Score for the submitting player. Must differ from the opponent's. Example: 3
+     * @bodyParam conceded integer required Score for their opponent. Example: 1
      * @bodyParam screenshot file required Proof of the final score. JPG, PNG or WEBP, up to 5 MB.
      *
      * @response 200 scenario="Success" {
@@ -168,8 +195,8 @@ class TournamentMatchController extends BaseController
      *     "user_id": 1,
      *     "screenshot": "conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
      *     "screenshot_url": "http://localhost/storage/conclusion-screenshot/1/1/9kQ2m0XcVb.jpg",
-     *     "scored_goals": 3,
-     *     "conceded_goals": 1
+     *     "scored": 3,
+     *     "conceded": 1
      *   }
      * }
      * @response 422 scenario="Unacceptable screenshot" {
@@ -189,16 +216,16 @@ class TournamentMatchController extends BaseController
         $data = $request->validate([
             // Shared with the profile form, so both sides accept the same files.
             'screenshot' => MatchScreenshot::rules(),
-            'scored_goals' => 'required|integer|min:0',
-            'conceded_goals' => 'required|integer|min:0',
-        ], MatchScreenshot::messages());
+            'scored' => 'required|integer|min:0|different:conceded',
+            'conceded' => 'required|integer|min:0',
+        ], MatchScreenshot::messages() + ['scored.different' => self::DRAW_REFUSED]);
 
         try {
             $match = $this->submitResultFor(
                 $request->user(),
                 $tournamentMatch,
-                (int) $data['scored_goals'],
-                (int) $data['conceded_goals'],
+                (int) $data['scored'],
+                (int) $data['conceded'],
                 $data['screenshot'],
             );
         } catch (\Exception $e) {
