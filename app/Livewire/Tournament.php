@@ -42,19 +42,40 @@ class Tournament extends Component
         }
     }
 
-//    public function signOut(): void
-//    {
-//        $user = Auth::user();
-//        if (!$user) return;
-//
-//        try {
-//            app(TournamentService::class)->signOut($this->tournament);
-//            $this->loadTournament($this->tournament);
-//            session()->flash('message', 'You have successfully signed out!');
-//        } catch (\Exception $e) {
-//            $this->addError('signOut', $e->getMessage());
-//        }
-//    }
+    public function signOut(): void
+    {
+        if (! Auth::check()) {
+            $this->redirectRoute('login', navigate: true);
+
+            return;
+        }
+
+        try {
+            // The service holds the rule about when leaving is still allowed,
+            // so a refusal arrives here as a message rather than a 403 page.
+            app(TournamentService::class)->signOut($this->tournament);
+            $this->loadTournament($this->tournament->fresh());
+            session()->flash('message', 'You have left this tournament.');
+        } catch (\Exception $e) {
+            $this->addError('signOut', $e->getMessage());
+        }
+    }
+
+    /**
+     * Whether the viewer can still take their seat back.
+     *
+     * Mirrors the service so the page can hide the button rather than offer a
+     * click that is going to be refused.
+     */
+    public function canSignOut(): bool
+    {
+        if (! $this->isSignedUp()) {
+            return false;
+        }
+
+        return ! $this->tournament->matches()->exists()
+            && in_array($this->tournament->status, [TournamentEnum::PENDING, TournamentEnum::READY], true);
+    }
 
     public function isSignedUp(): bool
     {

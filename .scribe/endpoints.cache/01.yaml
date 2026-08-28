@@ -211,6 +211,92 @@ endpoints:
     custom: []
     httpMethods:
       - POST
+    uri: 'api/tournaments/{tournament_id}/sign-out'
+    metadata:
+      custom: []
+      groupName: 'Tournament Management'
+      groupDescription: |-
+
+        APIs for creating, updating, viewing, and signing up for tournaments.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Leave a tournament'
+      description: |-
+        Takes the authenticated player back out of a tournament, releasing their
+        seat. Only possible before the draw is made — once matches exist the
+        player is named in one, so leaving would strand their opponent. The
+        subscription is not spent by leaving.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      tournament_id:
+        custom: []
+        name: tournament_id
+        description: 'The ID of the tournament.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      tournament_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "you are successfully signed out",
+            "data": []
+          }
+        headers: []
+        description: Success
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "success": false,
+            "message": "You cannot leave a tournament once the draw has been made.",
+            "data": []
+          }
+        headers: []
+        description: 'Draw already made'
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "success": false,
+            "message": "You are not registered in this tournament",
+            "data": []
+          }
+        headers: []
+        description: 'Not in this tournament'
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
     uri: api/tournaments
     metadata:
       custom: []
