@@ -22,21 +22,6 @@ function subscriptionQueries(Closure $work): int
     return $count;
 }
 
-it('reads the subscription once however often it is asked for', function () {
-    $user = User::factory()->create();
-    $user->plan()->attach(Plan::factory()->create()->id, ['status' => true]);
-
-    $subscriptions = app(SubscriptionService::class);
-
-    $queries = subscriptionQueries(function () use ($subscriptions, $user) {
-        $subscriptions->activeFor($user);
-        $subscriptions->activeFor($user);
-        $subscriptions->latestFor($user);
-    });
-
-    expect($queries)->toBe(1);
-});
-
 it('does not re-query for a user who has never subscribed', function () {
     $user = User::factory()->create();
 

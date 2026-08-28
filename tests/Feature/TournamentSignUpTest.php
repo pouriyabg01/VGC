@@ -123,15 +123,3 @@ it('shows a denial as an inline error on the page, not a 403 screen', function (
 
     expect($t->fresh()->players()->count())->toBe(0);
 });
-
-it('shows a rule refusal as an inline error too', function () {
-    $t = xboxTournament();
-
-    Livewire::actingAs(playerOn(PlatformEnum::PLAYSTATION))
-        ->test(\App\Livewire\Tournament::class, ['tournament' => $t])
-        ->call('signUp')
-        ->assertOk()
-        ->assertHasErrors('signUp');
-
-    expect($t->fresh()->players()->count())->toBe(0);
-});

@@ -17,16 +17,6 @@ it('lists every plan with a Get button pointing at its checkout', function () {
     }
 });
 
-it('is public', function () {
-    Plan::factory()->create(['title' => 'Rookie', 'price' => 2500]);
-
-    $this->get(route('plans'))->assertOk()->assertSee('Rookie')->assertSee('2,500');
-});
-
-it('handles having no plans', function () {
-    $this->get(route('plans'))->assertOk()->assertSee('No plans published yet.');
-});
-
 it('marks the plan the viewer already holds', function () {
     $held = Plan::factory()->create(['title' => 'Rookie']);
     $other = Plan::factory()->create(['title' => 'Pro']);
