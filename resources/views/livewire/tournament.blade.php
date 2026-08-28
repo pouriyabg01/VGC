@@ -12,11 +12,31 @@
             <div class="flex flex-col items-end gap-3">
                 <span class="font-mono text-xs uppercase text-mist border border-steel px-3 py-2">{{ $tournament->status->value }}</span>
 
-                @if ($tournament->status === \App\Enums\Tournaments\TournamentEnum::PENDING)
+                @if (in_array($tournament->status, [\App\Enums\Tournaments\TournamentEnum::PENDING, \App\Enums\Tournaments\TournamentEnum::READY], true))
                     @auth
                         @if ($this->isSignedUp())
-                            <span class="font-mono text-xs uppercase text-plasma border border-plasma/40 bg-plasma/10 px-3 py-2">
-                                Signed up
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-xs uppercase text-plasma border border-plasma/40 bg-plasma/10 px-3 py-2">
+                                    Signed up
+                                </span>
+                                @if ($this->canSignOut())
+                                    <button
+                                        type="button"
+                                        wire:click="signOut"
+                                        wire:confirm="Leave this tournament? Your seat goes back on offer."
+                                        wire:loading.attr="disabled"
+                                        wire:target="signOut"
+                                        class="font-mono text-xs uppercase text-mist border border-steel px-3 py-2 hover:text-ember hover:border-ember/40 transition-colors"
+                                    >
+                                        <span wire:loading.remove wire:target="signOut">Leave</span>
+                                        <span wire:loading wire:target="signOut">Leaving&hellip;</span>
+                                    </button>
+                                @endif
+                            </div>
+                        @elseif ($tournament->status === \App\Enums\Tournaments\TournamentEnum::READY)
+                            {{-- Full, waiting on the draw. Not a sign-up problem. --}}
+                            <span class="font-mono text-xs uppercase text-mist border border-steel px-3 py-2">
+                                Tournament full
                             </span>
                         @elseif ($this->canSignUp())
                             <button
@@ -61,6 +81,9 @@
                     <span class="font-mono text-xs text-plasma">{{ session('message') }}</span>
                 @endif
                 @error('signUp')
+                    <span class="font-mono text-xs text-ember">{{ $message }}</span>
+                @enderror
+                @error('signOut')
                     <span class="font-mono text-xs text-ember">{{ $message }}</span>
                 @enderror
             </div>

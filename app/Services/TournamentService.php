@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Tournaments\TournamentEnum;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\TournamentResource;
+use App\Models\MatchResult;
 use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -64,31 +65,60 @@ class TournamentService extends BaseController
     }
 
     /**
-     * Sign out user of tournament
+     * Takes a player back out of a tournament that has not started.
+     *
+     * Leaving is allowed right up until the tournament goes GAMING. The seat
+     * is released, so one that had filled up drops back to PENDING and can
+     * take somebody else.
+     *
+     * The player is removed completely: if a draw had already been made but
+     * play had not begun, that draw is void and every match goes with them.
+     * Deleting only their own match would leave their opponent holding a
+     * fixture against nobody, so the whole round is cleared and drawn again
+     * once the tournament is full.
+     *
+     * Their entry is untouched — a subscription is only spent when a
+     * tournament finishes, so leaving one they never played does not cost
+     * them the pass.
+     *
+     * @throws \Exception when play has begun, or they were never in it.
      */
     public function signOut(Tournament $tournament)
     {
         $user = Auth::user();
-        if (! $user) return;
 
-        // Once the draw is made the player is named in a match, and leaving
-        // only drops them from the head count — their opponent is left
-        // waiting on a result nobody will ever report.
-        if ($tournament->status !== TournamentEnum::PENDING) {
+        if (! $user) {
+            throw new \Exception('You need an account to leave a tournament.');
+        }
+
+        // GAMING is the line: once play has begun a result may already have
+        // been reported against this player, and pulling them out would
+        // rewrite a round that is being played.
+        if ($tournament->status !== TournamentEnum::PENDING
+            && $tournament->status !== TournamentEnum::READY) {
             throw new \Exception('You cannot leave a tournament once it has started.');
         }
-        DB::transaction(function () use ($tournament , $user){
-           if ($user->tournaments()->where('tournament_id' , $tournament->id)->exists()){
 
-               $user->tournaments()->detach($tournament->id);
-               $tournament->decrement('current_player_count');
+        DB::transaction(function () use ($tournament, $user) {
+            if (! $user->tournaments()->where('tournament_id', $tournament->id)->exists()) {
+                throw new \Exception('You are not registered in this tournament');
+            }
 
-               $tournament->refresh();
-               $tournament->syncStatusBeforeSave();
-               $tournament->save();
-           }elseif (!$user->tournaments()->where('tournament_id' , $tournament->id)->exists()){
-               throw new \Exception("You are not registered in this tournament");
-           }
+            $user->tournaments()->detach($tournament->id);
+            $tournament->decrement('current_player_count');
+
+            // Nothing of them is left behind. Reports go first: match_results
+            // holds a foreign key onto the match, so the matches cannot be
+            // deleted while a report still points at one. The screenshots
+            // those reports named are swept up by cleanup:screenshots.
+            if ($tournament->matches()->exists()) {
+                MatchResult::whereIn('tournament_match_id', $tournament->matches()->pluck('id'))->delete();
+                $tournament->matches()->delete();
+            }
+
+            $tournament->refresh();
+            $tournament->syncStatusBeforeSave();
+            $tournament->save();
         });
     }
     public function finalizeTournament(Tournament $tournament , User $winner)
