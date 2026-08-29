@@ -18,6 +18,9 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 // Public Tournament Access
+// The list is public for the same reason the tournaments page is: somebody has
+// to be able to see what is on before they have an account.
+Route::get('/tournaments', [TournamentController::class, 'index']);
 Route::get('/tournaments/{tournament}', [TournamentController::class, 'show']);
 Route::get('/tournaments/{tournament}/players', [TournamentController::class, 'players']);
 Route::get('tournaments/{tournament}/matches', [TournamentMatchController::class, 'index']);

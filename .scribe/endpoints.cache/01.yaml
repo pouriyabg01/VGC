@@ -9,6 +9,128 @@ endpoints:
     custom: []
     httpMethods:
       - GET
+    uri: api/tournaments
+    metadata:
+      custom: []
+      groupName: 'Tournament Management'
+      groupDescription: |-
+
+        APIs for creating, updating, viewing, and signing up for tournaments.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List tournaments'
+      description: |-
+        Every tournament, newest first. The same list the tournaments page
+        shows, and it takes the same two filters.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      status:
+        custom: []
+        name: status
+        description: 'Narrow to one status. Must be one of: PENDING, READY, GAMING, COMPLETED, CANCELED.'
+        required: false
+        example: PENDING
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      platform:
+        custom: []
+        name: platform
+        description: 'Narrow to one platform. Must be one of: PC, PLAYSTATION, XBOX, MOBILE.'
+        required: false
+        example: XBOX
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      status: PENDING
+      platform: XBOX
+    bodyParameters:
+      status:
+        custom: []
+        name: status
+        description: ''
+        required: false
+        example: PENDING
+        type: string
+        enumValues:
+          - PENDING
+          - CANCELED
+          - READY
+          - COMPLETED
+          - GAMING
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      platform:
+        custom: []
+        name: platform
+        description: ''
+        required: false
+        example: XBOX
+        type: string
+        enumValues:
+          - PC
+          - PLAYSTATION
+          - XBOX
+          - MOBILE
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      status: PENDING
+      platform: XBOX
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "all tournaments",
+            "data": [
+              {
+                "id": 1,
+                "platform": "PC",
+                "game": "FIFA 24",
+                "end_at": null,
+                "status": "PENDING",
+                "winner_id": null
+              }
+            ]
+          }
+        headers: []
+        description: Success
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "message": "The selected status is invalid.",
+            "errors": { "status": ["The selected status is invalid."] }
+          }
+        headers: []
+        description: 'Unknown filter'
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
     uri: 'api/tournaments/{tournament_id}'
     metadata:
       custom: []

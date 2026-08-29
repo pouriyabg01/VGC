@@ -2,6 +2,7 @@
 use App\Livewire\Checkout;
 use App\Livewire\Landing;
 use App\Livewire\Plans;
+use App\Livewire\Tournaments;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Profile\Index;
@@ -27,5 +28,7 @@ Route::get('plans', Plans::class)->name('plans');
 
 // Public: a guest can read the plan; only confirming requires an account.
 Route::get('checkout/{plan}', Checkout::class)->name('checkout');
+
+Route::get('tournaments', Tournaments::class)->name('tournaments');
 
 Route::get('tournament/{tournament}', \App\Livewire\Tournament::class)->name('tournament');

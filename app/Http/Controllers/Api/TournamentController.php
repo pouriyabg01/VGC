@@ -23,6 +23,51 @@ class TournamentController extends BaseController
     use AuthorizesRequests;
 
     /**
+     * List tournaments
+     *
+     * Every tournament, newest first. The same list the tournaments page
+     * shows, and it takes the same two filters.
+     *
+     * @queryParam status string Narrow to one status. Must be one of: PENDING, READY, GAMING, COMPLETED, CANCELED. Example: PENDING
+     * @queryParam platform string Narrow to one platform. Must be one of: PC, PLAYSTATION, XBOX, MOBILE. Example: XBOX
+     *
+     * @response 200 scenario="Success" {
+     *   "success": true,
+     *   "message": "all tournaments",
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "platform": "PC",
+     *       "game": "FIFA 24",
+     *       "end_at": null,
+     *       "status": "PENDING",
+     *       "winner_id": null
+     *     }
+     *   ]
+     * }
+     * @response 422 scenario="Unknown filter" {
+     *   "message": "The selected status is invalid.",
+     *   "errors": { "status": ["The selected status is invalid."] }
+     * }
+     */
+    public function index(Request $request)
+    {
+        $filters = $request->validate([
+            'status' => ['sometimes', new Enum(TournamentEnum::class)],
+            'platform' => ['sometimes', new Enum(PlatformEnum::class)],
+        ]);
+
+        $tournaments = Tournament::query()
+            ->when($filters['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
+            ->when($filters['platform'] ?? null, fn ($query, $platform) => $query->where('platform', $platform))
+            ->latest()
+            ->orderByDesc('id')
+            ->get();
+
+        return $this->sendResponse(TournamentResource::collection($tournaments), 'all tournaments', 200);
+    }
+
+    /**
      * Create a tournament
      *
      * Creates a new tournament.

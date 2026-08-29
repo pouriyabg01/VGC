@@ -6,7 +6,10 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use App\Enums\Platforms\PlatformEnum;
+use App\Enums\Tournaments\TournamentEnum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use App\Filament\Resources\Users\UserResource;
 
@@ -18,6 +21,8 @@ class TournamentsTable
             ->columns([
                 TextColumn::make('game')
                     ->searchable(),
+                TextColumn::make('platform')
+                    ->sortable(),
                 TextColumn::make('end_at')
                     ->date()
                     ->sortable(),
@@ -42,7 +47,13 @@ class TournamentsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                // The same two the tournaments page and the API list by, so an
+                // admin can reach a slice of the board the same way a player
+                // describes it.
+                SelectFilter::make('status')
+                    ->options(TournamentEnum::values()),
+                SelectFilter::make('platform')
+                    ->options(PlatformEnum::options()),
             ])
             ->recordActions([
                 ViewAction::make(),
