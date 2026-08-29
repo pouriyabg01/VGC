@@ -18,6 +18,9 @@ class GameResource extends JsonResource
             // The stored path is an implementation detail of the disk; a
             // client needs something it can fetch.
             'image_url' => $this->imageUrl(),
+            // Whether the site puts this game on today. Only the rest can be
+            // voted for.
+            'is_active' => (bool) $this->is_active,
             'votes' => $this->voteCount(),
             'votes_target' => (int) $this->votes_target,
             'vote_percent' => $this->votePercent(),

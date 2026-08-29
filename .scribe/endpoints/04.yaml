@@ -161,8 +161,20 @@ endpoints:
         exampleWasSpecified: false
         nullable: true
         deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: 'Whether the site runs this game already. Defaults to false, which shows it as coming soon and closed to votes.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
     cleanBodyParameters:
       title: 'Tekken 8'
+      is_active: false
     fileParameters:
       image: null
     responses:
@@ -249,8 +261,20 @@ endpoints:
         exampleWasSpecified: false
         nullable: true
         deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: 'Whether the site runs this game already.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
     cleanBodyParameters:
       title: 'Tekken 8'
+      is_active: true
     fileParameters:
       image: null
     responses:
@@ -400,6 +424,17 @@ endpoints:
           }
         headers: []
         description: 'Vote taken back'
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "success": false,
+            "message": "This game is not live yet, so it is not open for votes.",
+            "data": []
+          }
+        headers: []
+        description: 'Game not live yet'
     responseFields: []
     auth:
       - headers

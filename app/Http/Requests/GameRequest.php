@@ -20,6 +20,7 @@ class GameRequest extends FormRequest
         return [
             'title' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:255'],
             'image' => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'is_active' => ['sometimes', 'boolean'],
         ];
     }
 

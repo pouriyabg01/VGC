@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Games\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
 class GameForm
@@ -42,6 +43,10 @@ class GameForm
                     // Livewire's own temporary-upload ceiling.
                     ->maxSize(12288)
                     ->columnSpanFull(),
+                Toggle::make('is_active')
+                    ->label('Running now')
+                    ->helperText('On: the landing card reads Live and players can vote for it. Off: the card reads Coming soon and its vote button is greyed out until you turn this on.')
+                    ->default(false),
                 TextInput::make('votes_target')
                     ->label('Votes to run it')
                     ->helperText('How many players have to ask for this game before it is worth putting on. Drives the bar on the landing page.')

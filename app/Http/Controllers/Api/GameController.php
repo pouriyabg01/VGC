@@ -64,6 +64,7 @@ class GameController extends BaseController
      *
      * @bodyParam title string required The game's name. Example: Tekken 8
      * @bodyParam image file The cover. JPG, PNG or WEBP, up to 5 MB.
+     * @bodyParam is_active boolean Whether the site runs this game already. Defaults to false, which shows it as coming soon and closed to votes. Example: false
      *
      * @response 201 scenario="Created" {
      *   "success": true,
@@ -78,6 +79,8 @@ class GameController extends BaseController
         $game = Game::create([
             'title' => $request->validated('title'),
             'image' => $this->storeCover($request),
+            // A game is on show as coming soon unless it is said to be running.
+            'is_active' => $request->boolean('is_active'),
         ]);
 
         return $this->sendResponse(new GameResource($game), 'game created', 201);
@@ -93,6 +96,7 @@ class GameController extends BaseController
      *
      * @bodyParam title string The game's name. Example: Tekken 8
      * @bodyParam image file A replacement cover. JPG, PNG or WEBP, up to 5 MB.
+     * @bodyParam is_active boolean Whether the site runs this game already. Example: true
      *
      * @response 200 scenario="Success" {
      *   "success": true,
@@ -108,6 +112,10 @@ class GameController extends BaseController
             ['title' => $request->validated('title')],
             fn ($value): bool => $value !== null
         );
+
+        if ($request->has('is_active')) {
+            $data['is_active'] = $request->boolean('is_active');
+        }
 
         if ($cover = $this->storeCover($request)) {
             $this->deleteCover($game);
@@ -153,6 +161,11 @@ class GameController extends BaseController
      *   "message": "vote recorded",
      *   "data": { "id": 1, "title": "Tekken 8", "image_url": null, "votes": 1, "votes_target": 50, "vote_percent": 2 }
      * }
+     * @response 422 scenario="Game not live yet" {
+     *   "success": false,
+     *   "message": "This game is not live yet, so it is not open for votes.",
+     *   "data": []
+     * }
      * @response 200 scenario="Vote taken back" {
      *   "success": true,
      *   "message": "vote withdrawn",
@@ -168,6 +181,12 @@ class GameController extends BaseController
         // fail on the foreign key. A poll is players asking for a game anyway.
         if (! $user instanceof User) {
             return $this->sendError('Only players can vote for a game.', [], 403);
+        }
+
+        // A game that is not on yet is not open for votes: the landing card
+        // greys its button out, and the endpoint says the same.
+        if (! $game->acceptsVotes()) {
+            return $this->sendError('This game is not live yet, so it is not open for votes.', [], 422);
         }
 
         $changed = $game->voters()->toggle($user->id);

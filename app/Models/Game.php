@@ -17,7 +17,34 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'image', 'votes_target'];
+    protected $fillable = ['title', 'image', 'votes_target', 'is_active'];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    /** Games the site puts on today. */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /** Games on show but not running yet — the ones worth voting for. */
+    public function scopeComingSoon($query)
+    {
+        return $query->where('is_active', false);
+    }
+
+    /**
+     * Whether a player can vote for this game.
+     *
+     * Only games the site actually runs. A coming-soon card carries the button
+     * greyed out rather than missing, so it reads as a thing that opens later.
+     */
+    public function acceptsVotes(): bool
+    {
+        return $this->is_active;
+    }
 
     /**
      * Players who have asked for this game.

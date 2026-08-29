@@ -67,6 +67,16 @@ it('says a filter matched nothing rather than looking like an empty board', func
         ->assertSee('Nothing matches those filters');
 });
 
+it('shows only the latest few on the landing, with a link to the rest', function () {
+    Tournament::factory()->count(8)->create();
+
+    $html = $this->get(route('home'))->assertOk()->getContent();
+
+    // The landing is a preview; the whole board belongs on its own page.
+    expect(preg_match_all('#/tournament/\d+#', $html))->toBe(6)
+        ->and($html)->toContain(route('tournaments'));
+});
+
 it('serves the tournament list over the API too', function () {
     Tournament::factory()->create(['platform' => PlatformEnum::XBOX, 'game' => 'xbox-one']);
     Tournament::factory()->create(['platform' => PlatformEnum::PC, 'game' => 'pc-one']);

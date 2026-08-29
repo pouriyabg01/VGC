@@ -5,8 +5,10 @@ namespace App\Filament\Resources\Games\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class GamesTable
@@ -24,6 +26,10 @@ class GamesTable
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
+                IconColumn::make('is_active')
+                    ->label('Running')
+                    ->boolean()
+                    ->sortable(),
                 TextColumn::make('voters_count')
                     ->label('Votes')
                     ->counts('voters')
@@ -38,6 +44,13 @@ class GamesTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                TernaryFilter::make('is_active')
+                    ->label('Running now')
+                    ->placeholder('Everything')
+                    ->trueLabel('Running')
+                    ->falseLabel('Coming soon'),
             ])
             ->defaultSort('created_at', 'desc')
             ->emptyStateHeading('No games yet')

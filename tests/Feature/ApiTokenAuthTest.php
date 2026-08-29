@@ -28,7 +28,8 @@ it('lets a player authenticate with their own token', function () {
 });
 
 it('lets a player vote with their own token', function () {
-    $game = Game::create(['title' => 'Tekken 8', 'votes_target' => 50]);
+    // Only a game the site actually runs is open for votes.
+    $game = Game::create(['title' => 'Tekken 8', 'votes_target' => 50, 'is_active' => true]);
     $player = User::factory()->create();
 
     $this->postJson("/api/games/{$game->id}/vote", [], bearer($player))

@@ -60,15 +60,16 @@ it('points a signed-in visitor at the brackets, not at signing up', function () 
 
     expect($html)->toContain('View tournaments')
         ->and($html)->toContain('id="tournaments"')
-        // Both account prompts are noise once somebody is already in.
-        ->and($html)->not->toContain('Create your account')
-        ->and($html)->not->toContain('I already have an account');
+        // An account prompt is noise once somebody is already in.
+        ->and($html)->not->toContain('Create your account');
 });
 
-it('still asks a guest to sign up', function () {
+it('asks a guest to sign up but still shows them the draws', function () {
     $html = $this->get(route('home'))->assertOk()->getContent();
 
+    // Signing up sight unseen is a leap of faith, so the brackets are one
+    // link away for a guest too.
     expect($html)->toContain('Create your account')
-        ->and($html)->toContain('I already have an account')
-        ->and($html)->not->toContain('View tournaments');
+        ->and($html)->toContain('View tournaments')
+        ->and($html)->toContain('id="tournaments"');
 });

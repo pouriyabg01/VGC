@@ -169,7 +169,10 @@
                     <a href="#tournament-management">Tournament Management</a>
                 </li>
                                     <ul id="tocify-subheader-tournament-management" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="tournament-management-GETapi-tournaments--tournament_id-">
+                                                    <li class="tocify-item level-2" data-unique="tournament-management-GETapi-tournaments">
+                                <a href="#tournament-management-GETapi-tournaments">List tournaments</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="tournament-management-GETapi-tournaments--tournament_id-">
                                 <a href="#tournament-management-GETapi-tournaments--tournament_id-">Show a tournament</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="tournament-management-GETapi-tournaments--tournament_id--players">
@@ -526,7 +529,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "title=Tekken 8"\
-    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpto9k67t73ohb8h15m5V" </code></pre></div>
+    --form "is_active="\
+    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpldb2pt1vi9b64mwDthb" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -542,6 +546,7 @@ const headers = {
 
 const body = new FormData();
 body.append('title', 'Tekken 8');
+body.append('is_active', '');
 body.append('image', document.querySelector('input[name="image"]').files[0]);
 
 fetch(url, {
@@ -675,7 +680,29 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>The cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpto9k67t73ohb8h15m5V</code></p>
+<p>The cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpldb2pt1vi9b64mwDthb</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-games" style="display: none">
+            <input type="radio" name="is_active"
+                   value="true"
+                   data-endpoint="POSTapi-games"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-games" style="display: none">
+            <input type="radio" name="is_active"
+                   value="false"
+                   data-endpoint="POSTapi-games"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Whether the site runs this game already. Defaults to false, which shows it as coming soon and closed to votes. Example: <code>false</code></p>
         </div>
         </form>
 
@@ -699,7 +726,8 @@ the disk does not fill with covers nothing points at.</p>
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "title=Tekken 8"\
-    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpegesff806744djhfJB9" </code></pre></div>
+    --form "is_active=1"\
+    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpal36ev06p8t2eAvjLcS" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -715,6 +743,7 @@ const headers = {
 
 const body = new FormData();
 body.append('title', 'Tekken 8');
+body.append('is_active', '1');
 body.append('image', document.querySelector('input[name="image"]').files[0]);
 
 fetch(url, {
@@ -865,7 +894,29 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>A replacement cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpegesff806744djhfJB9</code></p>
+<p>A replacement cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpal36ev06p8t2eAvjLcS</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="PUTapi-games--id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="true"
+                   data-endpoint="PUTapi-games--id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-games--id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="false"
+                   data-endpoint="PUTapi-games--id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Whether the site runs this game already. Example: <code>true</code></p>
         </div>
         </form>
 
@@ -1094,6 +1145,17 @@ fetch(url, {
         &quot;votes_target&quot;: 50,
         &quot;vote_percent&quot;: 0
     }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Game not live yet):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;This game is not live yet, so it is not open for votes.&quot;,
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -1762,7 +1824,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "scored=3"\
     --form "conceded=1"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpf279smoci1cf0pQzHyY" </code></pre></div>
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/php2b1jdc6q4rbfaeHLLtZ" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1942,7 +2004,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpf279smoci1cf0pQzHyY</code></p>
+<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/php2b1jdc6q4rbfaeHLLtZ</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored</code></b>&nbsp;&nbsp;
@@ -2264,7 +2326,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"title\": \"Pro\",
     \"description\": \"Full access plan\",
-    \"price\": 2500
+    \"price\": 2500,
+    \"tournament_entries\": 39,
+    \"vs_games\": 84
 }"
 </code></pre></div>
 
@@ -2283,7 +2347,9 @@ const headers = {
 let body = {
     "title": "Pro",
     "description": "Full access plan",
-    "price": 2500
+    "price": 2500,
+    "tournament_entries": 39,
+    "vs_games": 84
 };
 
 fetch(url, {
@@ -2432,6 +2498,30 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>The plan price in the smallest currency unit. Example: <code>2500</code></p>
         </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>tournament_entries</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="tournament_entries"                data-endpoint="POSTapi-plans"
+               value="39"
+               data-component="body">
+    <br>
+<p>Must be at least 0. Example: <code>39</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>vs_games</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="vs_games"                data-endpoint="POSTapi-plans"
+               value="84"
+               data-component="body">
+    <br>
+<p>Must be at least 0. Example: <code>84</code></p>
+        </div>
         </form>
 
                     <h2 id="plan-management-PUTapi-plans--id-">Update a plan</h2>
@@ -2455,7 +2545,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"title\": \"Pro Plus\",
     \"description\": \"Updated full access plan\",
-    \"price\": 3000
+    \"price\": 3000,
+    \"tournament_entries\": 39,
+    \"vs_games\": 84
 }"
 </code></pre></div>
 
@@ -2474,7 +2566,9 @@ const headers = {
 let body = {
     "title": "Pro Plus",
     "description": "Updated full access plan",
-    "price": 3000
+    "price": 3000,
+    "tournament_entries": 39,
+    "vs_games": 84
 };
 
 fetch(url, {
@@ -2639,6 +2733,30 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>The plan price. Example: <code>3000</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>tournament_entries</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="tournament_entries"                data-endpoint="PUTapi-plans--id-"
+               value="39"
+               data-component="body">
+    <br>
+<p>Must be at least 0. Example: <code>39</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>vs_games</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="vs_games"                data-endpoint="PUTapi-plans--id-"
+               value="84"
+               data-component="body">
+    <br>
+<p>Must be at least 0. Example: <code>84</code></p>
         </div>
         </form>
 
@@ -3800,7 +3918,224 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     <p>APIs for creating, updating, viewing, and signing up for tournaments.</p>
 
-                                <h2 id="tournament-management-GETapi-tournaments--tournament_id-">Show a tournament</h2>
+                                <h2 id="tournament-management-GETapi-tournaments">List tournaments</h2>
+
+<p>
+</p>
+
+<p>Every tournament, newest first. The same list the tournaments page
+shows, and it takes the same two filters.</p>
+
+<span id="example-requests-GETapi-tournaments">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/tournaments?status=PENDING&amp;platform=XBOX" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"status\": \"PENDING\",
+    \"platform\": \"XBOX\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tournaments"
+);
+
+const params = {
+    "status": "PENDING",
+    "platform": "XBOX",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "status": "PENDING",
+    "platform": "XBOX"
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-tournaments">
+            <blockquote>
+            <p>Example response (200, Success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;all tournaments&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;platform&quot;: &quot;PC&quot;,
+            &quot;game&quot;: &quot;FIFA 24&quot;,
+            &quot;end_at&quot;: null,
+            &quot;status&quot;: &quot;PENDING&quot;,
+            &quot;winner_id&quot;: null
+        }
+    ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Unknown filter):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The selected status is invalid.&quot;,
+    &quot;errors&quot;: {
+        &quot;status&quot;: [
+            &quot;The selected status is invalid.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-tournaments" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-tournaments"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-tournaments"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-tournaments" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-tournaments">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-tournaments" data-method="GET"
+      data-path="api/tournaments"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-tournaments', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-tournaments"
+                    onclick="tryItOut('GETapi-tournaments');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-tournaments"
+                    onclick="cancelTryOut('GETapi-tournaments');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-tournaments"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/tournaments</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-tournaments"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-tournaments"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="status"                data-endpoint="GETapi-tournaments"
+               value="PENDING"
+               data-component="query">
+    <br>
+<p>Narrow to one status. Must be one of: PENDING, READY, GAMING, COMPLETED, CANCELED. Example: <code>PENDING</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>platform</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="platform"                data-endpoint="GETapi-tournaments"
+               value="XBOX"
+               data-component="query">
+    <br>
+<p>Narrow to one platform. Must be one of: PC, PLAYSTATION, XBOX, MOBILE. Example: <code>XBOX</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="status"                data-endpoint="GETapi-tournaments"
+               value="PENDING"
+               data-component="body">
+    <br>
+<p>Example: <code>PENDING</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>PENDING</code></li> <li><code>CANCELED</code></li> <li><code>READY</code></li> <li><code>COMPLETED</code></li> <li><code>GAMING</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>platform</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="platform"                data-endpoint="GETapi-tournaments"
+               value="XBOX"
+               data-component="body">
+    <br>
+<p>Example: <code>XBOX</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>PC</code></li> <li><code>PLAYSTATION</code></li> <li><code>XBOX</code></li> <li><code>MOBILE</code></li></ul>
+        </div>
+        </form>
+
+                    <h2 id="tournament-management-GETapi-tournaments--tournament_id-">Show a tournament</h2>
 
 <p>
 </p>

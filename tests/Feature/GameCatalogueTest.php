@@ -11,6 +11,20 @@ use Livewire\Livewire;
 
 beforeEach(fn () => Storage::fake('public'));
 
+/**
+ * The Most wanted ranking alone.
+ *
+ * It sits above the shelf, and every title in it is also on a card below, so a
+ * slice that runs to the end of the page proves nothing.
+ */
+function mostWantedBlock(string $html): string
+{
+    $start = strpos($html, 'Most wanted');
+    $end = strpos($html, 'grid gap-4 grid-cols-2', $start);
+
+    return substr($html, $start, $end - $start);
+}
+
 it('shows the catalogue on the landing page', function () {
     Game::create(['title' => 'Tekken 8']);
     Game::create(['title' => 'Gran Turismo 7']);
@@ -113,7 +127,7 @@ it('lets an admin add a game from the panel', function () {
 });
 
 it('counts a vote once however many times the button is pressed', function () {
-    $game = Game::create(['title' => 'Tekken 8', 'votes_target' => 50]);
+    $game = Game::create(['title' => 'Tekken 8', 'votes_target' => 50, 'is_active' => true]);
     $player = User::factory()->create();
 
     $page = Livewire::actingAs($player)->test(\App\Livewire\Landing::class);
@@ -136,11 +150,11 @@ it('sends a guest to log in instead of counting an anonymous vote', function () 
     expect($game->voters()->count())->toBe(0);
 });
 
-it('puts the three most wanted games in the hero, in order', function () {
-    $quiet = Game::create(['title' => 'Quiet Game']);
-    $loud = Game::create(['title' => 'Loud Game']);
-    $middling = Game::create(['title' => 'Middling Game']);
-    $fourth = Game::create(['title' => 'Fourth Game']);
+it('ranks the three most wanted, in order, above the shelf', function () {
+    $quiet = Game::create(['title' => 'Quiet Game', 'is_active' => true]);
+    $loud = Game::create(['title' => 'Loud Game', 'is_active' => true]);
+    $middling = Game::create(['title' => 'Middling Game', 'is_active' => true]);
+    Game::create(['title' => 'Fourth Game', 'is_active' => true]);
 
     $loud->voters()->attach(User::factory()->count(3)->create()->pluck('id'));
     $middling->voters()->attach(User::factory()->count(2)->create()->pluck('id'));
@@ -148,17 +162,70 @@ it('puts the three most wanted games in the hero, in order', function () {
 
     $html = $this->get(route('home'))->assertOk()->getContent();
 
-    $hero = substr($html, 0, strpos($html, 'Most wanted') + 2000);
+    $ranking = mostWantedBlock($html);
 
-    expect($hero)->toContain('Loud Game')
-        ->and($hero)->toContain('Middling Game')
-        ->and($hero)->toContain('Quiet Game')
-        // Only three bars, so the fourth stays out of the hero.
-        ->and($hero)->not->toContain('Fourth Game');
+    expect(strpos($ranking, 'Loud Game'))->toBeLessThan(strpos($ranking, 'Middling Game'))
+        ->and(strpos($ranking, 'Middling Game'))->toBeLessThan(strpos($ranking, 'Quiet Game'))
+        // Only three rows, so the fourth stays out of the ranking.
+        ->and($ranking)->not->toContain('Fourth Game');
+});
+
+it('greys the vote out on a game that is not on yet', function () {
+    $live = Game::create(['title' => 'FIFA 25', 'is_active' => true]);
+    $soon = Game::create(['title' => 'Tekken 8']);
+
+    $html = $this->get(route('home'))->assertOk()->getContent();
+
+    // The coming-soon card keeps a button, disabled: a card with nothing where
+    // its neighbours have one reads as broken.
+    expect($html)->toContain('toggleVote('.$live->id.')')
+        ->and($html)->not->toContain('toggleVote('.$soon->id.')')
+        ->and($html)->toContain('Votes open at launch');
+});
+
+it('keeps a game nobody can vote for out of the ranking', function () {
+    $soon = Game::create(['title' => 'Tekken 8']);
+    $soon->voters()->attach(User::factory()->count(5)->create()->pluck('id'));
+    Game::create(['title' => 'FIFA 25', 'is_active' => true]);
+
+    $html = $this->get(route('home'))->assertOk()->getContent();
+    $ranking = mostWantedBlock($html);
+
+    // A row nobody can move is not a ranking, whatever votes it collected
+    // before it was closed.
+    expect($ranking)->toContain('FIFA 25')
+        ->and($ranking)->not->toContain('Tekken 8');
+});
+
+it('refuses a vote for a game that is not on yet, on the page and through the API', function () {
+    $game = Game::create(['title' => 'Tekken 8']);
+    $player = User::factory()->create();
+
+    // The button renders disabled, so this is the forged-click path.
+    Livewire::actingAs($player)->test(\App\Livewire\Landing::class)
+        ->call('toggleVote', $game->id);
+
+    Sanctum::actingAs($player);
+    $this->postJson("/api/games/{$game->id}/vote")->assertStatus(422);
+
+    expect($game->voters()->count())->toBe(0);
+});
+
+it('lets an admin put a game on and take it off again through the API', function () {
+    $game = Game::create(['title' => 'Tekken 8']);
+    Sanctum::actingAs(Admin::factory()->create());
+
+    $this->putJson("/api/games/{$game->id}", ['is_active' => true])
+        ->assertOk()
+        ->assertJsonPath('data.is_active', true);
+
+    $this->putJson("/api/games/{$game->id}", ['is_active' => false])
+        ->assertOk()
+        ->assertJsonPath('data.is_active', false);
 });
 
 it('asks for the first vote rather than showing a row of zeros', function () {
-    Game::create(['title' => 'Tekken 8']);
+    Game::create(['title' => 'Tekken 8', 'is_active' => true]);
 
     $this->get(route('home'))->assertOk()
         ->assertSee('Be first')
@@ -178,7 +245,7 @@ it('fills the bar against the target, and never past it', function () {
 });
 
 it('takes a vote through the API and gives it back', function () {
-    $game = Game::create(['title' => 'Tekken 8', 'votes_target' => 50]);
+    $game = Game::create(['title' => 'Tekken 8', 'votes_target' => 50, 'is_active' => true]);
     Sanctum::actingAs(User::factory()->create());
 
     $this->postJson("/api/games/{$game->id}/vote")
@@ -193,7 +260,7 @@ it('takes a vote through the API and gives it back', function () {
 });
 
 it('refuses a vote from an admin token', function () {
-    $game = Game::create(['title' => 'Tekken 8']);
+    $game = Game::create(['title' => 'Tekken 8', 'is_active' => true]);
     Sanctum::actingAs(Admin::factory()->create());
 
     // The pivot points at the users table, so an admin id would break the
