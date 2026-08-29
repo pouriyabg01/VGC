@@ -27,6 +27,25 @@
     --font-display: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
     --font-mono: 'Chakra Petch', ui-monospace, monospace;
+
+    /* Becomes the animate-blink utility. */
+    --animate-blink: blink 1.6s steps(1, end) infinite;
+}
+
+/* A hard on/off, not a fade: the badge is a signal, and a soft pulse reads
+   as decoration. It sits on for most of the cycle so the words stay
+   readable rather than strobing. */
+@keyframes blink {
+    0%, 72%   { opacity: 1; }
+    73%, 100% { opacity: 0.2; }
+}
+
+/* Anyone who has asked their system for less motion gets the badge held on
+   rather than blinking. */
+@media (prefers-reduced-motion: reduce) {
+    .animate-blink {
+        animation: none;
+    }
 }
 
 /* Alpine hides x-cloak elements until it takes over, so a preview pane cannot

@@ -52,7 +52,7 @@
                         What we run.
                         {{-- The catalogue is on show before anything runs on it:
                              no tournament points at a game record yet. --}}
-                        <span class="align-middle ml-2 font-mono text-xs uppercase tracking-widest text-mist border border-steel rounded-sm px-2 py-1">
+                        <span class="animate-blink align-middle ml-2 font-mono text-xs uppercase tracking-widest text-plasma border border-plasma/40 bg-plasma/10 rounded-sm px-2 py-1">
                             Coming soon
                         </span>
                     </h2>
