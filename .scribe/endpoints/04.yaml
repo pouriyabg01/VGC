@@ -1,27 +1,28 @@
-name: 'Platform Management'
+name: 'Game Catalogue'
 description: |-
 
-  APIs for managing the authenticated user's gaming platform accounts.
+  The games the site puts on. Reading is public; only an admin can change the
+  catalogue.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/platform
+    uri: api/games
     metadata:
       custom: []
-      groupName: 'Platform Management'
+      groupName: 'Game Catalogue'
       groupDescription: |-
 
-        APIs for managing the authenticated user's gaming platform accounts.
+        The games the site puts on. Reading is public; only an admin can change the
+        catalogue.
       subgroup: ''
       subgroupDescription: ''
-      title: "List user's platforms"
-      description: 'Returns all gaming platforms linked to the authenticated user.'
-      authenticated: true
+      title: 'List all games'
+      description: ''
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -38,79 +39,61 @@ endpoints:
         content: |-
           {
             "success": true,
-            "message": "all platforms",
-            "data": {
-              "user_id": 1,
-              "platforms": [
-                {
-                  "id": 1,
-                  "nickname": "GamerX",
-                  "platform": "xbox"
-                }
-              ]
-            }
+            "message": "all games",
+            "data": [
+              {
+                "id": 1,
+                "title": "Tekken 8",
+                "image_url": "http://localhost/storage/games/tekken.jpg"
+              }
+            ]
           }
         headers: []
         description: Success
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
   -
     custom: []
     httpMethods:
-      - POST
-    uri: api/platform
+      - GET
+    uri: 'api/games/{game_id}'
     metadata:
       custom: []
-      groupName: 'Platform Management'
+      groupName: 'Game Catalogue'
       groupDescription: |-
 
-        APIs for managing the authenticated user's gaming platform accounts.
+        The games the site puts on. Reading is public; only an admin can change the
+        catalogue.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a platform'
-      description: 'Adds a new gaming platform entry for the authenticated user.'
-      authenticated: true
+      title: 'Show a game'
+      description: ''
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
+    urlParameters:
+      game_id:
+        custom: []
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      game_id: 1
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters:
-      nickname:
-        custom: []
-        name: nickname
-        description: 'The in-game nickname (max 50 characters).'
-        required: true
-        example: GamerX
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      platform:
-        custom: []
-        name: platform
-        description: 'The platform type. Must be one of: xbox, pc, ps, mobile.'
-        required: true
-        example: xbox
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      nickname: GamerX
-      platform: xbox
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses:
       -
@@ -119,20 +102,81 @@ endpoints:
         content: |-
           {
             "success": true,
-            "message": "platform created successfully!",
-            "data": {
-              "user_id": 1,
-              "platforms": [
-                {
-                  "id": 1,
-                  "nickname": "GamerX",
-                  "platform": "xbox"
-                }
-              ]
-            }
+            "message": "game",
+            "data": { "id": 1, "title": "Tekken 8", "image_url": null }
           }
         headers: []
         description: Success
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/games
+    metadata:
+      custom: []
+      groupName: 'Game Catalogue'
+      groupDescription: |-
+
+        The games the site puts on. Reading is public; only an admin can change the
+        catalogue.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Add a game'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      title:
+        custom: []
+        name: title
+        description: "The game's name."
+        required: true
+        example: 'Tekken 8'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      image:
+        custom: []
+        name: image
+        description: 'The cover. JPG, PNG or WEBP, up to 5 MB.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      title: 'Tekken 8'
+    fileParameters:
+      image: null
+    responses:
+      -
+        custom: []
+        status: 201
+        content: |-
+          {
+            "success": true,
+            "message": "game created",
+            "data": { "id": 1, "title": "Tekken 8", "image_url": null }
+          }
+        headers: []
+        description: Created
     responseFields: []
     auth:
       - headers
@@ -146,28 +190,31 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'api/platform/{id}'
+    uri: 'api/games/{id}'
     metadata:
       custom: []
-      groupName: 'Platform Management'
+      groupName: 'Game Catalogue'
       groupDescription: |-
 
-        APIs for managing the authenticated user's gaming platform accounts.
+        The games the site puts on. Reading is public; only an admin can change the
+        catalogue.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a platform'
-      description: 'Updates an existing platform entry for the authenticated user.'
+      title: 'Update a game'
+      description: |-
+        A new cover replaces the old one, and the file it replaces is deleted so
+        the disk does not fill with covers nothing points at.
       authenticated: true
       deprecated: false
     headers:
       Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
       id:
         custom: []
         name: id
-        description: 'The ID of the platform.'
+        description: 'The ID of the game.'
         required: true
         example: 1
         type: integer
@@ -180,32 +227,32 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      platform:
+      title:
         custom: []
-        name: platform
-        description: 'The platform type. Must be one of: xbox, pc, ps, mobile.'
-        required: true
-        example: xbox
+        name: title
+        description: "The game's name."
+        required: false
+        example: 'Tekken 8'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      nickname:
+      image:
         custom: []
-        name: nickname
-        description: 'The in-game nickname (3–50 characters).'
-        required: true
-        example: GamerX
-        type: string
+        name: image
+        description: 'A replacement cover. JPG, PNG or WEBP, up to 5 MB.'
+        required: false
+        example: null
+        type: file
         enumValues: []
-        exampleWasSpecified: true
-        nullable: false
+        exampleWasSpecified: false
+        nullable: true
         deprecated: false
     cleanBodyParameters:
-      platform: xbox
-      nickname: GamerX
-    fileParameters: []
+      title: 'Tekken 8'
+    fileParameters:
+      image: null
     responses:
       -
         custom: []
@@ -213,17 +260,8 @@ endpoints:
         content: |-
           {
             "success": true,
-            "message": "Platform updated successfully",
-            "data": {
-              "user_id": 1,
-              "platforms": [
-                {
-                  "id": 1,
-                  "nickname": "GamerX",
-                  "platform": "xbox"
-                }
-              ]
-            }
+            "message": "game updated",
+            "data": { "id": 1, "title": "Tekken 8", "image_url": null }
           }
         headers: []
         description: Success
@@ -239,17 +277,18 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/platform/{id}'
+    uri: 'api/games/{id}'
     metadata:
       custom: []
-      groupName: 'Platform Management'
+      groupName: 'Game Catalogue'
       groupDescription: |-
 
-        APIs for managing the authenticated user's gaming platform accounts.
+        The games the site puts on. Reading is public; only an admin can change the
+        catalogue.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a platform'
-      description: 'Removes a gaming platform entry for the authenticated user.'
+      title: 'Delete a game'
+      description: ''
       authenticated: true
       deprecated: false
     headers:
@@ -260,7 +299,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the platform.'
+        description: 'The ID of the game.'
         required: true
         example: 1
         type: integer
@@ -282,7 +321,7 @@ endpoints:
         content: |-
           {
             "success": true,
-            "message": "deleted successfully!",
+            "message": "game deleted",
             "data": []
           }
         headers: []

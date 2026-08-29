@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Game;
 use App\Models\Plan;
 use App\Models\Tournament;
 use Livewire\Component;
@@ -11,6 +12,9 @@ class Landing extends Component
     public function render()
     {
         return view('livewire.landing', [
+            'games' => Game::query()
+                ->latest()
+                ->get(),
             'plans' => Plan::query()
                 ->latest()
                 ->get(),

@@ -41,6 +41,49 @@
     </section>
 
     {{-- Tournaments --}}
+    {{-- Games. A shelf for the catalogue: cover and title only, and nothing
+         links out yet, because no tournament points at a game record. --}}
+    @if ($games->isNotEmpty())
+        <section class="border-t border-steel">
+            <div class="mx-auto max-w-6xl px-6 py-20">
+                <div class="mb-10">
+                    <p class="font-mono text-xs tracking-widest uppercase text-plasma mb-3">Games</p>
+                    <h2 class="font-display text-3xl text-frost">
+                        What we run.
+                        {{-- The catalogue is on show before anything runs on it:
+                             no tournament points at a game record yet. --}}
+                        <span class="align-middle ml-2 font-mono text-xs uppercase tracking-widest text-mist border border-steel rounded-sm px-2 py-1">
+                            Coming soon
+                        </span>
+                    </h2>
+                </div>
+
+                <div class="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+                    @foreach ($games as $game)
+                        <article class="bg-carbon border border-steel rounded-sm overflow-hidden"
+                                 wire:key="landing-game-{{ $game->id }}">
+                            <div class="aspect-[3/4] bg-void">
+                                @if ($game->imageUrl())
+                                    <img src="{{ $game->imageUrl() }}"
+                                         alt="{{ $game->title }}"
+                                         loading="lazy"
+                                         class="h-full w-full object-cover">
+                                @else
+                                    {{-- No cover uploaded: hold the shape rather than
+                                         collapsing the card or showing a broken image. --}}
+                                    <div class="flex h-full items-center justify-center">
+                                        <span class="font-mono text-xs uppercase tracking-widest text-mist">No cover</span>
+                                    </div>
+                                @endif
+                            </div>
+                            <h3 class="px-4 py-3 font-display text-sm text-frost truncate">{{ $game->title }}</h3>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     <section class="border-t border-steel">
         <div class="mx-auto max-w-6xl px-6 py-20">
             <div class="mb-10">

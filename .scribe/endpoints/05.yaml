@@ -1,23 +1,23 @@
-name: 'Subscription Management'
+name: 'Platform Management'
 description: |-
 
-  APIs for subscribing to plans and viewing the current subscription.
+  APIs for managing the authenticated user's gaming platform accounts.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/subscription
+    uri: api/platform
     metadata:
       custom: []
-      groupName: 'Subscription Management'
+      groupName: 'Platform Management'
       groupDescription: |-
 
-        APIs for subscribing to plans and viewing the current subscription.
+        APIs for managing the authenticated user's gaming platform accounts.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Show current subscription'
-      description: "Returns the authenticated user's active subscription, or an empty response if none exists."
+      title: "List user's platforms"
+      description: 'Returns all gaming platforms linked to the authenticated user.'
       authenticated: true
       deprecated: false
     headers:
@@ -38,28 +38,20 @@ endpoints:
         content: |-
           {
             "success": true,
-            "message": "user's subscription",
+            "message": "all platforms",
             "data": {
-              "sub_id": 1,
               "user_id": 1,
-              "plan_id": 1,
-              "plan_title": "Basic",
-              "status": true,
-              "started_at": "2026-07-14T00:00:00.000000Z"
+              "platforms": [
+                {
+                  "id": 1,
+                  "nickname": "GamerX",
+                  "platform": "xbox"
+                }
+              ]
             }
           }
         headers: []
-        description: 'Active subscription'
-      -
-        custom: []
-        status: 404
-        content: |-
-          {
-            "success": false,
-            "message": "have no subscription"
-          }
-        headers: []
-        description: 'No subscription'
+        description: Success
     responseFields: []
     auth:
       - headers
@@ -72,17 +64,99 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: 'api/subscription/plans/{plan_id}'
+    uri: api/platform
     metadata:
       custom: []
-      groupName: 'Subscription Management'
+      groupName: 'Platform Management'
       groupDescription: |-
 
-        APIs for subscribing to plans and viewing the current subscription.
+        APIs for managing the authenticated user's gaming platform accounts.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Subscribe to a plan'
-      description: 'Activates a subscription for the authenticated user. Only one active subscription is allowed at a time.'
+      title: 'Create a platform'
+      description: 'Adds a new gaming platform entry for the authenticated user.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      nickname:
+        custom: []
+        name: nickname
+        description: 'The in-game nickname (max 50 characters).'
+        required: true
+        example: GamerX
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      platform:
+        custom: []
+        name: platform
+        description: 'The platform type. Must be one of: xbox, pc, ps, mobile.'
+        required: true
+        example: xbox
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      nickname: GamerX
+      platform: xbox
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "platform created successfully!",
+            "data": {
+              "user_id": 1,
+              "platforms": [
+                {
+                  "id": 1,
+                  "nickname": "GamerX",
+                  "platform": "xbox"
+                }
+              ]
+            }
+          }
+        headers: []
+        description: Success
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/platform/{id}'
+    metadata:
+      custom: []
+      groupName: 'Platform Management'
+      groupDescription: |-
+
+        APIs for managing the authenticated user's gaming platform accounts.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a platform'
+      description: 'Updates an existing platform entry for the authenticated user.'
       authenticated: true
       deprecated: false
     headers:
@@ -90,10 +164,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      plan_id:
+      id:
         custom: []
-        name: plan_id
-        description: 'The ID of the plan.'
+        name: id
+        description: 'The ID of the platform.'
         required: true
         example: 1
         type: integer
@@ -102,7 +176,100 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      plan_id: 1
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      platform:
+        custom: []
+        name: platform
+        description: 'The platform type. Must be one of: xbox, pc, ps, mobile.'
+        required: true
+        example: xbox
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      nickname:
+        custom: []
+        name: nickname
+        description: 'The in-game nickname (3–50 characters).'
+        required: true
+        example: GamerX
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      platform: xbox
+      nickname: GamerX
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "Platform updated successfully",
+            "data": {
+              "user_id": 1,
+              "platforms": [
+                {
+                  "id": 1,
+                  "nickname": "GamerX",
+                  "platform": "xbox"
+                }
+              ]
+            }
+          }
+        headers: []
+        description: Success
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/platform/{id}'
+    metadata:
+      custom: []
+      groupName: 'Platform Management'
+      groupDescription: |-
+
+        APIs for managing the authenticated user's gaming platform accounts.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a platform'
+      description: 'Removes a gaming platform entry for the authenticated user.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the platform.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -115,28 +282,11 @@ endpoints:
         content: |-
           {
             "success": true,
-            "message": "you successfully get a subscription",
-            "data": {
-              "sub_id": 1,
-              "user_id": 1,
-              "plan_id": 1,
-              "plan_title": "Basic",
-              "status": true,
-              "started_at": "2026-07-14T00:00:00.000000Z"
-            }
+            "message": "deleted successfully!",
+            "data": []
           }
         headers: []
         description: Success
-      -
-        custom: []
-        status: 404
-        content: |-
-          {
-            "success": false,
-            "message": "you already have subscription!"
-          }
-        headers: []
-        description: 'Already subscribed'
     responseFields: []
     auth:
       - headers

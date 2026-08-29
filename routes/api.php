@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\TournamentMatchController;
 use App\Http\Controllers\Api\PlatformController;
+use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\AuthController;
@@ -22,6 +23,10 @@ Route::get('/tournaments/{tournament}/players', [TournamentController::class, 'p
 Route::get('tournaments/{tournament}/matches', [TournamentMatchController::class, 'index']);
 Route::get('plans', [PlanController::class, 'index']);
 Route::get('plans/{plan}', [PlanController::class, 'show']);
+
+// The game catalogue is public to read; changing it needs an admin.
+Route::get('games', [GameController::class, 'index']);
+Route::get('games/{game}', [GameController::class, 'show']);
 
 /*
 |--------------------------------------------------------------------------
@@ -59,4 +64,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('subscription/plans/{plan}', [SubscriptionController::class, 'store']);
 
     Route::apiResource('plans', PlanController::class)->except(['show', 'index']);
+    Route::apiResource('games', GameController::class)->except(['show', 'index']);
 });

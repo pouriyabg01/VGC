@@ -1,0 +1,147 @@
+name: 'Subscription Management'
+description: |-
+
+  APIs for subscribing to plans and viewing the current subscription.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/subscription
+    metadata:
+      custom: []
+      groupName: 'Subscription Management'
+      groupDescription: |-
+
+        APIs for subscribing to plans and viewing the current subscription.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Show current subscription'
+      description: "Returns the authenticated user's active subscription, or an empty response if none exists."
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "user's subscription",
+            "data": {
+              "sub_id": 1,
+              "user_id": 1,
+              "plan_id": 1,
+              "plan_title": "Basic",
+              "status": true,
+              "started_at": "2026-07-14T00:00:00.000000Z"
+            }
+          }
+        headers: []
+        description: 'Active subscription'
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+            "success": false,
+            "message": "have no subscription"
+          }
+        headers: []
+        description: 'No subscription'
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/subscription/plans/{plan_id}'
+    metadata:
+      custom: []
+      groupName: 'Subscription Management'
+      groupDescription: |-
+
+        APIs for subscribing to plans and viewing the current subscription.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Subscribe to a plan'
+      description: 'Activates a subscription for the authenticated user. Only one active subscription is allowed at a time.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      plan_id:
+        custom: []
+        name: plan_id
+        description: 'The ID of the plan.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      plan_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "you successfully get a subscription",
+            "data": {
+              "sub_id": 1,
+              "user_id": 1,
+              "plan_id": 1,
+              "plan_title": "Basic",
+              "status": true,
+              "started_at": "2026-07-14T00:00:00.000000Z"
+            }
+          }
+        headers: []
+        description: Success
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+            "success": false,
+            "message": "you already have subscription!"
+          }
+        headers: []
+        description: 'Already subscribed'
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
