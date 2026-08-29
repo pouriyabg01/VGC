@@ -21,6 +21,8 @@ class SubscriptionResource extends JsonResource
             'plan_id' => $this->pivot->plan_id,
             'plan_title' => $this->title,
             'status' => $this->pivot->status,
+            'tournament_entries_left' => (int) $this->pivot->tournament_entries_left,
+            'vs_games_left' => (int) $this->pivot->vs_games_left,
             'started_at' => $this->pivot->created_at
         ];
     }

@@ -27,6 +27,14 @@ class SubscriptionRelationManager extends RelationManager
                     ->badge()
                     ->formatStateUsing(fn ($state): string => $state === 1 ? 'Active' : 'Disable')
                     ->color(fn ($state): string => $state === 1 ? 'success' : 'danger'),
+                TextColumn::make('pivot.tournament_entries_left')
+                    ->label('Tournaments left')
+                    ->badge()
+                    ->color(fn ($state): string => $state > 0 ? 'success' : 'gray'),
+                TextColumn::make('pivot.vs_games_left')
+                    ->label('VS games left')
+                    ->badge()
+                    ->color(fn ($state): string => $state > 0 ? 'success' : 'gray'),
                 TextColumn::make('created_at')
                     ->label('Purchase Date')
                     ->date()

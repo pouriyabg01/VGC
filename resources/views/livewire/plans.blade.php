@@ -31,9 +31,27 @@
                             @endif
                         </div>
 
+                            {{-- What the pass actually buys. This is the product,
+                                 so it sits above the price rather than in the
+                                 description where it can be skimmed past. --}}
+                            <ul class="mt-6 space-y-2 text-sm text-mist">
+                                <li class="flex items-baseline gap-2">
+                                    <span class="text-plasma">&#9656;</span>
+                                    <span><span class="text-frost">{{ $plan->tournament_entries }}</span>
+                                        {{ \Illuminate\Support\Str::plural('tournament', $plan->tournament_entries) }}</span>
+                                </li>
+                                <li class="flex items-baseline gap-2">
+                                    <span class="text-plasma">&#9656;</span>
+                                    <span><span class="text-frost">{{ $plan->vs_games }}</span>
+                                        VS {{ \Illuminate\Support\Str::plural('game', $plan->vs_games) }}</span>
+                                </li>
+                            </ul>
+
                         <div class="mt-8 border-t border-steel pt-6">
                             <p class="font-mono text-xs uppercase tracking-widest text-mist">Price</p>
-                            <p class="mt-2 font-display text-4xl text-frost">${{ number_format($plan->price) }}</p>
+                            <p class="mt-2 font-display text-3xl text-frost">
+                                {{ number_format($plan->price) }}<span class="ml-2 text-base text-mist">Toman</span>
+                            </p>
 
                             @if ($isCurrent)
                                 <a href="{{ route('profile') }}" wire:navigate

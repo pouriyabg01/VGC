@@ -19,6 +19,8 @@ class PlanResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
+            'tournament_entries' => (int) $this->tournament_entries,
+            'vs_games' => (int) $this->vs_games,
         ];
     }
 }

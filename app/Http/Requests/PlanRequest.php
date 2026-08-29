@@ -24,7 +24,9 @@ class PlanRequest extends FormRequest
         return[
             'title' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|integer'
+            'price' => 'required|integer',
+            'tournament_entries' => 'required|integer|min:0',
+            'vs_games' => 'required|integer|min:0',
         ];
     }
 }

@@ -21,7 +21,16 @@ class PlansTable
                     ->searchable(),
                 TextColumn::make('description'),
                 TextColumn::make('price')
-                    ->money()
+                    ->numeric()
+                    ->suffix(' Toman')
+                    ->sortable(),
+                TextColumn::make('tournament_entries')
+                    ->label('Tournaments')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('vs_games')
+                    ->label('VS games')
+                    ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

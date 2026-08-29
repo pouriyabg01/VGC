@@ -44,6 +44,12 @@ class TournamentService extends BaseController
                 );
             }
 
+            // Spent on the way in. A seat taken is a seat somebody else
+            // could have had, whatever happens in the bracket afterwards.
+            if (! app(SubscriptionService::class)->spendTournamentEntry($user, $tournament)) {
+                throw new \Exception('Your pass has no tournament entries left.');
+            }
+
             $tournament->players()->attach($user->id);
 
             $affectedRow = Tournament::where('id' , $tournament->id)

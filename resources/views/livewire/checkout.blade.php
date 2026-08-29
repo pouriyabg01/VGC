@@ -20,13 +20,22 @@
                 </div>
                 <div class="text-right shrink-0">
                     <p class="font-mono text-xs uppercase tracking-widest text-mist">Price</p>
-                    <p class="mt-2 font-display text-4xl text-frost">${{ number_format($plan->price) }}</p>
+                    <p class="mt-2 font-display text-3xl text-frost">
+                        {{ number_format($plan->price) }}<span class="ml-2 text-base text-mist">Toman</span>
+                    </p>
+                    {{-- Say what is being bought on the page where the money is
+                         committed, not only on the one before it. --}}
+                    <p class="mt-3 font-mono text-[10px] uppercase tracking-widest text-mist">
+                        {{ $plan->tournament_entries }} {{ \Illuminate\Support\Str::plural('tournament', $plan->tournament_entries) }}
+                        &middot;
+                        {{ $plan->vs_games }} VS {{ \Illuminate\Support\Str::plural('game', $plan->vs_games) }}
+                    </p>
                 </div>
             </div>
 
             <div class="border-t border-steel px-8 py-5 flex items-center justify-between">
                 <span class="font-mono text-xs uppercase tracking-widest text-mist">Total due</span>
-                <span class="font-display text-xl text-frost">${{ number_format($plan->price) }}</span>
+                <span class="font-display text-xl text-frost">{{ number_format($plan->price) }} Toman</span>
             </div>
         </div>
 

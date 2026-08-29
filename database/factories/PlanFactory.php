@@ -17,9 +17,11 @@ class PlanFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
-            'description' => fake()->text('20'),
-            'price' => fake()->numberBetween('1','40')
+            'title' => fake()->unique()->word(),
+            'description' => fake()->text(60),
+            'price' => fake()->numberBetween(100_000, 550_000),
+            'tournament_entries' => fake()->numberBetween(1, 5),
+            'vs_games' => fake()->numberBetween(2, 10),
         ];
     }
 }

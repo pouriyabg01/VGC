@@ -20,11 +20,24 @@ function playerOn(PlatformEnum $platform, string $nickname = 'tag'): User
     return $user;
 }
 
-/** A user with an active subscription and no platform accounts. */
-function subscriber(): User
+/**
+ * A user with an active subscription and no platform accounts.
+ *
+ * Bought through the service rather than attached by hand, so the pass
+ * carries the quota a real one would. Attaching the pivot directly leaves the
+ * entry counters at zero, and every sign-up is then refused for having nothing
+ * left on the pass.
+ */
+function subscriber(int $tournaments = 5, int $vsGames = 5): User
 {
     $user = User::factory()->create();
-    $user->plan()->attach(Plan::factory()->create()->id, ['status' => true]);
+
+    $plan = Plan::factory()->create([
+        'tournament_entries' => $tournaments,
+        'vs_games' => $vsGames,
+    ]);
+
+    app(\App\Services\SubscriptionService::class)->subscribe($user, $plan);
 
     return $user;
 }

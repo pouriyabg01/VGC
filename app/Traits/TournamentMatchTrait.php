@@ -160,7 +160,12 @@ trait TournamentMatchTrait
         if ($winnerIds->count() === 1) {
             $champion = User::findOrFail($winnerIds->first());
             app(TournamentService::class)->finalizeTournament($tournament, $champion);
-            app(SubscriptionService::class)->deactivateFor($tournament->players);
+
+            // The pass is not touched here any more. An entry is spent when a
+            // player signs up, so closing their pass again at the final would
+            // charge them twice for one tournament — and would wipe the VS
+            // games they had not used.
+
             return true;
         }
 

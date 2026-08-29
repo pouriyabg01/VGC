@@ -176,10 +176,34 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
+      tournament_entries:
+        custom: []
+        name: tournament_entries
+        description: 'Must be at least 0.'
+        required: true
+        example: 39
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      vs_games:
+        custom: []
+        name: vs_games
+        description: 'Must be at least 0.'
+        required: true
+        example: 84
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanBodyParameters:
       title: Pro
       description: 'Full access plan'
       price: 2500
+      tournament_entries: 39
+      vs_games: 84
     fileParameters: []
     responses:
       -
@@ -278,10 +302,34 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
+      tournament_entries:
+        custom: []
+        name: tournament_entries
+        description: 'Must be at least 0.'
+        required: true
+        example: 39
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      vs_games:
+        custom: []
+        name: vs_games
+        description: 'Must be at least 0.'
+        required: true
+        example: 84
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanBodyParameters:
       title: 'Pro Plus'
       description: 'Updated full access plan'
       price: 3000
+      tournament_entries: 39
+      vs_games: 84
     fileParameters: []
     responses:
       -

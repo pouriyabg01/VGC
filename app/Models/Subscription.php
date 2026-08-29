@@ -12,6 +12,8 @@ class Subscription extends Model
         'user_id',
         'plan_id',
         'status',
+        'tournament_entries_left',
+        'vs_games_left',
     ];
     public function user()
     {

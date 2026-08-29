@@ -25,7 +25,19 @@
                     <dl class="flex flex-wrap gap-x-12 gap-y-4 text-sm">
                         <div>
                             <dt class="font-mono text-[10px] uppercase tracking-widest text-mist">Price</dt>
-                            <dd class="mt-1 font-display text-2xl text-frost">${{ number_format($sub->price) }}</dd>
+                            <dd class="mt-1 font-display text-2xl text-frost">{{ number_format($sub->price) }}<span class="ml-2 text-sm text-mist">Toman</span></dd>
+                        </div>
+                        <div>
+                            <dt class="font-mono text-[10px] uppercase tracking-widest text-mist">Tournaments left</dt>
+                            <dd class="mt-1 font-display text-2xl {{ $sub->pivot->tournament_entries_left > 0 ? 'text-plasma' : 'text-mist' }}">
+                                {{ $sub->pivot->tournament_entries_left }}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="font-mono text-[10px] uppercase tracking-widest text-mist">VS games left</dt>
+                            <dd class="mt-1 font-display text-2xl {{ $sub->pivot->vs_games_left > 0 ? 'text-plasma' : 'text-mist' }}">
+                                {{ $sub->pivot->vs_games_left }}
+                            </dd>
                         </div>
                         <div>
                             <dt class="font-mono text-[10px] uppercase tracking-widest text-mist">Started</dt>

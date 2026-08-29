@@ -49,7 +49,13 @@ it('still keeps a player out of the admin writes', function () {
 
     // Authentication opening up must not open authorization up with it.
     $this->postJson('/api/games', ['title' => 'nope'], $headers)->assertForbidden();
-    $this->postJson('/api/plans', ['title' => 'nope', 'description' => 'd', 'price' => 1], $headers)->assertForbidden();
+    // A complete payload on purpose: an incomplete one is refused by
+    // validation before authorization is ever reached, which proves nothing
+    // about who is allowed to create a plan.
+    $this->postJson('/api/plans', [
+        'title' => 'nope', 'description' => 'd', 'price' => 1,
+        'tournament_entries' => 1, 'vs_games' => 1,
+    ], $headers)->assertForbidden();
     $this->postJson('/api/tournaments', ['game' => 'x', 'platform' => 'PC', 'capacity' => 8], $headers)->assertForbidden();
 
     expect(Game::count())->toBe(0);
