@@ -42,7 +42,14 @@ return [
         ],
         'sanctum' => [
             'driver' => 'sanctum',
-            'provider' => 'admins',
+            // No provider on purpose. Naming one makes Sanctum reject every
+            // token whose owner is not that model, and pinning it to admins
+            // meant no player could authenticate at all: sign-up, result
+            // submission, subscription and voting all answered 401 for them.
+            // Left null, Sanctum reads the owner off the token itself, and the
+            // admin-only actions stay closed because every policy that guards
+            // one checks for an Admin instance.
+            'provider' => null,
         ],
         'admin' => [
             'driver' => 'session',
