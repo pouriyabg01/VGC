@@ -12,13 +12,22 @@
                 Sign up with your gamertag, get drawn into the bracket, and play your way to the final.
             </p>
             <div class="mt-8 flex items-center gap-4">
-                <a href="{{ route('register') }}" wire:navigate
-                   class="bg-neon text-void px-6 py-3 rounded-sm hover:bg-neon/90 transition-colors">
-                    Create your account
-                </a>
-                <a href="{{ route('login') }}" wire:navigate class="text-mist hover:text-frost transition-colors text-sm">
-                    I already have an account &rarr;
-                </a>
+                @auth
+                    {{-- Already in: an account CTA is noise, so point at the
+                         thing they came for. --}}
+                    <a href="#tournaments"
+                       class="bg-neon text-void px-6 py-3 rounded-sm hover:bg-neon/90 transition-colors">
+                        View tournaments
+                    </a>
+                @else
+                    <a href="{{ route('register') }}" wire:navigate
+                       class="bg-neon text-void px-6 py-3 rounded-sm hover:bg-neon/90 transition-colors">
+                        Create your account
+                    </a>
+                    <a href="{{ route('login') }}" wire:navigate class="text-mist hover:text-frost transition-colors text-sm">
+                        I already have an account &rarr;
+                    </a>
+                @endauth
             </div>
         </div>
 
@@ -125,7 +134,7 @@
         </section>
     @endif
 
-    <section class="border-t border-steel">
+    <section id="tournaments" class="border-t border-steel scroll-mt-8">
         <div class="mx-auto max-w-6xl px-6 py-20">
             <div class="mb-10">
                 <p class="font-mono text-xs tracking-widest uppercase text-plasma mb-3">Tournaments</p>
@@ -231,10 +240,20 @@
         <div class="mx-auto max-w-6xl px-6 py-20 text-center">
             <h2 class="font-display text-3xl sm:text-4xl text-frost mb-4">Your first bracket is waiting.</h2>
             <p class="text-mist mb-8 max-w-md mx-auto">Grab a pass, add your gamertag, and enter your first tournament.</p>
-            <a href="{{ route('register') }}" wire:navigate
-               class="inline-block bg-plasma text-void px-6 py-3 rounded-sm hover:bg-plasma/90 transition-colors font-medium">
-                Create your account
-            </a>
+            {{-- Sending somebody who is already signed in to the register page
+                 is a dead end. The copy asks them to grab a pass, so that is
+                 where the button goes. --}}
+            @auth
+                <a href="{{ route('plans') }}" wire:navigate
+                   class="inline-block bg-plasma text-void px-6 py-3 rounded-sm hover:bg-plasma/90 transition-colors font-medium">
+                    Browse plans
+                </a>
+            @else
+                <a href="{{ route('register') }}" wire:navigate
+                   class="inline-block bg-plasma text-void px-6 py-3 rounded-sm hover:bg-plasma/90 transition-colors font-medium">
+                    Create your account
+                </a>
+            @endauth
         </div>
     </section>
 </div>

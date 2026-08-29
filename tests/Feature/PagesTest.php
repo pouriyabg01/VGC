@@ -54,3 +54,21 @@ it('offers every platform in the profile select, valued by enum', function () {
             ->and($html)->toContain('>'.$case->label().'</option>');
     }
 });
+
+it('points a signed-in visitor at the brackets, not at signing up', function () {
+    $html = $this->actingAs(User::factory()->create())->get(route('home'))->assertOk()->getContent();
+
+    expect($html)->toContain('View tournaments')
+        ->and($html)->toContain('id="tournaments"')
+        // Both account prompts are noise once somebody is already in.
+        ->and($html)->not->toContain('Create your account')
+        ->and($html)->not->toContain('I already have an account');
+});
+
+it('still asks a guest to sign up', function () {
+    $html = $this->get(route('home'))->assertOk()->getContent();
+
+    expect($html)->toContain('Create your account')
+        ->and($html)->toContain('I already have an account')
+        ->and($html)->not->toContain('View tournaments');
+});
