@@ -22,22 +22,32 @@
             </div>
         </div>
 
-        {{-- Signature element: how full each bracket is --}}
-        <div class="mt-16 space-y-3">
-            @foreach ([
-                ['label' => 'FIFA — PlayStation', 'pct' => 82, 'filled' => '26/32'],
-                ['label' => 'Rocket League — PC', 'pct' => 54, 'filled' => '17/32'],
-                ['label' => 'Mortal Kombat — Xbox', 'pct' => 21, 'filled' => '3/16'],
-            ] as $bracket)
-                <div class="flex items-center gap-4">
-                    <span class="w-44 shrink-0 text-sm text-mist truncate">{{ $bracket['label'] }}</span>
-                    <div class="flex-1 h-2 bg-steel rounded-full overflow-hidden">
-                        <div class="h-full bg-plasma rounded-full" style="width: {{ $bracket['pct'] }}%"></div>
+        {{-- Signature element: the three games players are asking for most.
+             Was three hardcoded rows; it is now the same records the Games
+             section votes on, so the bars move when people vote. --}}
+        @if ($mostWanted->isNotEmpty())
+            <div class="mt-16 space-y-3">
+                <p class="font-mono text-xs tracking-widest uppercase text-mist mb-4">Most wanted</p>
+                @foreach ($mostWanted as $game)
+                    <div class="flex items-center gap-4" wire:key="hero-game-{{ $game->id }}">
+                        <span class="w-44 shrink-0 text-sm text-mist truncate">{{ $game->title }}</span>
+                        <div class="flex-1 h-2 bg-steel rounded-full overflow-hidden">
+                            <div class="h-full bg-plasma rounded-full transition-[width] duration-500"
+                                 style="width: {{ $game->votePercent() }}%"></div>
+                        </div>
+                        <span class="w-20 shrink-0 text-right font-mono text-xs text-mist">
+                            {{-- A row of zeros reads as a dead poll, so an
+                                 unvoted game asks for the first vote instead. --}}
+                            @if ($game->voteCount() > 0)
+                                {{ $game->voteCount() }}/{{ $game->votes_target }}
+                            @else
+                                Be first
+                            @endif
+                        </span>
                     </div>
-                    <span class="w-16 shrink-0 text-right font-mono text-xs text-mist">{{ $bracket['filled'] }}</span>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @endif
     </section>
 
     {{-- Tournaments --}}
@@ -62,7 +72,7 @@
                     @foreach ($games as $game)
                         <article class="bg-carbon border border-steel rounded-sm overflow-hidden"
                                  wire:key="landing-game-{{ $game->id }}">
-                            <div class="aspect-[3/4] bg-void">
+                            <div class="relative aspect-[3/4] bg-void">
                                 @if ($game->imageUrl())
                                     <img src="{{ $game->imageUrl() }}"
                                          alt="{{ $game->title }}"
@@ -76,7 +86,38 @@
                                     </div>
                                 @endif
                             </div>
-                            <h3 class="px-4 py-3 font-display text-sm text-frost truncate">{{ $game->title }}</h3>
+                            <div class="p-4 space-y-3">
+                                <h3 class="font-display text-sm text-frost truncate">{{ $game->title }}</h3>
+
+                                <div class="space-y-1.5">
+                                    <div class="h-1.5 bg-steel rounded-full overflow-hidden">
+                                        <div class="h-full bg-plasma rounded-full transition-[width] duration-500"
+                                             style="width: {{ $game->votePercent() }}%"></div>
+                                    </div>
+                                    <p class="font-mono text-[10px] uppercase tracking-widest text-mist">
+                                        @if ($game->voteCount() > 0)
+                                            {{ $game->voteCount() }}/{{ $game->votes_target }} want this
+                                        @else
+                                            Nobody has asked yet
+                                        @endif
+                                    </p>
+                                </div>
+
+                                @php($voted = (bool) ($game->voted_by_viewer ?? false))
+
+                                <button
+                                    type="button"
+                                    wire:click="toggleVote({{ $game->id }})"
+                                    wire:loading.attr="disabled"
+                                    wire:target="toggleVote({{ $game->id }})"
+                                    aria-pressed="{{ $voted ? 'true' : 'false' }}"
+                                    class="w-full font-mono text-[10px] uppercase tracking-widest px-3 py-2 border rounded-sm transition-colors
+                                        {{ $voted
+                                            ? 'text-plasma border-plasma/40 bg-plasma/10 hover:bg-plasma/20'
+                                            : 'text-mist border-steel hover:text-frost hover:border-neon/60' }}">
+                                    {{ $voted ? "\u{2713} You're in" : "I'd play this" }}
+                                </button>
+                            </div>
                         </article>
                     @endforeach
                 </div>

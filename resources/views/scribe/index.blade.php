@@ -86,6 +86,9 @@
                                                                                 <li class="tocify-item level-2" data-unique="game-catalogue-DELETEapi-games--id-">
                                 <a href="#game-catalogue-DELETEapi-games--id-">Delete a game</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="game-catalogue-POSTapi-games--game_id--vote">
+                                <a href="#game-catalogue-POSTapi-games--game_id--vote">Vote for a game, or take the vote back</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-match-management" class="tocify-header">
@@ -523,7 +526,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "title=Tekken 8"\
-    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpcrasgigs7bqm6CwEGz5" </code></pre></div>
+    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpto9k67t73ohb8h15m5V" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -672,7 +675,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>The cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpcrasgigs7bqm6CwEGz5</code></p>
+<p>The cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpto9k67t73ohb8h15m5V</code></p>
         </div>
         </form>
 
@@ -696,7 +699,7 @@ the disk does not fill with covers nothing points at.</p>
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "title=Tekken 8"\
-    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpngrvs19qr38k3a76sPR" </code></pre></div>
+    --form "image=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpegesff806744djhfJB9" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -862,7 +865,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>A replacement cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpngrvs19qr38k3a76sPR</code></p>
+<p>A replacement cover. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpegesff806744djhfJB9</code></p>
         </div>
         </form>
 
@@ -1009,6 +1012,182 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-games--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the game. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="game-catalogue-POSTapi-games--game_id--vote">Vote for a game, or take the vote back</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>A vote is a person, not a click: the pivot is unique on (game, user), so
+calling this again removes the vote rather than counting it twice.</p>
+
+<span id="example-requests-POSTapi-games--game_id--vote">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/games/1/vote" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/games/1/vote"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-games--game_id--vote">
+            <blockquote>
+            <p>Example response (200, Voted):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;vote recorded&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;title&quot;: &quot;Tekken 8&quot;,
+        &quot;image_url&quot;: null,
+        &quot;votes&quot;: 1,
+        &quot;votes_target&quot;: 50,
+        &quot;vote_percent&quot;: 2
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (200, Vote taken back):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;vote withdrawn&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;title&quot;: &quot;Tekken 8&quot;,
+        &quot;image_url&quot;: null,
+        &quot;votes&quot;: 0,
+        &quot;votes_target&quot;: 50,
+        &quot;vote_percent&quot;: 0
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-games--game_id--vote" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-games--game_id--vote"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-games--game_id--vote"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-games--game_id--vote" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-games--game_id--vote">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-games--game_id--vote" data-method="POST"
+      data-path="api/games/{game_id}/vote"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-games--game_id--vote', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-games--game_id--vote"
+                    onclick="tryItOut('POSTapi-games--game_id--vote');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-games--game_id--vote"
+                    onclick="cancelTryOut('POSTapi-games--game_id--vote');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-games--game_id--vote"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/games/{game_id}/vote</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-games--game_id--vote"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-games--game_id--vote"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-games--game_id--vote"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>game_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="game_id"                data-endpoint="POSTapi-games--game_id--vote"
                value="1"
                data-component="url">
     <br>
@@ -1583,7 +1762,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "scored=3"\
     --form "conceded=1"\
-    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpbg9svmn7dcd86nUPe3K" </code></pre></div>
+    --form "screenshot=@/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpf279smoci1cf0pQzHyY" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1763,7 +1942,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpbg9svmn7dcd86nUPe3K</code></p>
+<p>Proof of the final score. JPG, PNG or WEBP, up to 5 MB. Example: <code>/private/var/folders/px/__68q51109d5b19f6422dvkh0000gp/T/phpf279smoci1cf0pQzHyY</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>scored</code></b>&nbsp;&nbsp;

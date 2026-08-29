@@ -336,3 +336,77 @@ endpoints:
     controller: null
     method: null
     route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/games/{game_id}/vote'
+    metadata:
+      custom: []
+      groupName: 'Game Catalogue'
+      groupDescription: |-
+
+        The games the site puts on. Reading is public; only an admin can change the
+        catalogue.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Vote for a game, or take the vote back'
+      description: |-
+        A vote is a person, not a click: the pivot is unique on (game, user), so
+        calling this again removes the vote rather than counting it twice.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        custom: []
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      game_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "vote recorded",
+            "data": { "id": 1, "title": "Tekken 8", "image_url": null, "votes": 1, "votes_target": 50, "vote_percent": 2 }
+          }
+        headers: []
+        description: Voted
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "vote withdrawn",
+            "data": { "id": 1, "title": "Tekken 8", "image_url": null, "votes": 0, "votes_target": 50, "vote_percent": 0 }
+          }
+        headers: []
+        description: 'Vote taken back'
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

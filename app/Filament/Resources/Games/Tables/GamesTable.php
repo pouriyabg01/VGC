@@ -24,6 +24,16 @@ class GamesTable
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('voters_count')
+                    ->label('Votes')
+                    ->counts('voters')
+                    ->badge()
+                    ->color(fn ($state, $record) => $state >= $record->votes_target ? 'success' : 'gray')
+                    ->sortable(),
+                TextColumn::make('votes_target')
+                    ->label('Target')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

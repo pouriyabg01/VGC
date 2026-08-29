@@ -42,6 +42,13 @@ class GameForm
                     // Livewire's own temporary-upload ceiling.
                     ->maxSize(12288)
                     ->columnSpanFull(),
+                TextInput::make('votes_target')
+                    ->label('Votes to run it')
+                    ->helperText('How many players have to ask for this game before it is worth putting on. Drives the bar on the landing page.')
+                    ->numeric()
+                    ->minValue(1)
+                    ->default(50)
+                    ->required(),
             ]);
     }
 }

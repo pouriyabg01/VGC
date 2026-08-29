@@ -65,4 +65,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('plans', PlanController::class)->except(['show', 'index']);
     Route::apiResource('games', GameController::class)->except(['show', 'index']);
+    Route::post('games/{game}/vote', [GameController::class, 'vote']);
 });

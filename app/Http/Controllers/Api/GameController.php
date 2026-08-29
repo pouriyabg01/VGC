@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\GameRequest;
 use App\Http\Resources\GameResource;
 use App\Models\Game;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 
@@ -137,6 +138,45 @@ class GameController extends BaseController
         $game->delete();
 
         return $this->sendResponse([], 'game deleted', 200);
+    }
+
+    /**
+     * Vote for a game, or take the vote back
+     *
+     * A vote is a person, not a click: the pivot is unique on (game, user), so
+     * calling this again removes the vote rather than counting it twice.
+     *
+     * @authenticated
+     *
+     * @response 200 scenario="Voted" {
+     *   "success": true,
+     *   "message": "vote recorded",
+     *   "data": { "id": 1, "title": "Tekken 8", "image_url": null, "votes": 1, "votes_target": 50, "vote_percent": 2 }
+     * }
+     * @response 200 scenario="Vote taken back" {
+     *   "success": true,
+     *   "message": "vote withdrawn",
+     *   "data": { "id": 1, "title": "Tekken 8", "image_url": null, "votes": 0, "votes_target": 50, "vote_percent": 0 }
+     * }
+     */
+    public function vote(Game $game)
+    {
+        $user = auth()->user();
+
+        // Sanctum lets an admin token through this middleware too, and the
+        // pivot's user_id points at the users table — an admin voting would
+        // fail on the foreign key. A poll is players asking for a game anyway.
+        if (! $user instanceof User) {
+            return $this->sendError('Only players can vote for a game.', [], 403);
+        }
+
+        $changed = $game->voters()->toggle($user->id);
+
+        return $this->sendResponse(
+            new GameResource($game->fresh()),
+            $changed['attached'] ? 'vote recorded' : 'vote withdrawn',
+            200
+        );
     }
 
     /** Puts an uploaded cover on the public disk, or null when none was sent. */
